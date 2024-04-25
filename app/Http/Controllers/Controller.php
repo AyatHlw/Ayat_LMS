@@ -12,6 +12,6 @@ class Controller extends BaseController
 
     public function Nothing()
     {
-        return "nothing";
+        return "ayat";
     }
 }
