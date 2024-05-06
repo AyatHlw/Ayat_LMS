@@ -14,15 +14,16 @@ class ResetPasswordService
 {
     public function forgotPassword($request): array
     {
-        $request->validated();
+        $data = $request->validated();
+
         // Delete all old code that user send before.
         ResetCodePassword::where('email', $request['email'])->delete();
 
         // Generate random code
-        $request['code'] = mt_rand(100000, 999999);
+        $data['code'] = mt_rand(100000, 999999);
 
         // Create a new code
-        $codeData = ResetCodePassword::create($request);
+        $codeData = ResetCodePassword::create($data);
 
         // Send email to user
         Mail::to($request->email)->send(new SendCodeResetPassword($codeData->code));

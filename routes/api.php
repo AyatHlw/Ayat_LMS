@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    //Hello world :)
+    //Hello world
     return $request->user();
 });
 Route::controller(\App\Http\Controllers\authController::class)->group(function () {
