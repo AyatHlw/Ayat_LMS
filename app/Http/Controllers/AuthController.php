@@ -37,7 +37,7 @@ class AuthController extends Controller
     public function signUpInstructor(SignUpInstructorRequest $signUpInstructorRequest): JsonResponse
     {
         try {
-            $data = $this->userService->signup($signUpInstructorRequest);
+            $data = $this->userService->signupInstructor($signUpInstructorRequest);
             return Response()->json(['data' => $data['user'], 'message' => $data['message']]);
         } catch (Throwable $throwable) {
             return Response()->json(['message' => $throwable->getMessage()]);
