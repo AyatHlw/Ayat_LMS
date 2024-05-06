@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use http\Env\Response;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class PendingUsers extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
-
+    use HasApiTokens, HasFactory, HasRoles;
     /**
      * The attributes that are mass assignable.
      *
@@ -23,8 +19,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'image',
         'password',
+        'cv',
+        'image',
         'google_id',
         'verification_code',
     ];
