@@ -80,7 +80,7 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->signout();
-            return Response()->json(['data' => $data['user'], 'message' => $data['message']]);
+            return Response()->json(['message' => $data['message']]);
         } catch (Throwable $throwable) {
             return Response()->json(['message' => $throwable->getMessage()]);
         }

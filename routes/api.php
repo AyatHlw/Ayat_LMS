@@ -24,7 +24,7 @@ Route::controller(\App\Http\Controllers\authController::class)->group(function (
     Route::post('verifyEmail', 'verifyEmail');
     Route::post('resendVerificationCode', 'resendVerificationCode');
     Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::get('logout', 'logout');
+        Route::get('signout', 'signOut');
     });
 });
 
