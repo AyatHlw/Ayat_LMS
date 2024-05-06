@@ -85,4 +85,7 @@ class AuthController extends Controller
             return Response()->json(['message' => $throwable->getMessage()]);
         }
     }
+    public function nothing(){
+
+    }
 }
