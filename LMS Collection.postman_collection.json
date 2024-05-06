@@ -359,7 +359,7 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "mikle409@gmail.com",
+									"value": "weaam374409@gmail.com",
 									"type": "text"
 								},
 								{
@@ -515,7 +515,7 @@
 									"formdata": [
 										{
 											"key": "email",
-											"value": "mikle409@gmail.com",
+											"value": "weaam374409@gmail.com",
 											"type": "text"
 										},
 										{
@@ -1152,6 +1152,159 @@
 							"body": null
 						}
 					]
+				},
+				{
+					"name": "Sign out",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "3|4lmpHgkVAzqoscM3j58ykAXE9fy3RimgR09Y8dCT0985e609",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"uuid": "7d666d81-aea0-4d72-a24e-da82a70e4aa7"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "code",
+									"value": "123456",
+									"description": "6 digits",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456789",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/signout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"signout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Invalid token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "code",
+											"value": "123456",
+											"description": "6 digits",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123456789",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/resetPassword",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"resetPassword"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Successful signout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "code",
+											"value": "123456",
+											"description": "6 digits",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123456789",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/resetPassword",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"resetPassword"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				}
 			]
 		},
@@ -1166,7 +1319,7 @@
 							{
 								"key": "Accept",
 								"value": "application/json",
-								"uuid": "c3446447-cb9d-4761-b15a-6edf0bd813c3"
+								"uuid": "dce8cb17-7cae-409b-97d5-32dc0c9bb4a1"
 							}
 						],
 						"body": {
@@ -1189,7 +1342,8 @@
 								},
 								{
 									"key": "role",
-									"value": "courseCreator",
+									"value": "student",
+									"description": "student or teacher",
 									"type": "text"
 								},
 								{
@@ -1200,7 +1354,7 @@
 								},
 								{
 									"key": "CV",
-									"description": "pdf",
+									"description": "pdf & if the user is teacher",
 									"type": "file",
 									"src": []
 								}
@@ -1216,7 +1370,256 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Name",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "email@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "courseCreator",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"description": "jpg, png, .. etc",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "CV",
+											"description": "pdf",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Wrong email format",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Name",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "email@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "courseCreator",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"description": "jpg, png, .. etc",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "CV",
+											"description": "pdf",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Wrong password confimation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Name",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "email@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "courseCreator",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"description": "jpg, png, .. etc",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "CV",
+											"description": "pdf",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Unique email",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Name",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "email@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "courseCreator",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"description": "jpg, png, .. etc",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "CV",
+											"description": "pdf",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/signup",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "Sign Up (Teacher)",
@@ -1568,7 +1971,7 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "mikle409@gmail.com",
+									"value": "weaam374409@gmail.com",
 									"type": "text"
 								},
 								{
@@ -1724,7 +2127,7 @@
 									"formdata": [
 										{
 											"key": "email",
-											"value": "mikle409@gmail.com",
+											"value": "weaam374409@gmail.com",
 											"type": "text"
 										},
 										{
@@ -2361,6 +2764,50 @@
 							"body": null
 						}
 					]
+				},
+				{
+					"name": "Sign out",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"uuid": "e66f6446-5520-4307-b51a-b1388d26b85a"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "code",
+									"value": "123456",
+									"description": "6 digits",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/signout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"signout"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
