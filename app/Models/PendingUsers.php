@@ -16,11 +16,12 @@ class PendingUsers extends Model
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
         'name',
         'email',
         'password',
-        'cv',
+        'CV',
         'image',
         'google_id',
         'verification_code',

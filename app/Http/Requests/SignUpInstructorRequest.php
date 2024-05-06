@@ -25,8 +25,8 @@ class SignUpInstructorRequest extends FormRequest
             'name' => 'required|string|min:4',
             'email' => 'required|string|email|unique:users',
             'role' => 'required|string',
-            //'CV' => 'required|file|mimes:pdf|max:3072',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'CV' => 'required|file|mimes:pdf|max:3072',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:5000',
             'password' => 'required|min:8|confirmed'
         ];
     }

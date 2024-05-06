@@ -49,6 +49,7 @@ class UserService
             'image' => $image,
             'password' => Hash::make($request['password'])
         ]);
+
         return $this->userCreation($request['role'], $user);
     }
 
@@ -59,6 +60,7 @@ class UserService
      */
     public function userCreation($role1, \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder $user): array
     {
+
         // create the verification code right here
         VerificationCode::query()->where('email', $user['email'])->delete();
         $verification_code = mt_rand(100000, 999999);
@@ -76,9 +78,11 @@ class UserService
         $user->load('roles', 'permissions');
         $user1 = User::query()->where('email', $user['email'])->first();
         if(is_null($user1))
-            $uesr = PendingUsers::query()->where('email', $user['email']);
+            $user = PendingUsers::query()->where('email', $user['email']);
+        else $user = $user1;
+
         $user = $this->appendRolesAndPermissions($user);
-        $user['token'] = $user->createToken('Auth Token')->plainTextToken;
+        //$user['token'] = $user->createToken('Auth Token')->plainTextToken;
         return ['user' => $user, 'message' => 'Successful registration, a code sent to your email to verify your registration'];
     }
 
@@ -191,17 +195,21 @@ class UserService
     public function appendRolesAndPermissions($user)
     {
         $roles = [];
-        foreach ($user->roles as $role) {
-            $roles[] = $role;
+        foreach ($user->roles as $role)
+        {
+            $roles[] = $role->name;
         }
         unset($user['roles']);
         $user['roles'] = $roles;
+
         $permissions = [];
-        foreach ($user->permissions as $permission) {
-            $permissions[] = $permission;
+        foreach ($user->permissions as $permission)
+        {
+            $permissions[] = $permission->name;
         }
         unset($user['permissions']);
         $user['permissions'] = $permissions;
+
         return $user;
     }
 }
