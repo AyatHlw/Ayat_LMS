@@ -164,11 +164,11 @@ class UserService
                 return ['user' => [], 'message' => 'You are not approved yet', 'status' => 403];
             return ['user' => [], 'message' => 'You are not signed up yet', 'status' => 404];
         }
-        if (is_null($user['email_verified_at']))
-            throw new Exception('Your email has not been confirmed!');
         if (!Auth::attempt($request->only('email', 'password'))) {
             return ['user' => [], 'message' => 'Email or password is not correct', 'status' => 401];
         }
+        if (is_null($user['email_verified_at']))
+            throw new Exception('Your email has not been confirmed!');
         $user = $this->appendRolesAndPermissions($user);
         $user['token'] = $user->createToken('Auth token')->plainTextToken;
         return ['user' => $user, 'message' => 'Signed in successfully.', 'status' => 200];
