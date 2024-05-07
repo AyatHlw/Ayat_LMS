@@ -72,4 +72,5 @@ class ResetPasswordService
 
         return ['message' => 'password has been reset successfully'];
     }
+
 }

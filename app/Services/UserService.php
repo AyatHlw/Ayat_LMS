@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Mail\SendApprovalMail;
+use App\Mail\SendRejectionMail;
 use App\Mail\VerificationCodeMail;
 use App\Models\PendingUsers;
 use App\Models\User;
@@ -45,12 +47,12 @@ class UserService
         $user = PendingUsers::query()->create([
             'name' => $request['name'],
             'email' => $request['email'],
+            'role' => $request['role'],
             'CV' => $CV,
             'image' => $image,
             'password' => Hash::make($request['password'])
         ]);
-
-        return $this->userCreation($request['role'], $user);
+        return ['user' => $user, 'message' => 'Your application has been submitted successfully. It will be reviewed by HR. Once it is reviewed, you will recieve a letter via gmail telling the result.'];
     }
 
     /**
@@ -60,7 +62,6 @@ class UserService
      */
     public function userCreation($role1, \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder $user): array
     {
-
         // create the verification code right here
         VerificationCode::query()->where('email', $user['email'])->delete();
         $verification_code = mt_rand(100000, 999999);
@@ -76,10 +77,7 @@ class UserService
         $permissions = $role->permissions()->pluck('name')->toArray();
         $user->givePermissionTo($permissions);
         $user->load('roles', 'permissions');
-        $user1 = User::query()->where('email', $user['email'])->first();
-        if(is_null($user1))
-            $user = PendingUsers::query()->where('email', $user['email']);
-        else $user = $user1;
+        $user = User::query()->where('email', $user['email'])->first();
 
         $user = $this->appendRolesAndPermissions($user);
         //$user['token'] = $user->createToken('Auth Token')->plainTextToken;
@@ -101,8 +99,6 @@ class UserService
             throw new Exception('This code is expired');
         }
         $user = User::query()->where('email', $verification['email'])->first();
-        if (is_null($user))
-            $user = PendingUsers::query()->where('email', $verification['email'])->first();
         $user['email_verified_at'] = now();
         $user->save();
         VerificationCode::firstWhere('email', $verification['email'])->delete();
@@ -116,10 +112,7 @@ class UserService
         ]);
         $user = User::query()->where('email', $request['email'])->first();
         if (is_null($user)) {
-            $user = PendingUsers::query()->where('email', $request['email'])->first();
-            if (is_null($user)) {
-                throw new Exception('Email not found', 404);
-            }
+            throw new Exception('Email not found', 404);
         }
         VerificationCode::query()->where('email', $user['email'])->delete();
         $verification_code = mt_rand(100000, 999999);
@@ -135,33 +128,32 @@ class UserService
     public function approveUser($request): array
     {
         $approval = $request['approval'];
-        $user = PendingUsers::query()->where('email', $request['email']);
-        if (!$user) {
-            throw new Exception('User not found');
+        $data = PendingUsers::query()->where('email', $request['email'])->first();
+        if (is_null($data)) {
+            throw new Exception('User not found', 404);
         }
+        $user = [];
         if ($approval) {
-            $CV = $this->fileUploader->storeFile($user, 'CV');
-            $image = $this->fileUploader->storeFile($user, 'image');
-            $user1 = User::query()->create([
-                'name' => $user['name'],
-                'email' => $user['email'],
-                'CV' => $CV,
-                'image' => $image,
+            $user = User::query()->create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'image' => $data['image'],
                 'google_id' => User::query()->count(),
-                'email_verified_at' => $user['email_verified_at'],
-                'created_at' => $user['created_at'],
-                'password' => Hash::make($user['password'])
+                'created_at' => $data['created_at'],
+                'password' => $data['password']
             ]);
-            $user->delete();
-            return $this->userCreation($request['role'], $user1);
+            $role = $data['role'];
+            Mail::to($data['email'])->send(new SendApprovalMail());
+            $data->delete();
+            return $this->userCreation($role, $user);
         } else {
-            $user->delete();
+            Mail::to($data['email'])->send(new SendRejectionMail($data['name']));
+            $data->delete();
             $message = 'User has been declined and deleted.';
             $code = 200;
         }
         return ['user' => $user, 'message' => $message, 'code' => $code];
     }
-
     public function signin($request)
     {
         $request->validated();
@@ -174,7 +166,7 @@ class UserService
         }
         if (is_null($user['email_verified_at']))
             throw new Exception('Your email has not been confirmed!');
-            if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return ['user' => [], 'message' => 'Email or password is not correct', 'status' => 401];
         }
         $user = $this->appendRolesAndPermissions($user);
@@ -195,16 +187,14 @@ class UserService
     public function appendRolesAndPermissions($user)
     {
         $roles = [];
-        foreach ($user->roles as $role)
-        {
+        foreach ($user->roles as $role) {
             $roles[] = $role->name;
         }
         unset($user['roles']);
         $user['roles'] = $roles;
 
         $permissions = [];
-        foreach ($user->permissions as $permission)
-        {
+        foreach ($user->permissions as $permission) {
             $permissions[] = $permission->name;
         }
         unset($user['permissions']);

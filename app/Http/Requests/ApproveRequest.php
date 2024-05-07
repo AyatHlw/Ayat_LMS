@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Responses\Response;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Nette\Schema\ValidationException;
 
-class SignUpInstructorRequest extends FormRequest
+class ApproveRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +25,8 @@ class SignUpInstructorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:4',
-            'email' => 'required|string|email|unique:pending_users|unique:users',
-            'role' => 'required|string',
-            'CV' => 'required|file|mimes:pdf|max:3072',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
-            'password' => 'required|min:8|confirmed'
+            'email' => 'required|string|email',
+            'approval' => 'required'
         ];
     }
 }

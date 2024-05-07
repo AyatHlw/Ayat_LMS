@@ -24,6 +24,7 @@ Route::controller(\App\Http\Controllers\authController::class)->group(function (
     Route::post('signin', 'signIn')->name('user.signin');
     Route::post('verifyEmail', 'verifyEmail');
     Route::post('resendVerificationCode', 'resendVerificationCode');
+    Route::post('approve', 'approveForPendingUsers');
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('signout', 'signOut');
     });

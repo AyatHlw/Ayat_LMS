@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ApproveRequest;
 use App\Http\Requests\SignInRequest;
 use App\Http\Requests\SignUpInstructorRequest;
 use App\Http\Requests\SignUpRequest;
@@ -85,7 +86,12 @@ class AuthController extends Controller
             return Response()->json(['message' => $throwable->getMessage()]);
         }
     }
-    public function nothing(){
-
+    public function approveForPendingUsers(ApproveRequest $request){
+        try {
+            $data = $this->userService->approveUser($request->validated());
+            return Response()->json(['message' => $data['message']]);
+        } catch (Throwable $throwable) {
+            return Response()->json(['message' => $throwable->getMessage()]);
+        }
     }
 }

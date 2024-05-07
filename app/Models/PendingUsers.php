@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class PendingUsers extends Model
 {
-    use HasApiTokens, HasFactory, HasRoles;
+    use HasApiTokens, HasFactory;
     /**
      * The attributes that are mass assignable.
      *
@@ -24,7 +24,7 @@ class PendingUsers extends Model
         'CV',
         'image',
         'google_id',
-        'verification_code',
+        'role'
     ];
 
     /**

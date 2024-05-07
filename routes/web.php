@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+Route::get('approve', [\App\Http\Controllers\AuthController::class, 'approveForPendingUsers']);
