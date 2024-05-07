@@ -134,6 +134,8 @@ class UserService
         }
         $user = [];
         if ($approval) {
+            Mail::to($data['email'])->send(new SendApprovalMail($data['name']));
+            $role = $data['role'];
             $user = User::query()->create([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -142,8 +144,6 @@ class UserService
                 'created_at' => $data['created_at'],
                 'password' => $data['password']
             ]);
-            $role = $data['role'];
-            Mail::to($data['email'])->send(new SendApprovalMail());
             $data->delete();
             return $this->userCreation($role, $user);
         } else {
