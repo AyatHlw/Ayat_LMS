@@ -25,6 +25,16 @@ class UserService
         $this->fileUploader = $fileUploader;
     }
 
+    public function userInfo($email)
+    {
+        $user = User::query()->where('email', $email)->first();
+        if (is_null($user)) $user = PendingUsers::query()->where('email', $email)->first();
+        if (is_null($user)) {
+            throw new Exception('User not found!', 404);
+        }
+        return ['message' => 'user retrieved successfully', 'user' => $user, 'code' => 200];
+    }
+
     public function signup($request): array
     {
         $request->validated();
@@ -154,6 +164,7 @@ class UserService
         }
         return ['user' => $user, 'message' => $message, 'code' => $code];
     }
+
     public function signin($request)
     {
         $request->validated();

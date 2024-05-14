@@ -9,6 +9,7 @@ use App\Http\Requests\SignUpRequest;
 use App\Http\Responses\Response;
 use App\Models\User;
 use App\Services\UserService;
+
 // use http\Env\Response;
 use App\Http\Responses;
 use Illuminate\Http\JsonResponse;
@@ -23,6 +24,16 @@ class AuthController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
+    }
+
+    public function userInfo($email)
+    {
+        try {
+            $data = $this->userService->userInfo($email);
+            return Response()->json(['user' => $data['user'], 'message' => $data['message']], 200);
+        } catch (Throwable $throwable) {
+            return Response()->json(['message' => $throwable->getMessage()], 404);
+        }
     }
 
     public function signUp(SignUpRequest $signUpRequest): JsonResponse
@@ -86,7 +97,9 @@ class AuthController extends Controller
             return Response()->json(['message' => $throwable->getMessage()]);
         }
     }
-    public function approveForPendingUsers(ApproveRequest $request){
+
+    public function approveForPendingUsers(ApproveRequest $request)
+    {
         try {
             $data = $this->userService->approveUser($request->validated());
             return Response()->json(['message' => $data['message']]);
