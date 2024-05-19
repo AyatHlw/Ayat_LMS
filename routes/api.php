@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Wiaam
+//ffffddddsass
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     //Hello world
     return $request->user();
