@@ -15,10 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 // Wiaam
 //ffffddddsass
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    //Hello world
-    return $request->user();
-});
+
 Route::controller(\App\Http\Controllers\AuthController::class)->group(function () {
     Route::get('userInfo/{email}', 'userInfo');
     Route::post('signup', 'signUp')->name('user.signup');
