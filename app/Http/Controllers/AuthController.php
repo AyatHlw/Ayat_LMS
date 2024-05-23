@@ -26,6 +26,7 @@ class AuthController extends Controller
         $this->userService = $userService;
     }
 
+    /*
     public function userInfo($email)
     {
         try {
@@ -35,14 +36,28 @@ class AuthController extends Controller
             return Response()->json(['message' => $throwable->getMessage()], 404);
         }
     }
+    */
+    public function userInfo($email)
+    {
+        try {
+            $data = $this->userService->userInfo($email);
+            return Response::success($data['user'],$data['message']);
+        } catch (Throwable $throwable) {
+            return Response()->json(['message' => $throwable->getMessage()], 404);
+        }
+    }
+
+
 
     public function signUp(SignUpRequest $signUpRequest): JsonResponse
     {
         try {
             $data = $this->userService->signup($signUpRequest);
-            return Response()->json(['data' => $data['user'], 'message' => $data['message']]);
+            return Response::success($data['user'],$data['message']);
         } catch (Throwable $throwable) {
-            return Response()->json(['message' => $throwable->getMessage()]);
+            //return Response()->json(['message' => $throwable->getMessage()]);
+            $message = $throwable->getMessage();
+            return Response::error($message);
         }
     }
 
@@ -50,9 +65,12 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->signupInstructor($signUpInstructorRequest);
-            return Response()->json(['data' => $data['user'], 'message' => $data['message']]);
+            //return Response()->json(['data' => $data['user'], 'message' => $data['message']]);
+            return Response::success($data['user'],$data['message']);
         } catch (Throwable $throwable) {
-            return Response()->json(['message' => $throwable->getMessage()]);
+            //return Response()->json(['message' => $throwable->getMessage()]);
+            $message = $throwable->getMessage();
+            return Response::error($message);
         }
     }
 
@@ -60,10 +78,12 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->verifyEmail($request);
-            return response()->json(['message' => $data['message']], 200);
+            //return response()->json(['message' => $data['message']], 200);
+            return Response::success($data['user'],$data['message']);
+
         } catch (Throwable $th) {
             $message = $th->getMessage();
-            return Response::error($message, 500);
+            return Response::error($message);
         }
     }
 
@@ -71,6 +91,9 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->resendVerificationCode($request);
+            if (isset($data['error'])) {
+                return Response::error([], $data['error']);
+            }
             return Response::success($data, 'Verification code has been resent successfully.');
         } catch (Throwable $th) {
             $message = $th->getMessage();
@@ -82,9 +105,10 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->signin($signInRequest);
-            return Response()->json(['data' => $data['user'], 'message' => $data['message']]);
-        } catch (Throwable $throwable) {
-            return Response()->json(['message' => $throwable->getMessage()]);
+            return Response::success($data['user'],$data['message']);
+        } catch (Throwable $th) {
+            $message = $th->getMessage();
+            return Response::error($message);
         }
     }
 
@@ -92,9 +116,10 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->signout();
-            return Response()->json(['message' => $data['message']]);
-        } catch (Throwable $throwable) {
-            return Response()->json(['message' => $throwable->getMessage()]);
+            return Response::success($data['user'],$data['message']);
+        } catch (Throwable $th) {
+            $message = $th->getMessage();
+            return Response::error($message);
         }
     }
 
@@ -102,9 +127,10 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->approveUser($request->validated());
-            return Response()->json(['message' => $data['message']]);
-        } catch (Throwable $throwable) {
-            return Response()->json(['message' => $throwable->getMessage()]);
+            return Response::success($data['user'],$data['message']);
+        } catch (Throwable $th) {
+            $message = $th->getMessage();
+            return Response::error($message);
         }
     }
 }

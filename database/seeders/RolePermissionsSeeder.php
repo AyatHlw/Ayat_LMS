@@ -28,6 +28,8 @@ class RolePermissionsSeeder extends Seeder
         $permissions = [
             'sign up', 'sign in', 'sign out',
             'approve for users', 'block users',
+            'course.add', 'show pending users',
+            'course.comment', 'course.rating',
             // ..
         ];
         $superAdminPermissions = [
@@ -37,6 +39,7 @@ class RolePermissionsSeeder extends Seeder
         ];
         $adminPermissions = [
             'sign up', 'sign in', 'sign out',
+            'show pending users', 'block users',
             // ..
         ];
         $hrPermissions = [
@@ -45,14 +48,17 @@ class RolePermissionsSeeder extends Seeder
         ];
         $courseCreatorPermissions = [
             'sign up', 'sign in', 'sign out',
+            'course.add',
             // ..
         ];
         $teacherPermissions = [
             'sign up', 'sign in', 'sign out',
+            'course.comment', 'course.rating',
             // ..
         ];
         $studentPermissions = [
             'sign up', 'sign in', 'sign out',
+            'course.comment', 'course.rating',
             // ..
         ];
         // insert the permissions in database
