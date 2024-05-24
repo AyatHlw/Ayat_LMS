@@ -100,9 +100,9 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->googleSignin();
-            return Response()->json(['data' => $data['user'], 'message' => $data['message']]);
+            return Response::success($data['message'], $data['user']);
         } catch (Throwable $throwable) {
-            return Response()->json(['message' => $throwable->getMessage()]);
+            return Response::error($throwable->getMessage(), 422);
         }
     }
 
