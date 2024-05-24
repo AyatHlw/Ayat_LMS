@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-//ayat
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-// Wiaam
-//ffffddddsass
-
 Route::controller(\App\Http\Controllers\AuthController::class)->group(function () {
     Route::get('userInfo/{email}', 'userInfo');
     Route::post('signup', 'signUp')->name('user.signup');
