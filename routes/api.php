@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 //ayat
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,12 @@ Route::controller(\App\Http\Controllers\ResetPasswordController::class)->group(f
     Route::post('forgotPassword', 'forgotPassword')->name('user.forgotPassword');
     Route::post('checkCode', 'checkCode')->name('Instructor.checkCode');
     Route::post('resetPassword', 'resetPassword')->name('user.resetPassword');
+});
+
+Route::controller(\App\Http\Controllers\CourseController::class)->group(function () {
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::post('store', 'store');
+    });
+    Route::get('list', 'list');
+    Route::get('show/{course_id}', 'show');
 });

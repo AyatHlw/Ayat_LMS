@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,10 +17,9 @@ return new class extends Migration
             $table->text('title');
             $table->string('image_course');
             $table->longText('description');
-            $table->boolean('is_free');
-            $table->Decimal('cost');
-            $table->longText('average_rating');
-            $table->boolean('is_reviewed');
+            $table->Decimal('cost'); // Just deleted the is_free attribute. If it is free, The cost is 0 and it can be handled by the frontDevs.
+            $table->integer('average_rating')->default(0); // from 1 star to 5..
+            $table->boolean('is_reviewed')->default(false);
         });
     }
 

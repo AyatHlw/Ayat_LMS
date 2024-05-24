@@ -1,6 +1,4 @@
 <?php
-
-use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+Route::get('auth/google', [\App\Http\Controllers\AuthController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [\App\Http\Controllers\AuthController::class, 'handleGoogleCallback']);
 Route::get('approve', [\App\Http\Controllers\AuthController::class, 'approveForPendingUsers']);
 Route::get('userInfo/{email}', [\App\Http\Controllers\AuthController::class, 'userInfo']);
+Route::get('show/{course_id}', [\App\Http\Controllers\CourseController::class, 'show']);
+Route::get('list', [\App\Http\Controllers\CourseController::class, 'list']);

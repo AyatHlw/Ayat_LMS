@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Responses\Response;
 use App\Mail\SendApprovalMail;
 use App\Mail\SendRejectionMail;
 use App\Mail\VerificationCodeMail;
@@ -9,6 +10,7 @@ use App\Models\PendingUsers;
 use App\Models\User;
 use App\Models\VerificationCode;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -90,7 +92,7 @@ class UserService
         $user = User::query()->where('email', $user['email'])->first();
 
         $user = $this->appendRolesAndPermissions($user);
-        //$user['token'] = $user->createToken('Auth Token')->plainTextToken;
+
         return ['user' => $user, 'message' => 'Successful registration, a code sent to your email to verify your registration'];
     }
 
@@ -183,6 +185,44 @@ class UserService
         $user = $this->appendRolesAndPermissions($user);
         $user['token'] = $user->createToken('Auth token')->plainTextToken;
         return ['user' => $user, 'message' => 'Signed in successfully.', 'status' => 200];
+    }
+
+    public function googleSignin(): array
+    {
+        $user = Socialite::driver('google')->user();
+        $finduser = User::where('email', $user->email)->first();
+        if ($finduser) {
+            if (is_null($finduser->email_verified_at)) {
+                $finduser->email_verified_at = now();
+                $finduser->save();
+            }
+            if ($finduser->google_id != $user->id) {
+                $finduser->google_id = $user->id;
+                $finduser->save();
+            }
+            $finduser['token'] = $finduser->createToken('Auth token')->plainTextToken;
+            Auth::login($finduser);
+            return ['message' => 'Signed in successfully', 'user' => $finduser];
+        } else {
+            $newUser = User::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'google_id' => $user->id,
+                'email_verified_at' => now(),
+                'password' => encrypt('123456789'),
+            ]);
+            $role = Role::query()->where('name', 'student')->first();
+            $user = User::where('email', $newUser['email'])->first();
+            $user->assignRole($role);
+            $permissions = $role->permissions()->pluck('name')->toArray();
+            $user->givePermissionTo($permissions);
+            $user->load('roles', 'permissions');
+            $user = User::query()->where('email', $newUser['email'])->first();
+            $user = $this->appendRolesAndPermissions($user);
+            $user['token'] = $user->createToken('Auth token')->plainTextToken;
+            Auth::login($user);
+            return ['message' => 'Signed up successfully', 'user' => $user];
+        }
     }
 
     public function signout(): array

@@ -15,6 +15,9 @@ use App\Http\Responses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Js;
+use Laravel\Socialite\Facades\Socialite;
+use Psy\Util\Json;
 use Throwable;
 
 class AuthController extends Controller
@@ -82,6 +85,21 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->signin($signInRequest);
+            return Response()->json(['data' => $data['user'], 'message' => $data['message']]);
+        } catch (Throwable $throwable) {
+            return Response()->json(['message' => $throwable->getMessage()]);
+        }
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback():JsonResponse
+    {
+        try {
+            $data = $this->userService->googleSignin();
             return Response()->json(['data' => $data['user'], 'message' => $data['message']]);
         } catch (Throwable $throwable) {
             return Response()->json(['message' => $throwable->getMessage()]);
