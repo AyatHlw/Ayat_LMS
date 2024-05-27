@@ -134,7 +134,7 @@ class UserService
         ];
         VerificationCode::create($data);
         Mail::to($user['email'])->send(new VerificationCodeMail($verification_code));
-        return ['message', 'The code resent successfully'];
+        return ['message' => 'Verification code has been resent successfully.'];
     }
 
     public function approveUser($request): array

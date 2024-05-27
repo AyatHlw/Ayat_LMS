@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 
 class Response
 {
-    public static function success($data, $message): JsonResponse
+    public static function success($message, $data = []): JsonResponse
     {
         return response()->json([
             'data' => $data,

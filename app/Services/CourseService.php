@@ -34,7 +34,7 @@ class CourseService
             'cost' => $request->cost,
             'is_reviewed' => true
         ]);
-        return $course;
+        return ['message' => 'The course created successfully','course' => $course];
     }
 
     /**

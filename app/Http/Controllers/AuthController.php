@@ -33,7 +33,7 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->userInfo($email);
-            return Response::success($data['user'], $data['message']);
+            return Response::success($data['message'], $data['user']);
         } catch (Throwable $throwable) {
             return Response::error($throwable->getMessage(), 404);
         }
@@ -43,7 +43,7 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->signup($signUpRequest);
-            return Response::success($data['user'], $data['message']);
+            return Response::success($data['message'], $data['user']);
         } catch (Throwable $throwable) {
             $message = $throwable->getMessage();
             return Response::error($message);
@@ -54,7 +54,7 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->signupInstructor($signUpInstructorRequest);
-            return Response::success($data['user'], $data['message']);
+            return Response::success($data['message'], $data['user']);
         } catch (Throwable $throwable) {
             $message = $throwable->getMessage();
             return Response::error($message);
@@ -65,7 +65,7 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->verifyEmail($request);
-            return Response::success($data['user'], $data['message']);
+            return Response::success($data['message']);
 
         } catch (Throwable $th) {
             $message = $th->getMessage();
@@ -80,7 +80,7 @@ class AuthController extends Controller
             if (isset($data['error'])) {
                 return Response::error([], $data['error']);
             }
-            return Response::success($data, 'Verification code has been resent successfully.');
+            return Response::success($data['message']);
         } catch (Throwable $th) {
             $message = $th->getMessage();
             return Response::error($message, 422);
@@ -91,7 +91,7 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->signin($signInRequest);
-            return Response::success($data['user'], $data['message']);
+            return Response::success($data['message'], $data['user']);
         } catch (Throwable $th) {
             $message = $th->getMessage();
             return Response::error($message);
@@ -107,7 +107,7 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->googleSignin();
-            return Response::success($data['user'], $data['message']);
+            return Response::success($data['message'], $data['user']);
         } catch (Throwable $throwable) {
             return Response::error($throwable->getMessage(), 422);
         }
@@ -117,7 +117,7 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->signout();
-            return Response::success($data['user'], $data['message']);
+            return Response::success($data['message']);
         } catch (Throwable $th) {
             $message = $th->getMessage();
             return Response::error($message);
@@ -128,7 +128,7 @@ class AuthController extends Controller
     {
         try {
             $data = $this->userService->approveUser($request->validated());
-            return Response::success($data['user'], $data['message']);
+            return Response::success($data['message'], $data['user']);
         } catch (Throwable $th) {
             $message = $th->getMessage();
             return Response::error($message);

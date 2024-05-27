@@ -36,8 +36,8 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         try {
-            $course = $this->courseService->store($request);
-            return Response::success('The course created successfully', ShowCourseResource::make($course));
+            $data = $this->courseService->store($request);
+            return Response::success($data['message'], ShowCourseResource::make($data['course']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }
@@ -49,7 +49,7 @@ class CourseController extends Controller
     public function show($course_id)
     {
         $course = $this->courseService->show($course_id);
-         return Response::success('great', ShowCourseResource::make($course));
+        return Response::success('great', ShowCourseResource::make($course));
     }
 
     /**
@@ -67,10 +67,8 @@ class CourseController extends Controller
     {
         try {
             $data = $this->courseService->destroy($course_id);
-            return Response()->json([
-                'message' => $data['messaage'],
-            ], 200);
-        } catch (\Throwable $exception){
+            return Response::success($data['messaage']);
+        } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 422);
         }
     }
