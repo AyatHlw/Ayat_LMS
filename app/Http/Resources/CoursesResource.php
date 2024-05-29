@@ -22,6 +22,7 @@ class CoursesResource extends JsonResource
             'description' => $this->description,
             'creator' => User::query()->where('id', $this->creator_id)->first()->name,
             'cost' => $this->cost,
+            'image' => $this->image_course,
             'rate' => $this->average_rating,
             'Created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
         ];

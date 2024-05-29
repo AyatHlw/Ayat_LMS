@@ -9,8 +9,8 @@ class Response
     public static function success($message, $data = []): JsonResponse
     {
         return response()->json([
-            'data' => $data,
             'message' => $message,
+            'data' => $data,
         ], 200);
     }
 

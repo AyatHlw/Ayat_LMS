@@ -38,4 +38,5 @@ Route::controller(\App\Http\Controllers\CourseController::class)->group(function
     });
     Route::get('list', 'list');
     Route::get('show/{course_id}', 'show');
+    Route::post('update/{course_id}', 'update');
 });

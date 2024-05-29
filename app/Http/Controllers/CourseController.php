@@ -27,7 +27,12 @@ class CourseController extends Controller
      */
     public function list()
     {
-        return Response::success('All courses : ', CoursesResource::collection(Course::all()));
+        try {
+            $courses = Course::all();
+            return Response::success('All courses : ', CoursesResource::collection($courses));
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage(), 500);
+        }
     }
 
     /**
@@ -55,9 +60,14 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, $course_id)
     {
-
+        try {
+            $data = $this->courseService->update($request, $course_id);
+            return Response::success($data['message'], ShowCourseResource::make($data['course']));
+        } catch (\Throwable $exception){
+            return Response::error($exception->getMessage(), 500);
+        }
     }
 
     /**

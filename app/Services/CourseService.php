@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Http\Resources\ShowCourseResource;
 use App\Http\Responses\Response;
 use App\Models\Course;
+use Faker\Core\File;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
 use Illuminate\Support\Facades\Auth;
 
 class CourseService
@@ -34,7 +36,7 @@ class CourseService
             'cost' => $request->cost,
             'is_reviewed' => true
         ]);
-        return ['message' => 'The course created successfully','course' => $course];
+        return ['message' => 'The course created successfully', 'course' => $course];
     }
 
     /**
@@ -48,15 +50,39 @@ class CourseService
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
+    public function do(Course $course, $request, $var)
     {
-        // Ayat also you can copy some details from the store section
+        if (isset($request[$var])) {
+            $course[$var] = $request[$var];
+            $course->save();
+            return 1;
+        }
+        return 0;
     }
 
+    public function update($request, $course_id)
+    {
+        $count = 0; // just wondering if something has been changed or we've got the request عالفاضي
+        $course = Course::firstWhere('id', $course_id);
+        $count += $this->do($course, $request, 'title');
+        $count += $this->do($course, $request, 'description');
+        // that's because image needs to be proccessed (updated) with bucket of operations
+        if (isset($request['image'])) {
+            $course['image_course'] = (new FileUploader())->storeFile($request, 'image');
+            $course->save();
+            $count++;
+        }
+        $count += $this->do($course, $request, 'cost');
+        $count += $this->do($course, $request, 'average_rating');
+        $count += $this->do($course, $request, 'is_reviewed');
+        if (!$count) throw new \Exception('Nothing to update', 200);
+        return ['message' => 'Course updated successfully.', 'course' => $course];
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($course_id) {
+    public function destroy($course_id)
+    {
         Course::query()->where('id', $course_id)->delete();
         return ['message' => 'The course deleted successfully'];
     }
