@@ -20,11 +20,11 @@ class CoursesResource extends JsonResource
         return [
             'title' => $this->title,
             'description' => $this->description,
-            'creator' => User::query()->where('id', $this->creator_id)->first()->name,
+            'creator' => User::firstWhere('id', $this->creator_id)->name,
             'cost' => $this->cost,
             'image' => $this->image_course,
             'rate' => $this->average_rating,
-            'Created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
         ];
     }
 }

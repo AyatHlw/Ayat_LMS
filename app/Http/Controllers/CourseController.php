@@ -6,12 +6,8 @@ use App\Http\Resources\CoursesResource;
 use App\Http\Resources\ShowCourseResource;
 use App\Http\Responses\Response;
 use App\Models\Course;
-use App\Services\CourseService;
-use App\Services\ResetPasswordService;
+use App\Services\Course\CourseService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Psy\Exception\ThrowUpException;
-use function Laravel\Prompts\error;
 
 class CourseController extends Controller
 {
@@ -28,7 +24,7 @@ class CourseController extends Controller
     public function list()
     {
         try {
-            $courses = Course::all();
+            $courses = Course::query()->where('is_reviewed', 1)->get();
             return Response::success('All courses : ', CoursesResource::collection($courses));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
@@ -65,7 +61,7 @@ class CourseController extends Controller
         try {
             $data = $this->courseService->update($request, $course_id);
             return Response::success($data['message'], ShowCourseResource::make($data['course']));
-        } catch (\Throwable $exception){
+        } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }
     }
@@ -80,6 +76,16 @@ class CourseController extends Controller
             return Response::success($data['messaage']);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 422);
+        }
+    }
+
+    public function courseReview($course_id, $reviewResult)
+    {
+        try {
+            $data = $this->courseService->courseReview($course_id, $reviewResult);
+            return Response::success($data['message'], $data['course']);
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage(), 500);
         }
     }
 }

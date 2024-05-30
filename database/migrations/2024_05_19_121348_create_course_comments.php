@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete()->cascadeOnUpdate();
             $table->longText('content');
             $table->integer('rating');
-
         });
     }
 
@@ -29,4 +28,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('course_comments');
     }
+
 };
