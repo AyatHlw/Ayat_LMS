@@ -19,15 +19,18 @@ class CourseService
     public function store($request)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'required|string',
+            'description' => 'required|',
             'cost' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
+            'category_id' => 'required'
         ]);
         $course = Course::create([
             'title' => $request->title,
             'description' => $request->description,
             'creator_id' => Auth::id(),
-            'image_course' => ' ',
+            'category_id' => $request->category_id,
+            'image' => (new FileUploader())->storeFile($request, 'image'),
             'cost' => $request->cost,
         ]);
         return ['message' => 'The course created successfully', 'course' => $course];
@@ -49,9 +52,7 @@ class CourseService
         if (isset($request[$var])) {
             $course[$var] = $request[$var];
             $course->save();
-            return 1;
         }
-        return 0;
     }
 
     public function update($request, $course_id)
@@ -64,7 +65,7 @@ class CourseService
         $this->do($course, $request, 'is_reviewed');
         // that's because image needs to be proccessed (updated) with bucket of operations
         if (isset($request['image'])) {
-            $course['image_course'] = (new FileUploader())->storeFile($request, 'image');
+            $course['image'] = (new FileUploader())->storeFile($request, 'image');
             $course->save();
         }
         return ['message' => 'Course updated successfully.', 'course' => $course];

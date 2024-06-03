@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CoursesResource;
-use App\Http\Resources\ShowCourseResource;
+use App\Http\Resources\CourseResource;
 use App\Http\Responses\Response;
 use App\Models\Course;
 use App\Services\Course\CourseService;
@@ -25,7 +24,7 @@ class CourseController extends Controller
     {
         try {
             $courses = Course::query()->where('is_reviewed', 1)->get();
-            return Response::success('All courses : ', CoursesResource::collection($courses));
+            return Response::success('All courses : ', CourseResource::collection($courses));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }
@@ -38,7 +37,7 @@ class CourseController extends Controller
     {
         try {
             $data = $this->courseService->store($request);
-            return Response::success($data['message'], ShowCourseResource::make($data['course']));
+            return Response::success($data['message'], CourseResource::make($data['course']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }
@@ -50,7 +49,7 @@ class CourseController extends Controller
     public function show($course_id)
     {
         $course = $this->courseService->show($course_id);
-        return Response::success('great', ShowCourseResource::make($course));
+        return Response::success('great', CourseResource::make($course));
     }
 
     /**
@@ -60,7 +59,7 @@ class CourseController extends Controller
     {
         try {
             $data = $this->courseService->update($request, $course_id);
-            return Response::success($data['message'], ShowCourseResource::make($data['course']));
+            return Response::success($data['message'], CourseResource::make($data['course']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }

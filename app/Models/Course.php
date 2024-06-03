@@ -13,7 +13,8 @@ class Course extends Model
         'title',
         'description',
         'creator_id',
-        'image_course',
+        'category_id',
+        'image',
         'cost',
         'is_reviewed',
         'average_rating'

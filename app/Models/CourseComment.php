@@ -10,9 +10,9 @@ class CourseComment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'content',
         'user_id',
-        'course_id'
+        'course_id',
+        'content',
     ];
 
     public function user()

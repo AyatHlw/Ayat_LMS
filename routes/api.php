@@ -36,20 +36,36 @@ Route::controller(\App\Http\Controllers\EmailVerificationController::class)->gro
 });
 
 Route::controller(\App\Http\Controllers\CourseController::class)->group(function () {
-    Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::post('course/store', 'store');
-        Route::delete('course/destroy', 'destroy'); // still some changes to work alright
+    Route::prefix('course')->group(function () { // comment/route..
+        Route::group(['middleware' => ['auth:sanctum']], function () {
+            Route::post('store', 'store');
+            Route::delete('destroy', 'destroy'); // still some changes to work right
+            Route::put('update/{course_id}', 'update');
+        });
+        Route::get('list', 'list');
+        Route::get('{course_id}', 'show');
     });
-    Route::get('list', 'list');
-    Route::get('show/{course_id}', 'show');
-    Route::post('course/update/{course_id}', 'update');
 });
 
-Route::controller(\App\Models\CourseComment::class)->group(function () {
-    Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::post('comment/store', 'store');
-        Route::delete('comment/destroy', 'destroy'); // still some changes to work alright
+Route::controller(\App\Http\Controllers\CommentController::class)->group(function () {
+    Route::prefix('comment')->group(function () { // comment/route..
+        Route::group(['middleware' => ['auth:sanctum']], function () {
+            Route::post('store', 'store');
+            Route::delete('destroy', 'destroy'); // still some changes to work right
+            Route::put('update/{comment_id}', 'update');
+        });
+        Route::get('{course_id}', 'showComments');
     });
-    Route::get('comments/{course_id}', 'showComments');
-    Route::post('comment/update/{comment_id}', 'update');
+});
+
+Route::controller(\App\Http\Controllers\CategoryController::class)->group(function () {
+    Route::prefix('category')->group(function () {
+        Route::get('all', 'list');
+        Route::group(['middleware' => ['auth:sanctum']], function () {
+            Route::post('store', 'store');
+            Route::delete('destroy', 'destroy'); // still some changes to work right
+            Route::put('update/{category_id}', 'update');
+        });
+        Route::get('{category_id}/courses', 'categoryCourses');
+    });
 });
