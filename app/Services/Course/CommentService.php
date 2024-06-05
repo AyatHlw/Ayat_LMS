@@ -21,10 +21,14 @@ class CommentService
             'content' => 'required|string'
         ]);
         $comment = CourseComment::create([
-            'content' => $request['content'],
+            'user_id' => Auth::id(),
             'course_id' => $request['course_id'],
-            'user_id' => Auth::id()
+            'content' => $request['content'],
+            'rating' => $request['rating']
         ]);
+        $course = Course::firstWhere('id', $request['course_id']);
+        $course['average_rating'] += $request['rating'];
+        $course->save();
         return ['message' => 'Comment added successfully', 'comment' => $comment];
     }
 
@@ -44,8 +48,14 @@ class CommentService
     public function update(Request $request, $commentCourse_id)
     {
         $comment = CourseComment::firstWhere('id', $commentCourse_id);
-        $comment->content = $request['content'];
-        $comment->save();
+        if (isset($request['content'])) {
+            $comment->content = $request['content'];
+            $comment->save();
+        }
+        if (isset($request['rate'])) {
+            $comment->rate = $request['rate'];
+            $comment->save();
+        }
         return ['message' => 'Comment updated successfully', 'comment' => $comment];
     }
 

@@ -30,6 +30,16 @@ class CourseController extends Controller
         }
     }
 
+    public function getTopCourses(Request $request)
+    {
+        try {
+            $data = $this->courseService->getTopCourses();
+            return Response::success($data['message'], CourseResource::make($data['courses']));
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage(), 500);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */

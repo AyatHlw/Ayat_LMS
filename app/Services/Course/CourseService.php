@@ -20,7 +20,7 @@ class CourseService
     {
         $request->validate([
             'title' => 'required|string',
-            'description' => 'required|',
+            'description' => 'required',
             'cost' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
             'category_id' => 'required'
@@ -92,5 +92,10 @@ class CourseService
             // notification for rejection
             return ['message' => 'course rejected.', 'course' => $course];
         }
+    }
+    public function getTopCourses()
+    {
+        $topRatedCourses = Course::orderBy('average_rating', 'DESC')->take(min(count(Course::all()), 10))->get();
+        return ['message' => 'Top courses : ','courses' => $topRatedCourses];
     }
 }
