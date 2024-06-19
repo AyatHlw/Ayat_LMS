@@ -17,13 +17,10 @@ return new class extends Migration {
             $table->text('title');
             $table->string('image'); // it seems a little shorter :)
             $table->longText('description');
-<<<<<<< HEAD
             $table->Decimal('cost'); // Just deleted the is_free attribute. If it is free, The cost is 0, and it can be handled by the frontDevs.
             $table->integer('average_rating')->default(0); // from 1 star to 5.
-=======
             $table->Decimal('cost'); // Just deleted the is_free attribute. If it is free, The cost is 0 and it can be handled by the frontDevs.
             $table->double('average_rating')->default(0.0); // from 1 star to 5..
->>>>>>> 1c4ea8786df7d756517ab0cd664c37dad463cd71
             $table->boolean('is_reviewed')->default(false);
             $table->timestamps();
         });
