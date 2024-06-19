@@ -4,12 +4,11 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use Carbon\Carbon;
-use Carbon\PHPStan\AbstractMacro;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
-class ShowCourseResource extends JsonResource
+class CourseResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,9 +20,11 @@ class ShowCourseResource extends JsonResource
         return [
             'title' => $this->title,
             'description' => $this->description,
-            'creator' => User::query()->where('id',$this->creator_id)->first()->name,
+            'creator' => User::firstWhere('id', $this->creator_id)->name,
             'cost' => $this->cost,
-            'Created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
+            'image' => $this->image,
+            'rating' => $this->average_rating,
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
         ];
     }
 }

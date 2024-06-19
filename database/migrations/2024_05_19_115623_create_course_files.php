@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('course_files', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('title');
             $table->string('type');
+            $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('content');
+            $table->timestamps();
         });
     }
 

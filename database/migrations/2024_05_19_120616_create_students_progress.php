@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('students_progress', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('course_enroll_id')->constrained('course_enrolls')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('video_id')->constrained('videos')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->timestamps();
 
         });
     }

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('watch_later_lists', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->timestamps();
         });
     }
 

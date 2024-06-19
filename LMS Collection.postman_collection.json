@@ -7,185 +7,823 @@
 	},
 	"item": [
 		{
-			"name": "Web",
+			"name": "Auth",
 			"item": [
 				{
-					"name": "Sign Up",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "d806aa6f-3cf9-40a6-9c8f-077acfd15654"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
+					"name": "Web",
+					"item": [
+						{
+							"name": "Sign Up (Course creator)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Name",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "mikle409@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "courseCreator",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"description": "jpg, png, .. etc",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "CV",
+											"description": "pdf",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/signupInstructor",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"signupInstructor"
+									]
+								}
+							},
+							"response": [
 								{
-									"key": "name",
-									"value": "Name",
-									"type": "text"
+									"name": "Wrong email format",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "mikle409",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "courseCreator",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:55:02 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:55:02 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The email field must be a valid email address.\",\n    \"errors\": {\n        \"email\": [\n            \"The email field must be a valid email address.\"\n        ]\n    }\n}"
 								},
 								{
-									"key": "email",
-									"value": "mikle409@gmail.com",
-									"type": "text"
+									"name": "Unique email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "mikle409@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "courseCreator",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:56:42 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:56:42 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The email has already been taken.\",\n    \"errors\": {\n        \"email\": [\n            \"The email has already been taken.\"\n        ]\n    }\n}"
 								},
 								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "ayat.hlw11@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "courseCreator",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 16:51:19 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 16:51:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 13,\n        \"name\": \"Name\",\n        \"email\": \"ayat.hlw11@gmail.com\",\n        \"email_verified_at\": null,\n        \"google_id\": \"10\",\n        \"image\": \"\",\n        \"created_at\": \"2024-05-06T16:51:16.000000Z\",\n        \"updated_at\": \"2024-05-06T16:51:16.000000Z\",\n        \"roles\": [\n            \"courseCreator\"\n        ],\n        \"permissions\": [\n            \"sign up\",\n            \"sign in\",\n            \"sign out\"\n        ]\n    },\n    \"message\": \"Successful registration, a code sent to your email to verify your registration\"\n}"
 								},
 								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text"
+									"name": "field required",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 17:06:31 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 17:06:31 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The name field is required. (and 3 more errors)\",\n    \"errors\": {\n        \"name\": [\n            \"The name field is required.\"\n        ],\n        \"email\": [\n            \"The email field is required.\"\n        ],\n        \"CV\": [\n            \"The c v field is required.\"\n        ],\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
 								},
 								{
-									"key": "role",
-									"value": "courseCreator",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"description": "jpg, png, .. etc",
-									"type": "file",
-									"src": []
-								},
-								{
-									"key": "CV",
-									"description": "pdf",
-									"type": "file",
-									"src": []
+									"name": "Wrong password confirmation",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "mikle409@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "password",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "courseCreator",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 17:14:09 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 17:14:09 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.11"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The password field confirmation does not match.\",\n    \"errors\": {\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
 								}
 							]
 						},
-						"url": {
-							"raw": "{{base_url}}/signupInstructor",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"signupInstructor"
+						{
+							"name": "Review users",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "wiaam409@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "approval",
+											"value": "0",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/approve",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"approve"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Approve for users",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "email",
+													"value": "wiaam409@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "approval",
+													"value": "1",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/approve",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"approve"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 May 2024 10:25:50 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 May 2024 10:25:50 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.11"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "57"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Successful registration, a code sent to your email to verify your registration\"\n}"
+								},
+								{
+									"name": "Rejecte",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "email",
+													"value": "wiaam409@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "approval",
+													"value": "0",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/approve",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"approve"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 May 2024 10:49:17 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 May 2024 10:49:17 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.11"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"User has been declined and deleted.\"\n}"
+								}
 							]
 						}
-					},
-					"response": [
+					]
+				},
+				{
+					"name": "Mobile",
+					"item": [
 						{
-							"name": "Wrong email format",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "Name",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "mikle409",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "courseCreator",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										},
-										{
-											"key": "CV",
-											"description": "pdf",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signupInstructor",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signupInstructor"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:55:02 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:55:02 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "58"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The email field must be a valid email address.\",\n    \"errors\": {\n        \"email\": [\n            \"The email field must be a valid email address.\"\n        ]\n    }\n}"
-						},
-						{
-							"name": "Unique email",
-							"originalRequest": {
+							"name": "Sign Up (teacher)",
+							"request": {
 								"method": "POST",
 								"header": [
 									{
@@ -245,57 +883,565 @@
 									]
 								}
 							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
+									"name": "Successful",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "mikle409@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "courseCreator",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:52:52 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:52:52 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 4,\n        \"name\": \"Name\",\n        \"email\": \"mikle409@gmail.com\",\n        \"email_verified_at\": null,\n        \"google_id\": \"3\",\n        \"image\": \"\",\n        \"created_at\": \"2024-05-06T14:52:49.000000Z\",\n        \"updated_at\": \"2024-05-06T14:52:49.000000Z\",\n        \"roles\": [\n            \"courseCreator\"\n        ],\n        \"permissions\": [\n            \"sign up\",\n            \"sign in\",\n            \"sign out\"\n        ],\n        \"token\": \"1|rtYsjxGoKznYlnxJv1GJpCrJE7To1Us2xlk83Hum46c16410\"\n    },\n    \"message\": \"Successful registration, a code sent to your email to verify your registration\"\n}"
 								},
 								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:56:42 GMT"
+									"name": "Wrong email format",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "mikle409",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "courseCreator",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:55:02 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:55:02 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The email field must be a valid email address.\",\n    \"errors\": {\n        \"email\": [\n            \"The email field must be a valid email address.\"\n        ]\n    }\n}"
 								},
 								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:56:42 GMT"
+									"name": "Unique email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "mikle409@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "courseCreator",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:56:42 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:56:42 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The email has already been taken.\",\n    \"errors\": {\n        \"email\": [\n            \"The email has already been taken.\"\n        ]\n    }\n}"
 								},
 								{
-									"key": "Connection",
-									"value": "close"
+									"name": "field required and password doesn't match",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "email",
+													"value": "mikle409@gmail.com",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "role",
+													"value": "courseCreator",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:57:32 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 14:57:32 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "58"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The name field is required. (and 2 more errors)\",\n    \"errors\": {\n        \"name\": [\n            \"The name field is required.\"\n        ],\n        \"email\": [\n            \"The email field is required.\"\n        ],\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
 								},
 								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
+									"name": "Wrong password confirmation",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "mikle409@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "password",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "courseCreator",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signupInstructor",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signupInstructor"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 17:16:36 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 17:16:36 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.11"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The password field confirmation does not match.\",\n    \"errors\": {\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
 								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The email has already been taken.\",\n    \"errors\": {\n        \"email\": [\n            \"The email has already been taken.\"\n        ]\n    }\n}"
+							]
 						},
 						{
-							"name": "success",
-							"originalRequest": {
+							"name": "Sign Up (student)",
+							"request": {
 								"method": "POST",
 								"header": [
 									{
@@ -313,7 +1459,7 @@
 										},
 										{
 											"key": "email",
-											"value": "ayat.hlw11@gmail.com",
+											"value": "email@gmail.com",
 											"type": "text"
 										},
 										{
@@ -323,12 +1469,13 @@
 										},
 										{
 											"key": "password_confirmation",
-											"value": "123456789",
+											"value": "1111111",
 											"type": "text"
 										},
 										{
 											"key": "role",
-											"value": "courseCreator",
+											"value": "student",
+											"description": "student or teacher",
 											"type": "text"
 										},
 										{
@@ -339,289 +1486,432 @@
 										},
 										{
 											"key": "CV",
-											"description": "pdf",
+											"description": "pdf & if the user is teacher",
 											"type": "file",
 											"src": []
 										}
 									]
 								},
 								"url": {
-									"raw": "{{base_url}}/signupInstructor",
+									"raw": "{{base_url}}/signup",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"signupInstructor"
+										"signup"
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
+							"response": [
 								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:51:19 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:51:19 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": 13,\n        \"name\": \"Name\",\n        \"email\": \"ayat.hlw11@gmail.com\",\n        \"email_verified_at\": null,\n        \"google_id\": \"10\",\n        \"image\": \"\",\n        \"created_at\": \"2024-05-06T16:51:16.000000Z\",\n        \"updated_at\": \"2024-05-06T16:51:16.000000Z\",\n        \"roles\": [\n            \"courseCreator\"\n        ],\n        \"permissions\": [\n            \"sign up\",\n            \"sign in\",\n            \"sign out\"\n        ]\n    },\n    \"message\": \"Successful registration, a code sent to your email to verify your registration\"\n}"
-						},
-						{
-							"name": "field required",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "",
-											"type": "text"
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "email@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "student",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												}
+											]
 										},
-										{
-											"key": "email",
-											"value": "",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										},
-										{
-											"key": "CV",
-											"description": "pdf",
-											"type": "file",
-											"src": []
+										"url": {
+											"raw": "{{base_url}}/signup",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signup"
+											]
 										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signupInstructor",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signupInstructor"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 17:06:31 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 17:06:31 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The name field is required. (and 3 more errors)\",\n    \"errors\": {\n        \"name\": [\n            \"The name field is required.\"\n        ],\n        \"email\": [\n            \"The email field is required.\"\n        ],\n        \"CV\": [\n            \"The c v field is required.\"\n        ],\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
-						},
-						{
-							"name": "Wrong password confirmation",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
 										{
-											"key": "name",
-											"value": "Name",
-											"type": "text"
+											"key": "Host",
+											"value": "127.0.0.1:8000"
 										},
 										{
-											"key": "email",
-											"value": "mikle409@gmail.com",
-											"type": "text"
+											"key": "Date",
+											"value": "Mon, 06 May 2024 16:32:38 GMT"
 										},
 										{
-											"key": "password",
-											"value": "password",
-											"type": "text"
+											"key": "Date",
+											"value": "Mon, 06 May 2024 16:32:38 GMT"
 										},
 										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text"
+											"key": "Connection",
+											"value": "close"
 										},
 										{
-											"key": "role",
-											"value": "courseCreator",
-											"type": "text"
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
 										},
 										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
+											"key": "Cache-Control",
+											"value": "no-cache, private"
 										},
 										{
-											"key": "CV",
-											"description": "pdf",
-											"type": "file",
-											"src": []
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
 										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signupInstructor",
-									"host": [
-										"{{base_url}}"
 									],
-									"path": [
-										"signupInstructor"
-									]
+									"cookie": [],
+									"body": "{\n    \"data\": {\n        \"id\": 9,\n        \"name\": \"Name\",\n        \"email\": \"email@gmail.com\",\n        \"email_verified_at\": null,\n        \"google_id\": \"6\",\n        \"image\": \"\",\n        \"created_at\": \"2024-05-06T16:32:35.000000Z\",\n        \"updated_at\": \"2024-05-06T16:32:35.000000Z\",\n        \"roles\": [\n            \"student\"\n        ],\n        \"permissions\": [\n            \"sign up\",\n            \"sign in\",\n            \"sign out\"\n        ],\n        \"token\": \"7|InDpHkSf1rMih6UZawzNN8q8xxhQeVy9dyUviqOse6d5a6a5\"\n    },\n    \"message\": \"Successful registration, a code sent to your email to verify your registration\"\n}"
+								},
+								{
+									"name": "Unique email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "email@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signup",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 16:42:57 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 16:42:57 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The email has already been taken. (and 1 more error)\",\n    \"errors\": {\n        \"email\": [\n            \"The email has already been taken.\"\n        ],\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
+								},
+								{
+									"name": "wrong format",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "N",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "em",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "12",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signup",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 16:54:39 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 16:54:39 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The name field must be at least 4 characters. (and 4 more errors)\",\n    \"errors\": {\n        \"name\": [\n            \"The name field must be at least 4 characters.\"\n        ],\n        \"email\": [\n            \"The email field must be a valid email address.\"\n        ],\n        \"role\": [\n            \"The role field is required.\"\n        ],\n        \"password\": [\n            \"The password field must be at least 8 characters.\",\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
+								},
+								{
+									"name": "Wrong password confirmation",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Name",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "email@gmail.com",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "123456789",
+													"type": "text"
+												},
+												{
+													"key": "password_confirmation",
+													"value": "1111111",
+													"type": "text"
+												},
+												{
+													"key": "role",
+													"value": "student",
+													"description": "student or teacher",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"description": "jpg, png, .. etc",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "CV",
+													"description": "pdf & if the user is teacher",
+													"type": "file",
+													"src": []
+												}
+											]
+										},
+										"url": {
+											"raw": "{{base_url}}/signup",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"signup"
+											]
+										}
+									},
+									"status": "Unprocessable Content",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "127.0.0.1:8000"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 17:18:37 GMT"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 06 May 2024 17:18:37 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.11"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "60"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "59"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"The password field confirmation does not match.\",\n    \"errors\": {\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
 								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 17:14:09 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 17:14:09 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.11"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The password field confirmation does not match.\",\n    \"errors\": {\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
+							]
 						}
 					]
 				},
@@ -632,8 +1922,7 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"uuid": "11bd6c41-4dcd-4855-927c-913aaa9dfde6"
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1003,8 +2292,7 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"uuid": "b7b45a20-b9d7-4965-8582-f8e3a06957db"
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1196,8 +2484,7 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"uuid": "4cb1d6f6-d9d5-474b-88ed-6fa1d81d66d0"
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1389,8 +2676,7 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"uuid": "95376685-ff8f-419b-ab7b-8bd86b75a8ba"
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1582,8 +2868,7 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"uuid": "21fd033a-8207-4024-8d33-1592a8c4b6f8"
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -1775,8 +3060,7 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"uuid": "a9d6c30f-f33e-4321-a623-139f7ccef04b"
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -2100,8 +3384,7 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"uuid": "b4025126-8388-436a-8b47-a1ef5e47126f"
+								"value": "application/json"
 							}
 						],
 						"body": {
@@ -2268,2938 +3551,312 @@
 							"body": "{\n    \"message\": \"Unauthenticated.\"\n}"
 						}
 					]
-				},
-				{
-					"name": "Review users",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "email",
-									"value": "wiaam409@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "approval",
-									"value": "0",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/approve",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"approve"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "Approve for users",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "wiaam409@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "approval",
-											"value": "1",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/approve",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"approve"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 07 May 2024 10:25:50 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 07 May 2024 10:25:50 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.11"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "57"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"Successful registration, a code sent to your email to verify your registration\"\n}"
-						},
-						{
-							"name": "Rejecte",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "wiaam409@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "approval",
-											"value": "0",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/approve",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"approve"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 07 May 2024 10:49:17 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Tue, 07 May 2024 10:49:17 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.11"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "58"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"User has been declined and deleted.\"\n}"
-						}
-					]
 				}
 			]
 		},
 		{
-			"name": "Mobile",
+			"name": "Course",
 			"item": [
 				{
-					"name": "Sign Up (teacher)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "aeef7928-2a7d-4302-952e-550a6c00c321"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Name",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "mikle409@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "role",
-									"value": "courseCreator",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"description": "jpg, png, .. etc",
-									"type": "file",
-									"src": []
-								},
-								{
-									"key": "CV",
-									"description": "pdf",
-									"type": "file",
-									"src": []
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/signupInstructor",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"signupInstructor"
-							]
-						}
-					},
-					"response": [
+					"name": "Web",
+					"item": [
 						{
-							"name": "Successful",
-							"originalRequest": {
+							"name": "Store new course",
+							"request": {
 								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "Name",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "mikle409@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "courseCreator",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										},
-										{
-											"key": "CV",
-											"description": "pdf",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
+								"header": [],
 								"url": {
-									"raw": "{{base_url}}/signupInstructor",
+									"raw": "{{base_url}}/course/store",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"signupInstructor"
+										"course",
+										"store"
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:52:52 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:52:52 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": 4,\n        \"name\": \"Name\",\n        \"email\": \"mikle409@gmail.com\",\n        \"email_verified_at\": null,\n        \"google_id\": \"3\",\n        \"image\": \"\",\n        \"created_at\": \"2024-05-06T14:52:49.000000Z\",\n        \"updated_at\": \"2024-05-06T14:52:49.000000Z\",\n        \"roles\": [\n            \"courseCreator\"\n        ],\n        \"permissions\": [\n            \"sign up\",\n            \"sign in\",\n            \"sign out\"\n        ],\n        \"token\": \"1|rtYsjxGoKznYlnxJv1GJpCrJE7To1Us2xlk83Hum46c16410\"\n    },\n    \"message\": \"Successful registration, a code sent to your email to verify your registration\"\n}"
+							"response": []
 						},
 						{
-							"name": "Wrong email format",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "Name",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "mikle409",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "courseCreator",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										},
-										{
-											"key": "CV",
-											"description": "pdf",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
+							"name": "Update course",
+							"request": {
+								"method": "PUT",
+								"header": [],
 								"url": {
-									"raw": "{{base_url}}/signupInstructor",
+									"raw": "{{base_url}}/course/update/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"signupInstructor"
+										"course",
+										"update",
+										"1"
 									]
 								}
 							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:55:02 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:55:02 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "58"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The email field must be a valid email address.\",\n    \"errors\": {\n        \"email\": [\n            \"The email field must be a valid email address.\"\n        ]\n    }\n}"
+							"response": []
 						},
 						{
-							"name": "Unique email",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "Name",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "mikle409@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "courseCreator",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										},
-										{
-											"key": "CV",
-											"description": "pdf",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
+							"name": "Delete course",
+							"request": {
+								"method": "DELETE",
+								"header": [],
 								"url": {
-									"raw": "{{base_url}}/signupInstructor",
+									"raw": "{{base_url}}/course/destroy/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"signupInstructor"
+										"course",
+										"destroy",
+										"1"
 									]
 								}
 							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:56:42 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:56:42 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The email has already been taken.\",\n    \"errors\": {\n        \"email\": [\n            \"The email has already been taken.\"\n        ]\n    }\n}"
-						},
-						{
-							"name": "field required and password doesn't match",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "Name",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "email",
-											"value": "mikle409@gmail.com",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "role",
-											"value": "courseCreator",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										},
-										{
-											"key": "CV",
-											"description": "pdf",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signupInstructor",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signupInstructor"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:57:32 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 14:57:32 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "58"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The name field is required. (and 2 more errors)\",\n    \"errors\": {\n        \"name\": [\n            \"The name field is required.\"\n        ],\n        \"email\": [\n            \"The email field is required.\"\n        ],\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
-						},
-						{
-							"name": "Wrong password confirmation",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "Name",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "mikle409@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "password",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "courseCreator",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										},
-										{
-											"key": "CV",
-											"description": "pdf",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signupInstructor",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signupInstructor"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 17:16:36 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 17:16:36 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.11"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The password field confirmation does not match.\",\n    \"errors\": {\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
+							"response": []
 						}
 					]
 				},
 				{
-					"name": "Sign Up (student)",
+					"name": "All courses",
 					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "7bca0409-c364-4dcf-b6b3-b8116311e998"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Name",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "email@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "1111111",
-									"type": "text"
-								},
-								{
-									"key": "role",
-									"value": "student",
-									"description": "student or teacher",
-									"type": "text"
-								},
-								{
-									"key": "image",
-									"description": "jpg, png, .. etc",
-									"type": "file",
-									"src": []
-								},
-								{
-									"key": "CV",
-									"description": "pdf & if the user is teacher",
-									"type": "file",
-									"src": []
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/signup",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"signup"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "Name",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "email@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "student",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signup",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signup"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:32:38 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:32:38 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": 9,\n        \"name\": \"Name\",\n        \"email\": \"email@gmail.com\",\n        \"email_verified_at\": null,\n        \"google_id\": \"6\",\n        \"image\": \"\",\n        \"created_at\": \"2024-05-06T16:32:35.000000Z\",\n        \"updated_at\": \"2024-05-06T16:32:35.000000Z\",\n        \"roles\": [\n            \"student\"\n        ],\n        \"permissions\": [\n            \"sign up\",\n            \"sign in\",\n            \"sign out\"\n        ],\n        \"token\": \"7|InDpHkSf1rMih6UZawzNN8q8xxhQeVy9dyUviqOse6d5a6a5\"\n    },\n    \"message\": \"Successful registration, a code sent to your email to verify your registration\"\n}"
-						},
-						{
-							"name": "Unique email",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "Name",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "email@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signup",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signup"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:42:57 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:42:57 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The email has already been taken. (and 1 more error)\",\n    \"errors\": {\n        \"email\": [\n            \"The email has already been taken.\"\n        ],\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
-						},
-						{
-							"name": "wrong format",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "N",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "em",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "12",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signup",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signup"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:54:39 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:54:39 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The name field must be at least 4 characters. (and 4 more errors)\",\n    \"errors\": {\n        \"name\": [\n            \"The name field must be at least 4 characters.\"\n        ],\n        \"email\": [\n            \"The email field must be a valid email address.\"\n        ],\n        \"role\": [\n            \"The role field is required.\"\n        ],\n        \"password\": [\n            \"The password field must be at least 8 characters.\",\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
-						},
-						{
-							"name": "Wrong password confirmation",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "Name",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "email@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "1111111",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "student",
-											"description": "student or teacher",
-											"type": "text"
-										},
-										{
-											"key": "image",
-											"description": "jpg, png, .. etc",
-											"type": "file",
-											"src": []
-										},
-										{
-											"key": "CV",
-											"description": "pdf & if the user is teacher",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signup",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signup"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 17:18:37 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 17:18:37 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.11"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The password field confirmation does not match.\",\n    \"errors\": {\n        \"password\": [\n            \"The password field confirmation does not match.\"\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Sign In",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "df0e4182-87a2-489e-8fed-7ac6740ab0f3"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "email",
-									"value": "weaam374409@gmail.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/signin",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"signin"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "email not confirmed",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "ayat.hlw123@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signin",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signin"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:03:22 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:03:22 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"Your email has not been confirmed!\"\n}"
-						},
-						{
-							"name": "success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "ayat.hlw123@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signin",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signin"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:08:31 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:08:31 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": {\n        \"id\": 7,\n        \"name\": \"Name\",\n        \"email\": \"ayat.hlw123@gmail.com\",\n        \"email_verified_at\": \"2024-05-06T15:04:24.000000Z\",\n        \"google_id\": \"4\",\n        \"image\": \"\",\n        \"created_at\": \"2024-05-06T15:02:08.000000Z\",\n        \"updated_at\": \"2024-05-06T15:04:24.000000Z\",\n        \"roles\": [\n            \"courseCreator\"\n        ],\n        \"permissions\": [\n            \"sign up\",\n            \"sign in\",\n            \"sign out\"\n        ],\n        \"token\": \"5|tfiIRJ8QoVTwZq31YOfFugMug1RsDrPeApyh5aAOd5ef889e\"\n    },\n    \"message\": \"Signed in successfully.\"\n}"
-						},
-						{
-							"name": "not signup yet",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "a@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signin",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signin"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:10:57 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:10:57 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"You are not signed up yet\"\n}"
-						},
-						{
-							"name": "wrong email & password",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "ayat.hlw123@gmail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "1234567891",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/signin",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"signin"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:21:43 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:21:43 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "58"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"data\": [],\n    \"message\": \"Email or password is not correct\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Verify email",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "7ccf9267-33ad-478c-bfcf-2b4b10ae7e84"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "verification_code",
-									"value": "963427",
-									"description": "6 digits",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/verifyEmail",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"verifyEmail"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "verification_code",
-											"value": "391453",
-											"description": "6 digits",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/verifyEmail",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"verifyEmail"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:04:24 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:04:24 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"Your email has been confirmed\"\n}"
-						},
-						{
-							"name": "Wrong verification code",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "verification_code",
-											"value": "963427",
-											"description": "6 digits",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/verifyEmail",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"verifyEmail"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:06:26 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:06:26 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The selected verification code is invalid.\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Resend verification code",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "c4d2adb5-4a4c-4a51-9385-6552f073e1ff"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "email",
-									"value": "email@gmail.com",
-									"description": "6 digits",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/resendVerificationCode",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"resendVerificationCode"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "ayat.hlw12@gmail.com",
-											"description": "6 digits",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/resendVerificationCode",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"resendVerificationCode"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:23:54 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:23:54 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": [\n        \"message\",\n        \"The code resent successfully\"\n    ],\n    \"data\": \"Verification code has been resent successfully.\"\n}"
-						},
-						{
-							"name": "wrong email",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "email@gmail.com",
-											"description": "6 digits",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/resendVerificationCode",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"resendVerificationCode"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:24:43 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:24:43 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "58"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"Email not found\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Forgot password",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "48c1d85b-4289-4b76-bd7c-ad57244a4992"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "email",
-									"value": "email@gmail.com",
-									"description": "6 digits",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/forgotPassword",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"forgotPassword"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "wrong email",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "email@gmail.com",
-											"description": "6 digits",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/forgotPassword",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"forgotPassword"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:43:04 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:43:04 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The selected email is invalid.\",\n    \"errors\": {\n        \"email\": [\n            \"The selected email is invalid.\"\n        ]\n    }\n}"
-						},
-						{
-							"name": "success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "email",
-											"value": "ayat.hlw123@gmail.com",
-											"description": "6 digits",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/forgotPassword",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"forgotPassword"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:51:13 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:51:13 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"We have emailed your password reset link.\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Check code",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "301c3b64-8938-4174-a930-071884f8006d"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "code",
-									"value": "123456",
-									"description": "6 digits",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/checkCode",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"checkCode"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "valid code",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "code",
-											"value": "389445",
-											"description": "6 digits",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/checkCode",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"checkCode"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:55:18 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:55:18 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "58"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"passwords.code_is_valid\"\n}"
-						},
-						{
-							"name": "invalid code",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "code",
-											"value": "123456",
-											"description": "6 digits",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/checkCode",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"checkCode"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:57:24 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 15:57:24 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The selected code is invalid.\",\n    \"errors\": {\n        \"code\": [\n            \"The selected code is invalid.\"\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Reset password",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "467fc96b-a70d-4691-8d50-773024d92a21"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "code",
-									"value": "123456",
-									"description": "6 digits",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{base_url}}/resetPassword",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"resetPassword"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "success",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "code",
-											"value": "389445",
-											"description": "6 digits",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/resetPassword",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"resetPassword"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:00:12 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:00:12 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"password has been reset successfully\"\n}"
-						},
-						{
-							"name": "invalid code",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "code",
-											"value": "123456",
-											"description": "6 digits",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "123456789",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/resetPassword",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"resetPassword"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:01:35 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:01:35 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The selected code is invalid.\",\n    \"errors\": {\n        \"code\": [\n            \"The selected code is invalid.\"\n        ]\n    }\n}"
-						},
-						{
-							"name": "invalid password",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "code",
-											"value": "169260",
-											"description": "6 digits",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "password_confirmation",
-											"value": "1",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{base_url}}/resetPassword",
-									"host": [
-										"{{base_url}}"
-									],
-									"path": [
-										"resetPassword"
-									]
-								}
-							},
-							"status": "Unprocessable Content",
-							"code": 422,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:07:59 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:07:59 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"The password field must be at least 6 characters.\",\n    \"errors\": {\n        \"password\": [\n            \"The password field must be at least 6 characters.\"\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Sign out",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "3|4lmpHgkVAzqoscM3j58ykAXE9fy3RimgR09Y8dCT0985e609",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"uuid": "e834985a-f557-4ec4-a8c2-621378b8d068"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "code",
-									"value": "123456",
-									"description": "6 digits",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "password",
-									"value": "123456789",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "password_confirmation",
-									"value": "123456789",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
+						"header": [],
 						"url": {
-							"raw": "{{base_url}}/signout",
+							"raw": "{{url}}/course/list",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"course",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/course/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"signout"
+								"course",
+								"1"
 							]
 						}
 					},
-					"response": [
+					"response": []
+				},
+				{
+					"name": "Get top courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/course/getTopCourses",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"course",
+								"getTopCourses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment and rate",
+			"item": [
+				{
+					"name": "Mobile",
+					"item": [
 						{
-							"name": "success",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
+							"name": "Add comment",
+							"request": {
+								"method": "POST",
+								"header": [],
 								"url": {
-									"raw": "{{base_url}}/signout",
+									"raw": "{{base_url}}/comment/add",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"signout"
+										"comment",
+										"add"
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:13:22 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:13:22 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-RateLimit-Limit",
-									"value": "60"
-								},
-								{
-									"key": "X-RateLimit-Remaining",
-									"value": "59"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"signed out successfully\"\n}"
+							"response": []
 						},
 						{
-							"name": "Invalid token",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
+							"name": "Update comment",
+							"request": {
+								"method": "PUT",
+								"header": [],
 								"url": {
-									"raw": "{{base_url}}/signout",
+									"raw": "{{base_url}}/comment/update/1",
 									"host": [
 										"{{base_url}}"
 									],
 									"path": [
-										"signout"
+										"comment",
+										"update",
+										"1"
 									]
 								}
 							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Host",
-									"value": "127.0.0.1:8000"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:14:06 GMT"
-								},
-								{
-									"key": "Date",
-									"value": "Mon, 06 May 2024 16:14:06 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "close"
-								},
-								{
-									"key": "X-Powered-By",
-									"value": "PHP/8.2.4"
-								},
-								{
-									"key": "Cache-Control",
-									"value": "no-cache, private"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Access-Control-Allow-Origin",
-									"value": "*"
+							"response": []
+						},
+						{
+							"name": "Delete a comment",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/comment/destroy/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"comment",
+										"destroy",
+										"1"
+									]
 								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"Unauthenticated.\"\n}"
+							},
+							"response": []
 						}
 					]
+				},
+				{
+					"name": "Show comments on a course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/comment/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"comment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Web",
+					"item": [
+						{
+							"name": "Store Category",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/category/store",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"category",
+										"store"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Category",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/category/update/{category_id}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"category",
+										"update",
+										"{category_id}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/category/destroy",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"category",
+										"destroy"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/category/all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"category",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/category/{category_id}/courses",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"category",
+								"{category_id}",
+								"courses"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
