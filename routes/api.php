@@ -26,10 +26,13 @@ Route::group(['middleware' => ['role:superAdmin']], function () {
 
 // Routes accessible by admin only
 Route::group(['middleware' => ['role:admin']], function () {
-    Route::controller(AuthController::class)->group(function () {
         Route::group(['middleware' => ['auth:sanctum']], function () {
+            Route::controller(AuthController::class)->group(function () {
             Route::post('approve', 'approveForPendingUsers')->name('user.approve');
         });
+            Route::get('/getAllCoursesForAdmin', [CourseController::class, 'getAllCoursesForAdmin']);
+            Route::post('/courses/{id}/approve', [CourseController::class, 'approveCourse']);
+            Route::post('/courses/{id}/reject', [CourseController::class, 'rejectCourse']);
     });
 });
 
@@ -113,7 +116,6 @@ Route::controller(\App\Http\Controllers\CategoryController::class)->group(functi
         Route::get('{category_id}/courses', 'categoryCourses');
     });
 });
-
 
 
 

@@ -2,14 +2,17 @@
 
 namespace App\Services\Course;
 
+use App\Mail\CourseRejectedMail;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Video;
 use App\Services\FileUploader;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class CourseService
 {
@@ -221,6 +224,56 @@ class CourseService
                 'message' => 'Category created successfully',
                 'category' => $category
             ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    public function getAllCoursesForAdmin()
+    {
+        return Course::query()->where('is_reviewed', false)->get();
+    }
+
+    public function approveCourse($courseId)
+    {
+        try {
+            $course = Course::findOrFail($courseId);
+            $course->is_reviewed = 1;
+            $course->save();
+
+            return $course;
+        }
+        catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            throw new \Exception('Course not found.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+    }
+
+    public function rejectCourse($courseId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $course = Course::with('user')->findOrFail($courseId);
+
+            if (!$course->user) {
+                throw new \Exception('Course creator not found.');
+            }
+
+            Mail::to($course->user->email)->send(new CourseRejectedMail($course));
+            $course->delete();
+
+            DB::commit();
+
+            return true;
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            throw new \Exception('Course not found.');
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

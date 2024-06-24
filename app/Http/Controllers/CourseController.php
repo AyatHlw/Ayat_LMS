@@ -8,6 +8,7 @@ use App\Http\Requests\CreateCourseYoutubeRequest;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\QuizResource;
 use App\Http\Responses\Response;
+use App\Mail\CourseRejectedMail;
 use App\Models\Course;
 use App\Models\Quiz;
 use App\Models\User;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class CourseController extends Controller
@@ -267,6 +269,50 @@ class CourseController extends Controller
         try {
             $result = $this->quizService->deleteQuestion($questionId);
             return response()->json($result, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getAllCoursesForAdmin(): JsonResponse
+    {
+        try {
+            $courses = $this->courseService->getAllCoursesForAdmin();
+            return response()->json([
+                'message' => 'Courses retrieved successfully',
+                'courses' => CourseResource::collection($courses)
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function approveCourse($courseId)
+    {
+        try {
+            $course = $this->courseService->approveCourse($courseId);
+            return response()->json([
+                'message' => 'Course approved successfully',
+                'course' => $course
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function rejectCourse($courseId)
+    {
+        try {
+            $this->courseService->rejectCourse($courseId);
+            return response()->json([
+                'message' => 'Course rejected successfully'
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()

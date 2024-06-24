@@ -102,6 +102,13 @@ class RolePermissionsSeeder extends Seeder
         $permissions = $adminRole->permissions()->pluck('name')->toArray();
         $admin2->givePermissionTo($permissions);
 
+        //teacher ayat
+        $teacher1 = User::factory()->create([
+            'name' => 'ayat',
+            'email' => 'ayat.hlw123@gmail.com',
+            'password' => Hash::make('123456789')
+        ]);
+
         //teacher1
         $teacher1 = User::factory()->create([
             'name' => 'teacher1',
