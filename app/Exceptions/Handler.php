@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Http\Responses\Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Throwable;
 
@@ -44,7 +45,20 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->renderable(function (AccessDeniedException $e, $request) {
-            return Response::Error('You do not have the required authorization','403');
+            return Response::Error('You do not have the required authorization', 403);
         });
+
+        $this->renderable(function (UnauthorizedException $e, $request) {
+            return Response::Error('You do not have the necessary roles to perform this action.', 403);
+        });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof UnauthorizedException) {
+            return Response::Error('You do not have the necessary roles to perform this action.', 403);
+        }
+
+        return parent::render($request, $e);
     }
 }

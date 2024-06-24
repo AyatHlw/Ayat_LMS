@@ -16,13 +16,13 @@ class CategorySeeder extends Seeder
         // List of category names to seed
         $categories = [
             'IT',
-            'Business',
             'Cultures',
-            'Science',
             'Design',
-            'Art',
+            'Arts',
+            'Business',
             'Self-Dev',
-            'Wellness'
+            'Health',
+            'Science',
         ];
 
         // Iterate over each category and create a new record

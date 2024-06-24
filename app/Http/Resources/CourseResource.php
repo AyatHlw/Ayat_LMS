@@ -18,13 +18,16 @@ class CourseResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'title' => $this->title,
-            'description' => $this->description,
-            'creator' => User::firstWhere('id', $this->creator_id)->name,
-            'cost' => $this->cost,
-            'image' => $this->image,
-            'rating' => $this->average_rating,
-            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
+            'title' => $this->title ?? 'No title',
+            'description' => $this->description ?? 'No description',
+            'creator' => $this->creator ? $this->creator->name : 'No creator',
+            'cost' => $this->cost ?? 0,
+            'image' => $this->image ?? 'No image',
+            'rating' => $this->average_rating ?? 0,
+            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : 'No date'
         ];
     }
+
+
+
 }

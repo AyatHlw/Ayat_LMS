@@ -59,4 +59,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(CourseComment::class, 'comment_id');
     }
+    public function quizResults()
+    {
+        return $this->hasMany(QuizResult::class, 'student_id');
+    }
+    public function hasPassedQuiz($quizId)
+    {
+        return $this->quizResults()->where('quiz_id', $quizId)->where('passed', true)->exists();
+    }
 }
