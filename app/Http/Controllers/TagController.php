@@ -26,13 +26,13 @@ class TagController extends Controller
     {
         $request->validate([
             'tag_name' => 'required|string|max:255',
-            'category_name' => 'required|string|max:255',
+            'categoryId' => 'required|exists:categories,id',
         ]);
 
         try {
             $tag = $this->tagService->createTag(
                 $request->input('tag_name'),
-                $request->input('category_name')
+                $request->input('categoryId'),
             );
 
             return response()->json(['message' => 'Tag created successfully', 'tag' => $tag], 201);

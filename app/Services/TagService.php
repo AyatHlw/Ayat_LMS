@@ -12,6 +12,8 @@ use mysql_xdevapi\Exception;
 
 class TagService
 {
+
+    /*
     public function createTag(string $tagName, string $categoryName): Tag
     {
         try {
@@ -20,6 +22,24 @@ class TagService
             if (!$category) {
                 throw new \Exception("Category not found");
             }
+
+            $tag = Tag::create([
+                'name' => $tagName,
+                'category_id' => $category->id,
+            ]);
+
+            return $tag;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+    */
+
+    public function createTag(string $tagName, $categoryId): Tag
+    {
+        try {
+            $category = Category::findOrFail($categoryId);
 
             $tag = Tag::create([
                 'name' => $tagName,
@@ -62,12 +82,12 @@ class TagService
     {
         try {
             $tag = Tag::findOrFail($quizId);
-            $category = Category::where('name', $request['category_name'])->first();
+            $category = Category::findOrFail($request['categoryId']);
             if (isset($request['name'])) {
                 $tag->name = $request['name'];
                 $tag->save();
             }
-            if (isset($request['category_name'])) {
+            if (isset($request['categoryId'])) {
                 $tag->category_id = $category->id;
                 $tag->save();
             }
