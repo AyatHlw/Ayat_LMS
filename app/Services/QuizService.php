@@ -133,7 +133,6 @@ class QuizService
             $quiz = Quiz::findOrFail($quizId);
             $quiz->update($data);
 
-            // تحديث الأسئلة والإجابات
             if (isset($data['questions'])) {
                 foreach ($data['questions'] as $questionData) {
                     $question = Question::updateOrCreate(

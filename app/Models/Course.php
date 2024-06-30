@@ -38,4 +38,8 @@ class Course extends Model
     {
         return $this->hasMany(Quiz::class);
     }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'course_tags');
+    }
 }

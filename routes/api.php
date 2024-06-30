@@ -6,6 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,9 @@ Route::group(['middleware' => ['role:admin']], function () {
             Route::get('/getAllCoursesForAdmin', [CourseController::class, 'getAllCoursesForAdmin']);
             Route::post('/courses/{id}/approve', [CourseController::class, 'approveCourse']);
             Route::post('/courses/{id}/reject', [CourseController::class, 'rejectCourse']);
+            Route::post('/tags/createTag', [TagController::class, 'createTag']);
+            Route::get('/tags/deleteTag/{tagId}', [TagController::class, 'deleteTag']);
+            Route::post('/tags/updateTag/{tagId}', [TagController::class, 'updateTag']);
     });
 });
 
@@ -48,8 +52,8 @@ Route::group(['middleware' => ['role:teacher']], function () {
             Route::put('/quizzes/updateQuiz/{id}', 'updateQuiz');
             Route::delete('/questions/delete/{id}', 'deleteQuestion');
             Route::get('/quizzes/showQuizForTeachers/{id}','showQuizForTeachers');
-
         });
+        Route::post('/tags/addTagsToCourse/{courseId}', [TagController::class, 'addTagsToCourse']);
     });
 });
 
@@ -110,12 +114,17 @@ Route::controller(CourseController::class)->group(function () {
     });
 });
 
-Route::controller(\App\Http\Controllers\CategoryController::class)->group(function () {
+Route::controller(CategoryController::class)->group(function () {
     Route::prefix('category')->group(function () {
         Route::get('all', 'list');
         Route::get('{category_id}/courses', 'categoryCourses');
     });
 });
 
+
+Route::controller(TagController::class)->group(function () {
+    Route::get('/tags/getCourseTags/{courseId}', 'getCourseTags');
+    Route::get('/tags/getTagsByCategory/{categoryId}', 'getTagsByCategory');
+});
 
 

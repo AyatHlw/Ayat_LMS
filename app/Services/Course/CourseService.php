@@ -170,7 +170,8 @@ class CourseService
         $this->do($course, $request, 'cost');
         $this->do($course, $request, 'average_rating');
         $this->do($course, $request, 'is_reviewed');
-        // that's because image needs to be proccessed (updated) with bucket of operations
+        // that's because image needs to be proccessed (
+        //d) with bucket of operations
         if (isset($request['image'])) {
             $course['image'] = (new FileUploader())->storeFile($request, 'image');
             $course->save();
