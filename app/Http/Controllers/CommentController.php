@@ -26,7 +26,7 @@ class CommentController extends Controller
             $data = $this->commentService->store($request);
             return Response::success($data['message'], CommentResource::make($data['comment']));
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage(), 500);
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -39,7 +39,7 @@ class CommentController extends Controller
             $data = $this->commentService->showComments($course_id);
             return Response::success($data['message'], CommentResource::collection($data['comments']));
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage(), 200);
+            return Response::error($exception->getMessage());
         }
     }
 

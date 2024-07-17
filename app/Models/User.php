@@ -59,12 +59,27 @@ class User extends Authenticatable
     {
         return $this->hasMany(CourseComment::class, 'comment_id');
     }
+
     public function quizResults()
     {
         return $this->hasMany(QuizResult::class, 'student_id');
     }
+
     public function hasPassedQuiz($quizId)
     {
         return $this->quizResults()->where('quiz_id', $quizId)->where('passed', true)->exists();
+    }
+
+    public function isPremium($user_id)
+    {
+        return PremiumUsers::where('user_id', $user_id)->exists();
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follower::class, 'teacher_id')->join('users', 'users.id', '=', 'followers.user_id');
+    }
+    public function following(){
+        return $this->hasMany(Follower::class, 'user_id')->join('users', 'users.id', '=', 'followers.teacher_id');
     }
 }

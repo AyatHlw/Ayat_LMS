@@ -11,7 +11,7 @@
         "php": "^8.1",
         "ext-http": "*",
         "ext-mysql_xdevapi": "*",
-        "barryvdh/laravel-dompdf": "*",
+        "barryvdh/laravel-dompdf": "^2.2",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.3",

@@ -17,8 +17,9 @@ class CommentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'user' => User::firstWhere('id', $this->user_id)->name,
+            'user' => $this->user->name,
             'content' => $this->content,
+            'rating' => $this->rating,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
         ];
     }

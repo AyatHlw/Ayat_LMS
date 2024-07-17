@@ -127,6 +127,7 @@ class QuizService
 
     public function updateQuiz($quizId, $data)
     {
+
         DB::beginTransaction();
 
         try {

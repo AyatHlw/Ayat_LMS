@@ -61,32 +61,6 @@ class AuthController extends Controller
         }
     }
 
-    public function verifyEmail(Request $request): JsonResponse
-    {
-        try {
-            $data = $this->userService->verifyEmail($request);
-            return Response::success($data['message']);
-
-        } catch (Throwable $th) {
-            $message = $th->getMessage();
-            return Response::error($message);
-        }
-    }
-
-    public function resendVerificationCode(Request $request): JsonResponse
-    {
-        try {
-            $data = $this->userService->resendVerificationCode($request);
-            if (isset($data['error'])) {
-                return Response::error([], $data['error']);
-            }
-            return Response::success($data['message']);
-        } catch (Throwable $th) {
-            $message = $th->getMessage();
-            return Response::error($message, 422);
-        }
-    }
-
     public function signIn(SignInRequest $signInRequest): JsonResponse
     {
         try {

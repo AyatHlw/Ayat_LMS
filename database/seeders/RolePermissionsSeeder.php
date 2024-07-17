@@ -30,6 +30,8 @@ class RolePermissionsSeeder extends Seeder
             'course.comment', 'course.rating',
             'course.delete_comment',
             'check.email_password',
+            'certificate.get',
+            'report.create','report.get', 'report.delete'
             // ..
         ];
         $superAdminPermissions = [
@@ -44,7 +46,7 @@ class RolePermissionsSeeder extends Seeder
             'user.approve', 'user.block',
             'course.delete_comment',
             'check.email_password',
-
+            'report.get', 'report.delete'
             // ..
         ];
         $teacherPermissions = [
@@ -59,6 +61,8 @@ class RolePermissionsSeeder extends Seeder
             'course.comment', 'course.rating',
             'course.delete_comment',
             'check.email_password',
+            'certificate.get',
+            'report.create'
             // ..
         ];
         // insert the permissions in database

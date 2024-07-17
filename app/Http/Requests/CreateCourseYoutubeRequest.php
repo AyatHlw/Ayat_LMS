@@ -22,7 +22,6 @@ class CreateCourseYoutubeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'creator_id' => 'required|exists:users,id',
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
             'image' => 'required|image|max:5000',

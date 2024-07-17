@@ -2,6 +2,7 @@
 
 namespace App\Services\Course;
 
+use App\Mail\CertificateMail;
 use App\Mail\CourseRejectedMail;
 use App\Models\Category;
 use App\Models\Course;
@@ -32,14 +33,14 @@ class CourseService
     /**
      * Store a newly created resource in storage.
      */
-    public function createCourse(Request $request)
+    public function createCourse($request)
     {
         DB::beginTransaction();
 
         try {
             $image = $this->fileUploader->storeFile($request, 'image');
             $course = Course::create([
-                'creator_id' => $request->input('creator_id'),
+                'creator_id' => Auth::id(),
                 'category_id' => $request->input('category_id'),
                 'title' => $request->input('title'),
                 'image' => $image,
@@ -48,7 +49,7 @@ class CourseService
                 'average_rating' => 0,
                 'is_reviewed' => false
             ]);
-            foreach ($request->input('videos') as $videoData) {
+            /*foreach ($request->input('videos') as $videoData) {
                 $videoRequest = new Request($videoData);
                 $videoPath = $this->fileUploader->storeFile($videoRequest, 'path');
 
@@ -57,7 +58,7 @@ class CourseService
                     'title' => $videoRequest->input('title'),
                     'path' => $videoPath
                 ]);
-            }
+            }*/
 
             DB::commit();
 
@@ -71,7 +72,7 @@ class CourseService
         }
     }
 
-    public function createCourseWithYouTubeLinks(Request $request)
+    public function createCourseWithYouTubeLinks($request)
     {
         DB::beginTransaction();
 
@@ -81,7 +82,7 @@ class CourseService
 
             // إنشاء الكورس
             $course = Course::create([
-                'creator_id' => $request->input('creator_id'),
+                'creator_id' => Auth::id(),
                 'category_id' => $request->input('category_id'),
                 'title' => $request->input('title'),
                 'image' => $image,
@@ -140,9 +141,6 @@ class CourseService
         }
     }
 
-
-
-
     /**
      * Display the specified resource.
      */
@@ -154,28 +152,19 @@ class CourseService
     /**
      * Update the specified resource in storage.
      */
-    public function do(Course $course, $request, $var)
-    {
-        if (isset($request[$var])) {
-            $course[$var] = $request[$var];
-            $course->save();
-        }
-    }
 
     public function update($request, $course_id)
     {
         $course = Course::firstWhere('id', $course_id);
-        $this->do($course, $request, 'title');
-        $this->do($course, $request, 'description');
-        $this->do($course, $request, 'cost');
-        $this->do($course, $request, 'average_rating');
-        $this->do($course, $request, 'is_reviewed');
-        // that's because image needs to be proccessed (
-        //d) with bucket of operations
+        $attibutes = ['title', 'description', 'cost', 'average_rating'];
+        foreach ($attibutes as $a){
+            if(isset($request[$a])) $course[$a] = $request[$a];
+        }
         if (isset($request['image'])) {
             $course['image'] = (new FileUploader())->storeFile($request, 'image');
             $course->save();
         }
+        $course->save();
         return ['message' => 'Course updated successfully.', 'course' => $course];
     }
 
@@ -186,20 +175,6 @@ class CourseService
     {
         Course::firstWhere('id', $course_id)->delete();
         return ['message' => 'The course deleted successfully'];
-    }
-
-    public function courseReview($course_id, $reviewResult)
-    {
-        $course = Course::firstWhere('id', $course_id);
-        if ($reviewResult) {
-            $course->is_reviewed = 1;
-            $course->save();
-            // notification stuff for approval goes here..
-            return ['message' => 'course approved successfully', 'course' => $course];
-        } else {
-            // notification for rejection
-            return ['message' => 'course rejected.', 'course' => $course];
-        }
     }
 
     public function getTopCourses()
@@ -242,7 +217,6 @@ class CourseService
             $course = Course::findOrFail($courseId);
             $course->is_reviewed = 1;
             $course->save();
-
             return $course;
         }
         catch (ModelNotFoundException $e) {
@@ -260,13 +234,9 @@ class CourseService
         DB::beginTransaction();
 
         try {
-            $course = Course::with('user')->findOrFail($courseId);
-
-            if (!$course->user) {
-                throw new \Exception('Course creator not found.');
-            }
-
-            Mail::to($course->user->email)->send(new CourseRejectedMail($course));
+            $course = Course::with('creator')->findOrFail($courseId);
+            // No need to check if the creator found because there is no course without creator
+            Mail::to($course->creator->email)->send(new CourseRejectedMail($course));
             $course->delete();
 
             DB::commit();
@@ -281,3 +251,4 @@ class CourseService
         }
     }
 }
+

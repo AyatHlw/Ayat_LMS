@@ -45,7 +45,7 @@ class CourseController extends Controller
         }
     }
 
-    public function getTopCourses(Request $request)
+    public function getTopCourses()
     {
         try {
             $data = $this->courseService->getTopCourses();
@@ -55,22 +55,19 @@ class CourseController extends Controller
         }
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
-    public function createCourse(CreateCourseRequest $request)
+    public function createCourse(Request $request)
     {
         try {
             $data = $this->courseService->createCourse($request);
             return response()->json([
                 'message' => $data['message'],
-                'course' => $data['course']
+                'course' => CourseResource::make($data['course'])
             ], 201);
         } catch (Throwable $throwable) {
-            return response()->json([
-                'message' => $throwable->getMessage()
-            ], 500);
+            return Response::error($throwable->getMessage());
         }
     }
 
@@ -83,9 +80,7 @@ class CourseController extends Controller
                 'course' => $data['course']
             ], 201);
         } catch (Throwable $throwable) {
-            return response()->json([
-                'message' => $throwable->getMessage()
-            ], 500);
+            return Response::error($throwable->getMessage());
         }
     }
 
@@ -95,7 +90,7 @@ class CourseController extends Controller
     public function showCourseDetails($course_id)
     {
         $course = $this->courseService->showCourseDetails($course_id);
-        return Response::success('great', CourseResource::make($course));
+        return Response::success('Course details : ', CourseResource::make($course));
     }
 
     /**
@@ -118,19 +113,47 @@ class CourseController extends Controller
     {
         try {
             $data = $this->courseService->destroy($course_id);
-            return Response::success($data['messaage']);
+            return Response::success($data['message']);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 422);
         }
     }
 
-    public function courseReview($course_id, $reviewResult)
+    public function getAllCoursesForAdmin(): JsonResponse
     {
         try {
-            $data = $this->courseService->courseReview($course_id, $reviewResult);
-            return Response::success($data['message'], $data['course']);
-        } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage(), 500);
+            $courses = $this->courseService->getAllCoursesForAdmin();
+            return response()->json([
+                'message' => 'Courses retrieved successfully',
+                'courses' => CourseResource::collection($courses)
+            ], 200);
+        } catch (\Exception $e) {
+            return Response::error($e->getMessage());
+        }
+    }
+
+    public function approveCourse($courseId)
+    {
+        try {
+            $course = $this->courseService->approveCourse($courseId);
+            return response()->json([
+                'message' => 'Course approved successfully',
+                'course' => $course
+            ], 200);
+        } catch (\Exception $e) {
+            return Response::error($e->getMessage());
+        }
+    }
+
+    public function rejectCourse($courseId)
+    {
+        try {
+            $this->courseService->rejectCourse($courseId);
+            return response()->json([
+                'message' => 'Course rejected successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            return Response::error($e->getMessage());
         }
     }
 
@@ -143,9 +166,7 @@ class CourseController extends Controller
                 'category' => $data['category']
             ], 201);
         } catch (Throwable $throwable) {
-            return response()->json([
-                'message' => $throwable->getMessage()
-            ], 500);
+            return Response::error($throwable->getMessage());
         }
     }
 
@@ -161,7 +182,6 @@ class CourseController extends Controller
             'questions.*.answers.*.answer_text' => 'required|string',
             'questions.*.answers.*.is_correct' => 'required|boolean',
         ]);
-
         try {
             $data = $this->quizService->createQuiz($request);
             return response()->json([
@@ -169,9 +189,7 @@ class CourseController extends Controller
                 'quiz' => $data['quiz']
             ], 201);
         } catch (\Throwable $throwable) {
-            return response()->json([
-                'message' => $throwable->getMessage()
-            ], 500);
+            return Response::error($throwable->getMessage());
         }
     }
 
@@ -199,9 +217,7 @@ class CourseController extends Controller
                 'quiz' => new QuizResource($quiz)
             ], 200);
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 404);
+            return Response::error($e->getMessage(), 404);
         }
     }
 
@@ -231,9 +247,7 @@ class CourseController extends Controller
                 'passed' => $data['passed']
             ], 200);
         } catch (\Throwable $throwable) {
-            return response()->json([
-                'message' => $throwable->getMessage()
-            ], 500);
+            return Response::error($throwable->getMessage());
         }
     }
 
@@ -250,7 +264,7 @@ class CourseController extends Controller
             'questions.*.answers.*.answer_text' => 'required_with:questions.*.answers|string',
             'questions.*.answers.*.is_correct' => 'sometimes|boolean'
         ]);
-
+        // could you move the validation to the service ?
         try {
             $quiz = $this->quizService->updateQuiz($quizId, $validated);
             return response()->json([
@@ -258,9 +272,7 @@ class CourseController extends Controller
                 'quiz' => $quiz
             ], 200);
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
+            return Response::error($e->getMessage());
         }
     }
 
@@ -270,54 +282,7 @@ class CourseController extends Controller
             $result = $this->quizService->deleteQuestion($questionId);
             return response()->json($result, 200);
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
+            return Response::error($e->getMessage());
         }
     }
-
-    public function getAllCoursesForAdmin(): JsonResponse
-    {
-        try {
-            $courses = $this->courseService->getAllCoursesForAdmin();
-            return response()->json([
-                'message' => 'Courses retrieved successfully',
-                'courses' => CourseResource::collection($courses)
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function approveCourse($courseId)
-    {
-        try {
-            $course = $this->courseService->approveCourse($courseId);
-            return response()->json([
-                'message' => 'Course approved successfully',
-                'course' => $course
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function rejectCourse($courseId)
-    {
-        try {
-            $this->courseService->rejectCourse($courseId);
-            return response()->json([
-                'message' => 'Course rejected successfully'
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-
 }

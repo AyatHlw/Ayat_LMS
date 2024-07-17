@@ -22,7 +22,6 @@ class EmailVerificationController extends Controller
         try {
             $data = $this->evs->verifyEmail($request);
             return Response::success($data['message']);
-
         } catch (Throwable $th) {
             $message = $th->getMessage();
             return Response::error($message);

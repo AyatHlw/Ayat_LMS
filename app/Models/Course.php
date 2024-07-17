@@ -20,24 +20,31 @@ class Course extends Model
         'average_rating'
     ];
 
-    public function user()
+    public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
-    public function comments(){
+    
+    public function comments()
+    {
         return $this->hasMany(CourseComment::class);
     }
-    public function videos(){
+
+    public function videos()
+    {
         return $this->hasMany(Video::class);
     }
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
     public function quizzes()
     {
         return $this->hasMany(Quiz::class);
     }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'course_tags');
