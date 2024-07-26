@@ -150,4 +150,7 @@ Route::controller(TagController::class)->group(function () {
     Route::get('/tags/getCourseTags/{courseId}', 'getCourseTags');
     Route::get('/tags/getTagsByCategory/{categoryId}', 'getTagsByCategory');
 });
-
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('savePreferences', [\App\Http\Controllers\RecommendationController::class, 'savePreferences']);
+    Route::get('getUserRecommendedCourses', [\App\Http\Controllers\RecommendationController::class, 'getUserRecommendedCourses']);
+});
