@@ -25,9 +25,9 @@ class CategoryController extends Controller
     public function categoryCourses($category_id)
     {
         try {
-            $courses = Category::firstWhere('id', $category_id)->courses;
-            if (isEmpty($courses)) throw new \Exception('No courses in this category yet.');
-            return Response::success('Courses : ', CourseResource::collection($courses));
+            $category = Category::with('courses')->find($category_id);
+            if (!$category || $category->courses->isEmpty()) throw new \Exception('No courses in this category yet.');
+            return Response::success('Courses : ', CourseResource::collection($category->courses));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }

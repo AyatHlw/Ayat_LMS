@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use function PHPUnit\Framework\isEmpty;
 
 class CourseService
 {
@@ -146,7 +147,15 @@ class CourseService
      */
     public function showCourseDetails($course_id)
     {
-        return Course::firstWhere('id', $course_id);
+        try {
+            $data = Course::firstWhere('id', $course_id);
+            if(isEmpty($data))
+            throw new \Exception('this course not found');
+            return $data;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     /**

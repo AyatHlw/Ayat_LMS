@@ -89,8 +89,12 @@ class CourseController extends Controller
      */
     public function showCourseDetails($course_id)
     {
-        $course = $this->courseService->showCourseDetails($course_id);
-        return Response::success('Course details : ', CourseResource::make($course));
+        try {
+            $course = $this->courseService->showCourseDetails($course_id);
+            return Response::success('Course details : ', CourseResource::make($course));
+        } catch (Throwable $throwable) {
+            return Response::error($throwable->getMessage(),404);
+        }
     }
 
     /**
