@@ -58,7 +58,7 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function createCourse(Request $request)
+    public function createCourse(CreateCourseRequest $request)
     {
         try {
             $data = $this->courseService->createCourse($request);
