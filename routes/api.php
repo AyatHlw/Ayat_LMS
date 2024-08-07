@@ -173,3 +173,8 @@ Route::controller(WorkshopController::class)->group(function () {
     Route::get('workshops', 'index');
     Route::get('workshop/details/{workshop_id}', 'showWorkshopDetails');
 });
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('savePreferences', [\App\Http\Controllers\RecommendationController::class, 'savePreferences']);
+    Route::get('getUserRecommendedCourses', [\App\Http\Controllers\RecommendationController::class, 'getUserRecommendedCourses']);
+});
