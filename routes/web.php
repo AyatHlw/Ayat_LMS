@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use Twilio\Jwt\AccessToken;
+use Twilio\Jwt\Grants\VideoGrant;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +30,22 @@ Route::get('userInfo/{email}', [\App\Http\Controllers\AuthController::class, 'us
 Route::get('show/{course_id}', [\App\Http\Controllers\CourseController::class, 'show']);
 Route::get('list', [\App\Http\Controllers\CourseController::class, 'list']);
 Route::get('comment/{course_id}', [\App\Http\Controllers\CommentController::class, 'showComments']);
+Route::get('/video-call', function () {
+    return view('video-call');
+});
+Route::get('/api/token', function () {
+    $identity = 'user_' . uniqid();
+
+    $token = new AccessToken(
+        config('services.twilio.sid'),
+        config('services.twilio.key'),
+        config('services.twilio.secret'),
+        3600,
+        $identity
+    );
+
+    $videoGrant = new VideoGrant();
+    $token->addGrant($videoGrant);
+
+    return response()->json(['token' => $token->toJWT()]);
+});
