@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('premium_users', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->dateTime('start_date');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->dateTime('end_date');
             $table->timestamps();
         });

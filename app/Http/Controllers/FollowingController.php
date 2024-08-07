@@ -30,30 +30,30 @@ class FollowingController extends Controller
         }
     }
 
-    public function followers($teacher_id)
+    public function followers($following_id)
     {
         try {
-            $data = $this->followingService->followers($teacher_id);
+            $data = $this->followingService->followers($following_id);
             return Response::success($data['message'], $data['followers']);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
     }
 
-    public function following($student_id)
+    public function following($follower_id)
     {
         try {
-            $data = $this->followingService->following($student_id);
+            $data = $this->followingService->following($follower_id);
             return Response::success($data['message'], $data['following']);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
     }
 
-    public function unFollow($teacher_id)
+    public function unFollow($following_id)
     {
         try {
-            $data = $this->followingService->unFollow($teacher_id);
+            $data = $this->followingService->unFollow($following_id);
             return Response::success($data['message']);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());

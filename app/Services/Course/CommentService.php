@@ -5,6 +5,7 @@ namespace App\Services\Course;
 use App\Http\Controllers\AuthController;
 use App\Models\Course;
 use App\Models\CourseComment;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use mysql_xdevapi\Exception;
@@ -13,16 +14,16 @@ use function PHPUnit\Framework\isEmpty;
 
 class CommentService
 {
+    private NotificationService $noticer;
+    public function __construct(NotificationService $noticer)
+    {
+        $this->noticer = $noticer;
+    }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($request)
     {
-        $request->validate([
-            'content' => 'required|string',
-            'course_id' => 'required|exists:courses,id',
-            'rating' => 'required'
-        ]);
         $comment = CourseComment::create([
             'user_id' => Auth::id(),
             'course_id' => $request['course_id'],
@@ -40,9 +41,9 @@ class CommentService
      */
     public function showComments($course_id)
     {
-        $comments = Course::firstWhere('id', $course_id);
-        $comments = $comments->comments;
-        if (count($comments) == 0 ) throw new \Exception('No comments yet');
+        $course = Course::find($course_id);
+        $comments = $course->comments;
+        if (count($comments) == 0) throw new \Exception('No comments yet');
         return ['message' => 'Comments : ', 'comments' => $comments];
     }
 
@@ -51,7 +52,7 @@ class CommentService
      */
     public function update(Request $request, $comment_id)
     {
-        $comment = CourseComment::firstWhere('id', $comment_id);
+        $comment = CourseComment::find($comment_id);
         if (isset($request['content'])) {
             $comment->content = $request['content'];
             $comment->save();
@@ -72,9 +73,9 @@ class CommentService
      */
     public function destroy($comment_id)
     {
-        $comment = CourseComment::firstWhere('id', $comment_id);
+        $comment = CourseComment::find($comment_id);
         if($comment->user_id != Auth::id()) Throw new \Exception('You can\'t delete this comment!');
-        CourseComment::firstWhere('id', $comment_id)->delete();
+        CourseComment::find($comment_id)->delete();
         return ['message' => 'Comment deleted successfully'];
     }
 }

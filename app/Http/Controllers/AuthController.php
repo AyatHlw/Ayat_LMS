@@ -7,6 +7,7 @@ use App\Http\Requests\SignInRequest;
 use App\Http\Requests\SignUpInstructorRequest;
 use App\Http\Requests\SignUpRequest;
 use App\Http\Responses\Response;
+use App\Mail\deleteUserMail;
 use App\Models\User;
 use App\Services\UserService;
 
@@ -15,6 +16,7 @@ use App\Http\Responses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Js;
 use Laravel\Socialite\Facades\Socialite;
 use Psy\Util\Json;
@@ -29,14 +31,30 @@ class AuthController extends Controller
         $this->userService = $userService;
     }
 
-    public function userInfo($email)
+    public function profile($user_id)
     {
         try {
-            $data = $this->userService->userInfo($email);
+            $data = $this->userService->profile($user_id);
             return Response::success($data['message'], $data['user']);
         } catch (Throwable $throwable) {
             return Response::error($throwable->getMessage(), 404);
         }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        try {
+            $data = $this->userService->updateProfile($request);
+            return Response::success($data['message'], $data['profile']);
+        } catch (Throwable $throwable) {
+            return Response::error($throwable->getMessage(), 404);
+        }
+    }
+
+    public function users()
+    {
+        $users = User::query()->where('id', '>', 3)->get();
+        return Response::success('users : ', $users);
     }
 
     public function signUp(SignUpRequest $signUpRequest): JsonResponse
@@ -98,11 +116,31 @@ class AuthController extends Controller
         }
     }
 
+    public function deleteUser($user_id)
+    {
+        try {
+            $data = $this->userService->deleteUser($user_id);
+            return Response::success($data['message']);
+        } catch (Throwable $th) {
+            return Response::error($th->getMessage(), $th->getCode());
+        }
+    }
+
+    public function deleteAccount()
+    {
+        try {
+            $data = $this->userService->deleteAccount();
+            return Response::success($data['message']);
+        } catch (Throwable $th) {
+            return Response::error($th->getMessage(), $th->getCode());
+        }
+    }
+
     public function approveForPendingUsers(ApproveRequest $request)
     {
         try {
             $data = $this->userService->approveUser($request->validated());
-            return Response::success($data['message'], $data['user']);
+            return Response::success($data['message']);
         } catch (Throwable $th) {
             $message = $th->getMessage();
             return Response::error($message);

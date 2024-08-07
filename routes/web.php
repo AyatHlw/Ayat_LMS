@@ -23,13 +23,14 @@ Route::get('/login', function (){
     return response()->json(['message' => 'Unauthenticated']);
 })->name('login');
 
+Route::get('userInfo/{email}', [AuthController::class, 'userInfo']);
+
 Route::get('auth/google', [\App\Http\Controllers\AuthController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [\App\Http\Controllers\AuthController::class, 'handleGoogleCallback']);
 Route::get('approve', [\App\Http\Controllers\AuthController::class, 'approveForPendingUsers']);
 Route::get('userInfo/{email}', [\App\Http\Controllers\AuthController::class, 'userInfo']);
 Route::get('show/{course_id}', [\App\Http\Controllers\CourseController::class, 'show']);
 Route::get('list', [\App\Http\Controllers\CourseController::class, 'list']);
-Route::get('comment/{course_id}', [\App\Http\Controllers\CommentController::class, 'showComments']);
 Route::get('/video-call', function () {
     return view('video-call');
 });
@@ -49,3 +50,4 @@ Route::get('/api/token', function () {
 
     return response()->json(['token' => $token->toJWT()]);
 });
+

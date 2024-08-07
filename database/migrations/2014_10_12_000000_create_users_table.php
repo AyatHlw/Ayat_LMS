@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->text('google_id');
+            $table->text('fcm_token')->nullable();
             $table->text('image')->nullable();
             $table->string('password');
             $table->rememberToken();

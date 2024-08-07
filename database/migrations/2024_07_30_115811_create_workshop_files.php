@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('followers', function (Blueprint $table) {
+        Schema::create('workshop_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('follower_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('following_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->text('title');
+            $table->string('type');
+            $table->foreignId('workshop_id')->constrained('workshops')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('followers');
+        Schema::dropIfExists('workshop_files');
     }
 };

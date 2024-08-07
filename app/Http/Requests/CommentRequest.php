@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SignInRequest extends FormRequest
+class CommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class SignInRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'=> 'required|string|email',
-            'password' => 'required|min:8',
-            // 'fcm_token' => 'required'
+            'content' => 'required|string',
+            'course_id' => 'required|exists:courses,id',
+            'rating' => 'required'
         ];
     }
 }

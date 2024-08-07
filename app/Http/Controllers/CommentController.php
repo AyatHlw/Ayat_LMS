@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Responses\Response;
 use App\Models\CourseComment;
@@ -20,7 +21,7 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
         try {
             $data = $this->commentService->store($request);

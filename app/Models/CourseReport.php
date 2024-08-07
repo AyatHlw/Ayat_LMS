@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PremiumUsers extends Model
+class CourseReport extends Model
 {
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'end_date'
+        'course_id',
+        'content',
     ];
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
 }

@@ -17,30 +17,80 @@ class ReportController extends Controller
         $this->reportService = $reportService;
     }
 
-    public function reports()
+    public function courseReports()
     {
         try {
-            $data = $this->reportService->reports();
+            $data = $this->reportService->courseReports();
             return Response::success($data['message'], $data['reports']);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
     }
 
-    public function create(Request $request)
+    public function commentReports()
     {
         try {
-            $data = $this->reportService->create($request);
+            $data = $this->reportService->commentReports();
+            return Response::success($data['message'], $data['reports']);
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
+        }
+    }
+
+    public function courseReport(Request $request)
+    {
+        try {
+            $data = $this->reportService->courseReport($request);
             return Response::success($data['message']);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
     }
 
-    public function destroy($report_id)
+    public function commentReport(Request $request)
     {
         try {
-            $data = $this->reportService->destroy($report_id);
+            $data = $this->reportService->commentReport($request);
+            return Response::success($data['message']);
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
+        }
+    }
+
+    public function courseReportDetails($report_id)
+    {
+        try {
+            $data = $this->reportService->courseReportDetails($report_id);
+            return Response::success($data['message'], $data['report']);
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
+        }
+    }
+
+    public function commentReportDetails($report_id)
+    {
+        try {
+            $data = $this->reportService->commentReportDetails($report_id);
+            return Response::success($data['message'], $data['report']);
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
+        }
+    }
+
+    public function destroyCourseReport($report_id)
+    {
+        try {
+            $data = $this->reportService->destroyCourseReport($report_id);
+            return Response::success($data['message']);
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
+        }
+    }
+
+    public function destroyCommentReport($report_id)
+    {
+        try {
+            $data = $this->reportService->destroyCommentReport($report_id);
             return Response::success($data['message']);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());

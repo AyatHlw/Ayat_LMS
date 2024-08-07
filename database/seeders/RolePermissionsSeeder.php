@@ -25,20 +25,22 @@ class RolePermissionsSeeder extends Seeder
         // editable
         $permissions = [
             'user.sign_up', 'user.sign_in', 'user.sign_out', 'instructor.sign_up',
-            'user.approve', 'user.block',
-            'course.add', 'user.show_pending',
+            'user.approve', 'user.block', 'user.delete',
+            'course.add', 'user.show_pending', 'user.all',
             'course.comment', 'course.rating',
             'course.delete_comment',
             'check.email_password',
             'certificate.get',
-            'report.create','report.get', 'report.delete'
+            'report.create', 'report.get', 'report.show','report.delete',
+            'premium.add', 'premium.extend', 'premium.remove',
+            'category.create', 'category.update', 'category.delete'
             // ..
         ];
         $superAdminPermissions = [
             'user.sign_up', 'user.sign_in', 'user.sign_out',
             'user.approve', 'user.block',
             'check.email_password',
-
+            'premium.add', 'premium.extend', 'premium.remove',
             // ..
         ];
         $adminPermissions = [
@@ -46,7 +48,8 @@ class RolePermissionsSeeder extends Seeder
             'user.approve', 'user.block',
             'course.delete_comment',
             'check.email_password',
-            'report.get', 'report.delete'
+            'report.get', 'report.delete',
+            'category.create', 'category.update', 'category.delete'
             // ..
         ];
         $teacherPermissions = [
