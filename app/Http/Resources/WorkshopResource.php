@@ -2,30 +2,27 @@
 
 namespace App\Http\Resources;
 
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
-class CourseResource extends JsonResource
+class WorkshopResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
-    public function toArray($request): array
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'category' => $this->category->name,
             'title' => $this->title ?? 'No title',
+            'teacher' => $this->teacher->name,
+            'category' => $this->category->name,
             'description' => $this->description ?? 'No description',
-            'creator' => $this->creator->name,
-            'cost' => $this->cost ?? 0,
-            'image' => $this->image ?? 'No image',
-            'rating' => $this->average_rating ?? 0,
+            'rating' => $this->average_rating,
+            'start_date' => $this->start_date->format('Y-m-d H:i:s'),
+            'end_date' => $this->end_date->format('Y-m-d H:i:s'),
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : 'No date'
         ];
     }

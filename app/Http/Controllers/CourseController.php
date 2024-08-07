@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Requests\CreateCourseRequest;
 use App\Http\Requests\CreateCourseYoutubeRequest;
+use App\Http\Requests\CreateQuizRequest;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\QuizResource;
 use App\Http\Responses\Response;
@@ -49,7 +50,7 @@ class CourseController extends Controller
     {
         try {
             $data = $this->courseService->getTopCourses();
-            return Response::success($data['message'], CourseResource::make($data['courses']));
+            return Response::success($data['message'], CourseResource::collection($data['courses']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }
@@ -58,7 +59,7 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function createCourse(Request $request)
+    public function createCourse(CreateCourseRequest $request)
     {
         try {
             $data = $this->courseService->createCourse($request);
@@ -89,8 +90,12 @@ class CourseController extends Controller
      */
     public function showCourseDetails($course_id)
     {
-        $course = $this->courseService->showCourseDetails($course_id);
-        return Response::success('Course details : ', CourseResource::make($course));
+        try {
+            $course = $this->courseService->showCourseDetails($course_id);
+            return Response::success('Course details : ', CourseResource::make($course));
+        } catch (Throwable $throwable) {
+            return Response::error($throwable->getMessage(),404);
+        }
     }
 
     /**
@@ -157,31 +162,8 @@ class CourseController extends Controller
         }
     }
 
-    public function createCategory(CreateCategoryRequest $request): JsonResponse
+    public function createQuiz(CreateQuizRequest $request)
     {
-        try {
-            $data = $this->courseService->createCategory($request->validated());
-            return response()->json([
-                'message' => $data['message'],
-                'category' => $data['category']
-            ], 201);
-        } catch (Throwable $throwable) {
-            return Response::error($throwable->getMessage());
-        }
-    }
-
-    public function createQuiz(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'course_id' => 'required|exists:courses,id',
-            'questions' => 'required|array',
-            'questions.*.question_text' => 'required|string',
-            'questions.*.answers' => 'required|array|min:2',
-            'questions.*.answers.*.answer_text' => 'required|string',
-            'questions.*.answers.*.is_correct' => 'required|boolean',
-        ]);
         try {
             $data = $this->quizService->createQuiz($request);
             return response()->json([

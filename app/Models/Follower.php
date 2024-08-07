@@ -9,10 +9,7 @@ class Follower extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
-        'teacher_id',
+        'follower_id',
+        'follwing_id',
     ];
-    public function teachers(){
-        return $this->belongsToMany(User::class, 'users', 'user_id');
-    }
 }

@@ -27,7 +27,8 @@ class User extends Authenticatable
         'password',
         'google_id',
         'verification_code',
-        'email_verified_at'
+        'email_verified_at',
+        'device_token'
     ];
 
     /**
@@ -70,16 +71,19 @@ class User extends Authenticatable
         return $this->quizResults()->where('quiz_id', $quizId)->where('passed', true)->exists();
     }
 
-    public function isPremium($user_id)
+    public function isPremium()
     {
-        return PremiumUsers::where('user_id', $user_id)->exists();
+        return $this->hasOne(PremiumUsers::class, 'user_id')->exists();
     }
 
-    public function followers()
-    {
-        return $this->hasMany(Follower::class, 'teacher_id')->join('users', 'users.id', '=', 'followers.user_id');
+    public function following() {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'following_id');
     }
-    public function following(){
-        return $this->hasMany(Follower::class, 'user_id')->join('users', 'users.id', '=', 'followers.teacher_id');
+
+    public function followers() {
+        return $this->belongsToMany(User::class, 'followers', 'following_id', 'follower_id');
+    }
+    public function workshops(){
+        return $this->hasMany(Workshop::class, 'teacher_id');
     }
 }

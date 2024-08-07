@@ -10,11 +10,15 @@ use Illuminate\Support\Facades\Mail;
 
 class CertificateService
 {
+    private NotificationService $noticer;
+    public function __construct(NotificationService $noticer)
+    {
+        $this->noticer = $noticer;
+    }
     public function getCertificate($courseId)
     {
         $user = User::find(Auth::id());
         $course = Course::find($courseId);
-        // Uncomment it if there is a quiz ..
         /*if(!$user->hasPassedQuiz($course->quiz->id)) {
             throw new \Exception('Sorry, You have to pass the quiz first');
         }*/

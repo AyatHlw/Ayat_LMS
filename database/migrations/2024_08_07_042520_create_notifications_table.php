@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('followers', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('follower_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('following_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('type');
+            $table->morphs('notifiable');
+            $table->text('data');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('followers');
+        Schema::dropIfExists('notifications');
     }
 };

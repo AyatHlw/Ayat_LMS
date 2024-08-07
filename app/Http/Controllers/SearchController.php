@@ -12,16 +12,16 @@ class SearchController extends Controller
 {
     public function searchCourse()
     {
-        $query = Course::query()->where('is_reviewd', 1);
-        if (request('category_id')) {
-            $query->where('category_id', request('category_id'));
-        }
+        $query = Course::query()->where('is_reviewed', 1);
         if (request('search')) {
             $query->where('title', 'like', '%' . request('search') . '%')
                 ->orWhere('description', 'like', '%' . request('search') . '%');
         }
+        if (request('category_id')) {
+            $query->where('category_id', request('category_id'));
+        }
         $searchResult = $query->get();
-        return response()->json(['courses' => $searchResult]);
+        return response()->json(['courses' => CourseResource::collection($searchResult)]);
     }
 
     public function searchUser()

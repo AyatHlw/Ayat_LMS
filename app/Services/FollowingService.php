@@ -9,35 +9,35 @@ use Illuminate\Support\Facades\Auth;
 
 class FollowingService
 {
+    private NotificationService $noticer;
+    public function __construct(NotificationService $noticer)
+    {
+        $this->noticer = $noticer;
+    }
     public function follow(Request $request)
     {
         $request->validate([
-            'teacher_id' => 'required|exists:users,id'
+            'following_id' => 'required|exists:users,id'
         ]);
-        Follower::create([
-            'user_id' => Auth::id(),
-            'teacher_id' => $request->teacher_id
-        ]);
+        Auth::user()->following()->attach(User::find($request->following_id));
         return ['message' => 'Done'];
     }
 
-    public function followers($teacher_id)
+    public function followers($following_id)
     {
-        $followers = User::firstWhere('id', $teacher_id)->followers;
+        $followers = User::find($following_id)->followers;
         return ['message' => 'followers : ', 'followers' => $followers];
     }
 
-    public function following($student_id)
+    public function following($follower_id)
     {
-        $following = User::firstWhere('id', $student_id)->following;
+        $following = User::find($follower_id)->following;
         return ['message' => 'following : ', 'following' => $following];
     }
 
-    public function unFollow($teacher_id)
+    public function unFollow($following_id)
     {
-        Follower::firstWhere('user_id', Auth::id())
-            ->where('teacher_id', $teacher_id)
-            ->delete();
+        Auth::user()->following()->detach(User::find($following_id));
         return ['message' => 'done'];
     }
 }

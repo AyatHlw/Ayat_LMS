@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\Response;
 use App\Models\PremiumUsers;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use function PHPUnit\Framework\isNan;
+use function PHPUnit\Framework\isNull;
 
 class PremiumController extends Controller
 {
@@ -15,7 +18,10 @@ class PremiumController extends Controller
                 'user_id' => 'required|exists:users,id',
                 'end_date' => 'required|date'
             ]);
-            PremiumUsers::create(['user_id' => $request->user_id]);
+            PremiumUsers::create([
+                'user_id' => $request->user_id,
+                'end_date' => $request->end_date
+            ]);
             return Response::success('user added.');
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
@@ -30,6 +36,7 @@ class PremiumController extends Controller
                 'end_date' => 'required|date'
             ]);
             $subscription = PremiumUsers::firstWhere('user_id', $request->user_id);
+            if(is_null($subscription)) return Response::error('This user does not have a subscription.');
             $subscription['end_date'] = $request->end_date;
             $subscription->save();
             return Response::success('subscription extended.');

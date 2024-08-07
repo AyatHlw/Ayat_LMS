@@ -3,17 +3,20 @@
 namespace App\Services;
 
 use App\Http\Responses\Response;
+use App\Mail\DeleteUserMail;
 use App\Mail\SendApprovalMail;
 use App\Mail\SendRejectionMail;
 use App\Mail\VerificationCodeMail;
 use App\Models\PendingUsers;
 use App\Models\User;
 use App\Models\VerificationCode;
+use App\Notifications\Notice;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Kreait\Firebase\JWT\Contract\Token;
 use Laravel\Socialite\Facades\Socialite;
 use Spatie\Permission\Models\Role;
 use function PHPUnit\Framework\isNull;
@@ -21,20 +24,46 @@ use function PHPUnit\Framework\isNull;
 class UserService
 {
     private FileUploader $fileUploader;
-
-    public function __construct(FileUploader $fileUploader)
+    private NotificationService $noticer;
+    public function __construct(FileUploader $fileUploader, NotificationService $noticer)
     {
         $this->fileUploader = $fileUploader;
+        $this->noticer = $noticer;
     }
 
-    public function userInfo($email)
+    public function profile($user_id)
     {
-        $user = User::query()->where('email', $email)->first();
-        if (is_null($user)) $user = PendingUsers::query()->where('email', $email)->first();
+        $user = User::find($user_id);
+        if (is_null($user)) $user = PendingUsers::find($user_id);
         if (is_null($user)) {
             throw new Exception('User not found!', 404);
         }
-        return ['message' => 'user retrieved successfully', 'user' => $user, 'code' => 200];
+        $res = (new NotificationService)->send($user, 'profile', 'someone entered your profile', 'Notice');
+        return ['message' => 'Profile : ', 'user' => $res, 'code' => 200];
+    }
+
+    public function updateProfile($request)
+    {
+        $user = Auth::user();
+        if (isset($request['name'])) $user['name'] = $request['name'];
+
+        if (isset($request['password'])) {
+            $request->validate([
+                'old_password' => 'required',
+                'password' => 'confirmed'
+            ]);
+            $matching = Hash::check($request->old_password, Auth::user()->getAuthPassword());
+            if (!$matching)
+                throw new \Exception('The old password does not match with current password.');
+            $user['password'] = Hash::make($request->password);
+        }
+
+        if (isset($request['image'])) {
+            $request->validate(['image' => 'image|mimes:jpeg,png,jpg,gif|max:5120']);
+            $user['image'] = (new FileUploader())->storeFile($request, 'image');
+        }
+        $user->save();
+        return ['message' => 'Profile updated successfully.', 'profile' => $user];
     }
 
     public function signup($request): array
@@ -116,7 +145,8 @@ class UserService
                 'password' => $data['password']
             ]);
             $data->delete();
-            return $this->userCreation($role, $user);
+            $this->userCreation($role, $user);
+            return ['message' => 'User approved in the platform'];
         } else {
             Mail::to($data['email'])->send(new SendRejectionMail($data['name']));
             $data->delete();
@@ -128,7 +158,6 @@ class UserService
 
     public function signin($request)
     {
-        $request->validated();
         $user = User::query()->where('email', $request['email'])->first();
         if (is_null($user)) {
             $user = PendingUsers::query()->where('email', $request['email'])->first();
@@ -143,6 +172,7 @@ class UserService
             throw new Exception('Your email has not been confirmed!');
         $user = $this->appendRolesAndPermissions($user);
         $user['token'] = $user->createToken('Auth token')->plainTextToken;
+        $user['fcm_token'] = $request->fcm_token;
         return ['user' => $user, 'message' => 'Signed in successfully.', 'status' => 200];
     }
 
@@ -192,6 +222,22 @@ class UserService
         }
         Auth::user()->currentAccessToken()->delete();
         return ['message' => 'signed out successfully'];
+    }
+
+    public function deleteUser($user_id)
+    {
+        $user = User::find($user_id);
+        if ($user->hasRole('admin') || $user->hasRole('superAdmin'))
+            throw new \Exception('it is prohibited to delete admins', 422);
+        Mail::to($user['email'])->send(new DeleteUserMail($user->name));
+        $user->delete();
+        return ['message' => 'User has been deleted successfully'];
+    }
+
+    public function deleteAccount()
+    {
+        User::find(Auth::id())->delete();
+        return ['message' => 'Account has been deleted successfully'];
     }
 
     public function appendRolesAndPermissions($user)

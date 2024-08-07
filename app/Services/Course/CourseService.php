@@ -8,21 +8,23 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Video;
 use App\Services\FileUploader;
+use App\Services\NotificationService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use function PHPUnit\Framework\isEmpty;
 
 class CourseService
 {
     protected $fileUploader;
-
-
-    public function __construct(FileUploader $fileUploader)
+    private NotificationService $noticer;
+    public function __construct(FileUploader $fileUploader, NotificationService $noticer)
     {
         $this->fileUploader = $fileUploader;
+        $this->noticer = $noticer;
     }
 
     public function index()
@@ -49,7 +51,7 @@ class CourseService
                 'average_rating' => 0,
                 'is_reviewed' => false
             ]);
-            /*foreach ($request->input('videos') as $videoData) {
+            foreach ($request->input('videos') as $videoData) {
                 $videoRequest = new Request($videoData);
                 $videoPath = $this->fileUploader->storeFile($videoRequest, 'path');
 
@@ -58,7 +60,7 @@ class CourseService
                     'title' => $videoRequest->input('title'),
                     'path' => $videoPath
                 ]);
-            }*/
+            }
 
             DB::commit();
 
@@ -146,7 +148,15 @@ class CourseService
      */
     public function showCourseDetails($course_id)
     {
-        return Course::firstWhere('id', $course_id);
+        try {
+            $data = Course::firstWhere('id', $course_id);
+            if(isEmpty($data))
+                throw new \Exception('this course not found');
+            return $data;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     /**
@@ -183,8 +193,6 @@ class CourseService
         return ['message' => 'Top courses : ','courses' => $topRatedCourses];
     }
 
-
-
     public function createCategory($request)
     {
         DB::beginTransaction();
@@ -214,7 +222,7 @@ class CourseService
     public function approveCourse($courseId)
     {
         try {
-            $course = Course::findOrFail($courseId);
+            $course = Course::find($courseId);
             $course->is_reviewed = 1;
             $course->save();
             return $course;
@@ -235,7 +243,6 @@ class CourseService
 
         try {
             $course = Course::with('creator')->findOrFail($courseId);
-            // No need to check if the creator found because there is no course without creator
             Mail::to($course->creator->email)->send(new CourseRejectedMail($course));
             $course->delete();
 

@@ -25,20 +25,22 @@ class RolePermissionsSeeder extends Seeder
         // editable
         $permissions = [
             'user.sign_up', 'user.sign_in', 'user.sign_out', 'instructor.sign_up',
-            'user.approve', 'user.block',
-            'course.add', 'user.show_pending',
+            'user.approve', 'user.block', 'user.delete',
+            'course.add', 'user.show_pending', 'user.all',
             'course.comment', 'course.rating',
             'course.delete_comment',
             'check.email_password',
             'certificate.get',
-            'report.create','report.get', 'report.delete'
+            'report.create', 'report.get', 'report.show','report.delete',
+            'premium.add', 'premium.extend', 'premium.remove',
+            'category.create', 'category.update', 'category.delete'
             // ..
         ];
         $superAdminPermissions = [
             'user.sign_up', 'user.sign_in', 'user.sign_out',
             'user.approve', 'user.block',
             'check.email_password',
-
+            'premium.add', 'premium.extend', 'premium.remove',
             // ..
         ];
         $adminPermissions = [
@@ -46,7 +48,8 @@ class RolePermissionsSeeder extends Seeder
             'user.approve', 'user.block',
             'course.delete_comment',
             'check.email_password',
-            'report.get', 'report.delete'
+            'report.get', 'report.delete',
+            'category.create', 'category.update', 'category.delete'
             // ..
         ];
         $teacherPermissions = [
@@ -105,6 +108,16 @@ class RolePermissionsSeeder extends Seeder
         $admin2->assignRole($adminRole);
         $permissions = $adminRole->permissions()->pluck('name')->toArray();
         $admin2->givePermissionTo($permissions);
+
+        //admin amr
+        $admin3 = User::factory()->create([
+            'name' => 'Admin3',
+            'email' => 'aaamr.2012@gmail.com',
+            'password' => Hash::make('123456789')
+        ]);
+        $admin3->assignRole($adminRole);
+        $permissions = $adminRole->permissions()->pluck('name')->toArray();
+        $admin3->givePermissionTo($permissions);
 
         //teacher ayat
         $teacher1 = User::factory()->create([
