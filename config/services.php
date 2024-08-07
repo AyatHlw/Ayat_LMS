@@ -35,4 +35,17 @@ return [
         'client_secret' => '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',
         'redirect' => 'http://127.0.0.1:8000/auth/google/callback',
     ],
+//    'twilio' => [
+//        'sid' => env('TWILIO_ACCOUNT_SID'),
+//        'token' => env('TWILIO_ACCOUNT_TOKEN'),
+//        'key' => env('TWILIO_API_KEY'),
+//        'secret' => env('TWILIO_API_SECRET')
+//    ],
+    'twilio' => [
+        'sid' => env('TWILIO_ACCOUNT_SID'),
+        'token' => env('TWILIO_AUTH_TOKEN'),  // تأكد من أن لديك TWILIO_AUTH_TOKEN وليس TWILIO_ACCOUNT_TOKEN
+        'key' => env('TWILIO_API_KEY'),
+        'secret' => env('TWILIO_API_SECRET'),
+    ],
+
 ];

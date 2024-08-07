@@ -12,6 +12,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\VideoCallController;
 use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
 
@@ -177,3 +178,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('savePreferences', [\App\Http\Controllers\RecommendationController::class, 'savePreferences']);
     Route::get('getUserRecommendedCourses', [\App\Http\Controllers\RecommendationController::class, 'getUserRecommendedCourses']);
 });
+
+Route::post('rooms', [VideoCallController::class, 'createRoom']);
+Route::get('rooms/{roomSid}', [VideoCallController::class, 'getRoom']);
+Route::post('rooms/end-room/{roomSid}', [VideoCallController::class, 'endRoom']);
