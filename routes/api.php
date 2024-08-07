@@ -12,11 +12,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
-<<<<<<< HEAD
 use App\Http\Controllers\VideoCallController;
-=======
 use App\Http\Controllers\WorkshopController;
->>>>>>> cfbb0d3ca4cb25bcc84a66bef742fe6d3b96931a
 use Illuminate\Support\Facades\Route;
 
 /*
