@@ -39,9 +39,8 @@ Route::group(['middleware' => ['role:superAdmin']], function () {
 // Routes accessible by admin only
 Route::group(['middleware' => ['role:admin']], function () {
     Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::controller(AuthController::class)->group(function () {
-            Route::post('approve', 'approveForPendingUsers')->name('user.approve');
-        });
+        Route::post('approve', [AuthController::class, 'approveForPendingUsers'])->name('user.approve');
+        Route::post('category/create', [CategoryController::class, 'createCategory'])->name('category.create');
         Route::post('category/update/{category_id}', [CategoryController::class, 'update'])->name('category.update');
         Route::delete('category/destroy/{category_id}', [CategoryController::class, 'destroy'])->name('category.delete');
         Route::get('/getAllCoursesForAdmin', [CourseController::class, 'getAllCoursesForAdmin']);
