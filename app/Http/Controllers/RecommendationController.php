@@ -21,13 +21,11 @@ class RecommendationController extends Controller
     {
         try {
             $categoryId = $request->input('category_ids', []);
-
             if (empty($categoryId)) {
                 return Response::error('Please select at least one category', 400);
             }
             $this->recommendationService->savePreferences($categoryId);
-
-            return Response::success('Nice! Enjoy a truly exceptional experience', ' ', 200);
+            return Response::success('Nice! Enjoy a truly exceptional experience', ' ');
         } catch (\Exception $e) {
             return Response::error($e->getMessage());
         }
@@ -39,13 +37,10 @@ class RecommendationController extends Controller
             $forYouCourses = $this->recommendationService->getUserRecommendedCourses();
             return Response::success(
               'For you courses',
-                CoursesForYou::collection($forYouCourses),
-                200
+                CourseResource::collection($forYouCourses)
             );
-
         } catch (\Exception $e) {
             return Response::error($e->getMessage());
         }
     }
-
 }

@@ -38,8 +38,8 @@ class UserService
         if (is_null($user)) {
             throw new Exception('User not found!', 404);
         }
-        $res = (new NotificationService)->send($user, 'profile', 'someone entered your profile', 'Notice');
-        return ['message' => 'Profile : ', 'user' => $res, 'code' => 200];
+        (new NotificationService)->send($user, 'profile', 'someone entered your profile', '\Notice');
+        return ['message' => 'Profile : ', 'user' => $user, 'code' => 200];
     }
 
     public function updateProfile($request)
