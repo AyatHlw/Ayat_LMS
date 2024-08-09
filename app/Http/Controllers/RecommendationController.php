@@ -27,7 +27,7 @@ class RecommendationController extends Controller
             $this->recommendationService->savePreferences($categoryId);
             return Response::success('Nice! Enjoy a truly exceptional experience', ' ');
         } catch (\Exception $e) {
-            return Response::error($e->getMessage());
+            return Response::error($e->getMessage(), $e->getCode());
         }
     }
 
@@ -40,7 +40,7 @@ class RecommendationController extends Controller
                 CourseResource::collection($forYouCourses)
             );
         } catch (\Exception $e) {
-            return Response::error($e->getMessage());
+            return Response::error($e->getMessage(), $e->getCode());
         }
     }
 }

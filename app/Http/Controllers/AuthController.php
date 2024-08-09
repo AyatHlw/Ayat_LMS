@@ -53,8 +53,13 @@ class AuthController extends Controller
 
     public function users()
     {
-        $users = User::query()->where('id', '>', 3)->get();
-        return Response::success('users : ', $users);
+        try {
+            $users = User::query()->where('id', '>', 4)->get();
+            if (!$users) throw new \Exception('No users yet', 200);
+            return Response::success('users : ', $users);
+        } catch (Throwable $e) {
+            return Response::error($e->getMessage(), $e->getCode());
+        }
     }
 
     public function signUp(SignUpRequest $signUpRequest): JsonResponse
