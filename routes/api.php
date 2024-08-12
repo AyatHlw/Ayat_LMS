@@ -178,6 +178,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('savePreferences', [\App\Http\Controllers\RecommendationController::class, 'savePreferences']);
     Route::get('getUserRecommendedCourses', [\App\Http\Controllers\RecommendationController::class, 'getUserRecommendedCourses']);
 });
+Route::get('user/all', [AuthController::class, 'users'])->name('user.all');
 
 Route::post('rooms', [VideoCallController::class, 'createRoom']);
 Route::get('rooms/{roomSid}', [VideoCallController::class, 'getRoom']);

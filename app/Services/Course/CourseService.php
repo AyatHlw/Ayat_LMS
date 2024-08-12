@@ -21,6 +21,7 @@ class CourseService
 {
     protected $fileUploader;
     private NotificationService $noticer;
+
     public function __construct(FileUploader $fileUploader, NotificationService $noticer)
     {
         $this->fileUploader = $fileUploader;
@@ -150,7 +151,7 @@ class CourseService
     {
         try {
             $data = Course::firstWhere('id', $course_id);
-            if(isEmpty($data))
+            if (isEmpty($data))
                 throw new \Exception('this course not found');
             return $data;
         } catch (\Exception $e) {
@@ -167,8 +168,8 @@ class CourseService
     {
         $course = Course::firstWhere('id', $course_id);
         $attibutes = ['title', 'description', 'cost', 'average_rating'];
-        foreach ($attibutes as $a){
-            if(isset($request[$a])) $course[$a] = $request[$a];
+        foreach ($attibutes as $a) {
+            if (isset($request[$a])) $course[$a] = $request[$a];
         }
         if (isset($request['image'])) {
             $course['image'] = (new FileUploader())->storeFile($request, 'image');
@@ -190,7 +191,7 @@ class CourseService
     public function getTopCourses()
     {
         $topRatedCourses = Course::orderBy('average_rating', 'DESC')->take(min(count(Course::all()), 10))->get();
-        return ['message' => 'Top courses : ','courses' => $topRatedCourses];
+        return ['message' => 'Top courses : ', 'courses' => $topRatedCourses];
     }
 
     public function createCategory($request)
@@ -199,7 +200,8 @@ class CourseService
 
         try {
             $category = Category::create([
-                'name' => $request['name']
+                'name' => $request['name'],
+                'image' => $this->fileUploader->storeFile($request, 'image')
             ]);
 
             DB::commit();
@@ -214,6 +216,25 @@ class CourseService
         }
     }
 
+    public function updateCategory($request, $category_id)
+    {
+        $category = Category::find($category_id);
+        if (isset($request['name'])) {
+            $category['name'] = $request['name'];
+        }
+        if (isset($request['image'])) {
+            $category['image'] = $this->fileUploader->storeFile($request, 'image');
+        }
+        $category->save();
+        return ['message' => 'Category updated successfully'];
+    }
+
+    public function destroyCategory($category_id)
+    {
+        Category::find($category_id)->delete();
+        return ['message' => 'Category deleted successfully'];
+    }
+
     public function getAllCoursesForAdmin()
     {
         return Course::query()->where('is_reviewed', false)->get();
@@ -226,15 +247,13 @@ class CourseService
             $course->is_reviewed = 1;
             $course->save();
             return $course;
-        }
-        catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             DB::rollBack();
             throw new \Exception('Course not found.');
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
-
     }
 
     public function rejectCourse($courseId)
@@ -257,5 +276,13 @@ class CourseService
             throw $e;
         }
     }
+
+    public function courseEnroll($request, $course_id){
+        $request->validate([
+            'courses' => 'required|array',
+            'courses.*.course_id' => 'required|exists:courses,id'
+        ]);
+    }
+
 }
 

@@ -6,6 +6,7 @@ use App\Http\Requests\ApproveRequest;
 use App\Http\Requests\SignInRequest;
 use App\Http\Requests\SignUpInstructorRequest;
 use App\Http\Requests\SignUpRequest;
+use App\Http\Resources\UserResource;
 use App\Http\Responses\Response;
 use App\Mail\deleteUserMail;
 use App\Models\User;

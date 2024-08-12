@@ -35,7 +35,7 @@ class CourseSeeder extends Seeder
                 'creator_id' => $faker->numberBetween(4, 9),
                 'category_id' => $faker->numberBetween(1, 8),
                 'title' => $faker->randomElement($courseTitle),
-                'image' => $faker->imageUrl(640, 480, 'education', true, 'Faker'),
+                'image' => 'storage/uploads/1723489257_BrainLern.jpg',
                 'description' => $faker->paragraphs(3, true),
                 'cost' => $faker->randomFloat(2, 0, 100),
                 'average_rating' => $faker->numberBetween(1, 5),

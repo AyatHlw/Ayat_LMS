@@ -85,10 +85,10 @@ class WorkshopController extends Controller
         }
     }
 
-    public function enroll_in_workshop($workshop_id)
+    public function workshopEnroll($workshop_id)
     {
         try {
-            $data = $this->workshopService->enroll_in_workshop($workshop_id);
+            $data = $this->workshopService->workshopEnroll($workshop_id);
             return Response::success($data['message']);
         } catch (\Throwable $exception){
             return Response::error($exception->getMessage(), $exception->getCode());

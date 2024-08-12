@@ -30,8 +30,9 @@ class CommentService
             'content' => $request['content'],
             'rating' => $request['rating']
         ]);
-        $course = $comment->course;
-        $course['average_rating'] = ($course['average_rating'] + $comment['rating']) / 2.0;
+        $course = Course::find($request->course_id);
+        $comments = $course->comments;
+        $course['average_rating'] = $comments->sum('rating') / count($comments);
         $course->save();
         return ['message' => 'Comment added successfully', 'comment' => $comment];
     }
@@ -58,11 +59,11 @@ class CommentService
             $comment->save();
         }
         if (isset($request['rating'])) {
-            $course = $comment->course;
-            if(count($course->comments) == 1) $course['average_rating'] = 0;
-            else $course['average_rating'] -= $comment['rating'] / (count($course->comments) - 1); // not correct yet but we need this logic right here .
-            $course['average_rating'] = ($course['average_rating'] + $request['rating']) / 2.0;
             $comment->rating = $request['rating'];
+            $course = $comment->course;
+            $comments = $course->comments;
+            $course['average_rating'] = $comments->sum('rating') / count($comments);
+            $course->save();
             $comment->save();
         }
         return ['message' => 'Comment updated successfully', 'comment' => $comment];

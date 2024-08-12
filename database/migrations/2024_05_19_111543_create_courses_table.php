@@ -15,10 +15,10 @@ return new class extends Migration {
             $table->foreignId('creator_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('title');
-            $table->string('image'); // it seems a little shorter :)
+            $table->string('image')->default('storage/uploads/1723489257_BrainLern.jpgZ');
             $table->longText('description');
-            $table->Decimal('cost'); // Just deleted the is_free attribute. If it is free, The cost is 0, and it can be handled by the frontDevs.
             $table->double('average_rating')->default(0.0); // from 1 star to 5.
+            $table->Decimal('cost'); // Just deleted the is_free attribute. If it is free, The cost is 0, and it can be handled by the frontDevs.
             $table->boolean('is_reviewed')->default(false);
             $table->timestamps();
         });

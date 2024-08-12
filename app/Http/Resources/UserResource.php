@@ -2,12 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CommentResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,10 +16,6 @@ class CommentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => $this->user->first_name . $this->creator->last_name,
-            'content' => $this->content,
-            'rating' => $this->rating,
-            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
         ];
     }
 }

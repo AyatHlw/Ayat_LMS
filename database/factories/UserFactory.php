@@ -21,7 +21,8 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'first_name' => fake()->name(),
+            'last_name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'google_id' => fake()->numberBetween(1, 10),
             'email_verified_at' => now(),

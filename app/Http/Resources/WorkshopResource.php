@@ -17,7 +17,7 @@ class WorkshopResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title ?? 'No title',
-            'teacher' => $this->teacher->name,
+            'teacher' => $this->teacher->first_name . $this->teacher->last_name,
             'category' => $this->category->name,
             'description' => $this->description ?? 'No description',
             'rating' => $this->average_rating,

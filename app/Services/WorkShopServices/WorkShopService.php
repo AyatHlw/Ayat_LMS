@@ -2,6 +2,7 @@
 
 namespace App\Services\WorkShopServices;
 
+use App\Models\User;
 use App\Models\Workshop;
 use App\Models\Workshop_enroll;
 use App\Services\NotificationService;
@@ -74,9 +75,9 @@ class WorkShopService
         return ['message' => 'Workshop deleted successfully.'];
     }
 
-    public function enroll_in_workshop($workshop_id)
+    public function workshopEnroll($workshop_id)
     {
-        if (!Auth::user()->isPremium) throw new \Exception('You don\'t have a premium account to enroll, please subscribe to unlock the workshops features.', 422);
+        if (!auth()->user()->isPremium()) throw new \Exception('You don\'t have a premium account to enroll, please subscribe to unlock the workshops features.', 422);
         Workshop_enroll::create([
             'user_id' => Auth::id(),
             'workshop_id' => $workshop_id

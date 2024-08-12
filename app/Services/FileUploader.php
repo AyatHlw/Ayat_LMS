@@ -13,10 +13,10 @@ class FileUploader
                 $file = $request->file($type);
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $data = $file->storeAs('uploads', $filename, 'public'); // storing file in storage/app/public/uploads
-                return $data;
+                return 'storage/' . $data;
             }
         } catch (Exception $e) {
-            dd($e);
+            return '';
         }
         return '';
     }

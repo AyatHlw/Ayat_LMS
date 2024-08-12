@@ -45,7 +45,9 @@ class UserService
     public function updateProfile($request)
     {
         $user = Auth::user();
-        if (isset($request['name'])) $user['name'] = $request['name'];
+        if (isset($request['first_name'])) $user['first_name'] = $request['first_name'];
+        if (isset($request['last_name'])) $user['last_name'] = $request['last_name'];
+        $user->save();
 
         if (isset($request['password'])) {
             $request->validate([
@@ -60,7 +62,7 @@ class UserService
 
         if (isset($request['image'])) {
             $request->validate(['image' => 'image|mimes:jpeg,png,jpg,gif|max:5120']);
-            $user['image'] = (new FileUploader())->storeFile($request, 'image');
+            $user['image'] = $this->fileUploader->storeFile($request, 'image');
         }
         $user->save();
         return ['message' => 'Profile updated successfully.', 'profile' => $user];
@@ -71,7 +73,8 @@ class UserService
         $request->validated();
         $image = $this->fileUploader->storeFile($request, 'image');
         $user = User::query()->create([
-            'name' => $request['name'],
+            'first_name' => $request['first_name'],
+            'last_name' => $request['last_name'],
             'email' => $request['email'],
             'image' => $image,
             'google_id' => User::query()->count(),
@@ -86,7 +89,8 @@ class UserService
         $CV = $this->fileUploader->storeFile($request, 'CV');
         $image = $this->fileUploader->storeFile($request, 'image');
         $user = PendingUsers::query()->create([
-            'name' => $request['name'],
+            'first_name' => $request['firstname'],
+            'last_name' => $request['last_name'],
             'email' => $request['email'],
             'role' => $request['role'],
             'CV' => $CV,
@@ -134,10 +138,11 @@ class UserService
         }
         $user = [];
         if ($approval) {
-            Mail::to($data['email'])->send(new SendApprovalMail($data['name']));
+            Mail::to($data['email'])->send(new SendApprovalMail($data['first_name'] . $data['last_name']));
             $role = $data['role'];
             $user = User::query()->create([
-                'name' => $data['name'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
                 'email' => $data['email'],
                 'image' => $data['image'],
                 'google_id' => User::query()->count(),
@@ -148,7 +153,7 @@ class UserService
             $this->userCreation($role, $user);
             return ['message' => 'User approved in the platform'];
         } else {
-            Mail::to($data['email'])->send(new SendRejectionMail($data['name']));
+            Mail::to($data['email'])->send(new SendRejectionMail($data['first_name'] . $data['last_name']));
             $data->delete();
             $message = 'User has been declined and deleted.';
             $code = 200;
@@ -194,7 +199,8 @@ class UserService
             return ['message' => 'Signed in successfully', 'user' => $finduser];
         } else {
             $newUser = User::create([
-                'name' => $user->name,
+                'first_name' => $user->first_name ?? "Name",
+                'last_name' => $user->last_name ?? " ",
                 'email' => $user->email,
                 'google_id' => $user->id,
                 'email_verified_at' => now(),
@@ -229,7 +235,7 @@ class UserService
         $user = User::find($user_id);
         if ($user->hasRole('admin') || $user->hasRole('superAdmin'))
             throw new \Exception('it is prohibited to delete admins', 422);
-        Mail::to($user['email'])->send(new DeleteUserMail($user->name));
+        Mail::to($user['email'])->send(new DeleteUserMail($user['first_name'] . $user['last_name']));
         $user->delete();
         return ['message' => 'User has been deleted successfully'];
     }

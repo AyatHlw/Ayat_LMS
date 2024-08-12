@@ -58,4 +58,20 @@ class CategoryController extends Controller
             return Response::error($exception->getMessage(), 500);
         }
     }
+    public function update(Request $request, $category_id){
+        try {
+            $data = $this->courseService->updateCategory($request, $category_id);
+            return Response::success($data['message'], $data['category']);
+        } catch (Throwable $e){
+            return Response::error($e->getMessage(), $e->getCode());
+        }
+    }
+    public function destroy($category_id){
+        try {
+            $data = $this->courseService->destroyCategory($category_id);
+            return Response::success($data['message']);
+        } catch (Throwable $e){
+            return Response::error($e->getMessage(), $e->getCode());
+        }
+    }
 }

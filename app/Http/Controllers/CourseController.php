@@ -267,4 +267,14 @@ class CourseController extends Controller
             return Response::error($e->getMessage());
         }
     }
+
+    public function courseEnroll($course_id)
+    {
+        try {
+            $res = $this->courseService->courseEnroll($course_id);
+            return Response::success($res['message']);
+        }catch (Throwable $exception){
+            return Response::error($exception->getMessage(), $exception->getCode());
+        }
+    }
 }

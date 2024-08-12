@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->bigInteger('student_mark');
-            $table->boolean('is_passed');
+            $table->integer('student_mark')->default(0);
+            $table->boolean('is_passed')->default(0);
             $table->timestamps();
         });
     }
