@@ -5,7 +5,9 @@ namespace App\Services\WorkShopServices;
 use App\Models\User;
 use App\Models\Workshop;
 use App\Models\Workshop_enroll;
+use App\Services\FileUploader;
 use App\Services\NotificationService;
+use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use League\CommonMark\Extension\Attributes\Util\AttributesHelper;
@@ -13,9 +15,11 @@ use League\CommonMark\Extension\Attributes\Util\AttributesHelper;
 class WorkShopService
 {
     private NotificationService $noticer;
-    public function __construct(NotificationService $noticer)
+    private FileUploader $fileUploader;
+    public function __construct(NotificationService $noticer, FileUploader $fileUploader)
     {
         $this->noticer = $noticer;
+        $this->fileUploader = $fileUploader;
     }
     public function index()
     {
@@ -34,6 +38,7 @@ class WorkShopService
             'teacher_id' => Auth::id(),
             'category_id' => $request->category_id,
             'description' => $request->description,
+            'image' => $this->fileUploader->storeFile($request, 'image'),
             'start_date' => $request->start_date,
             'end_date' => $request->end_date
         ]);

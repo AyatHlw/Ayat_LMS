@@ -72,9 +72,7 @@ class UserService
         $request->validated();
         $image = $this->fileUploader->storeFile($request, 'image');
         $user = User::query()->create([
-            'name' => $request['name'],
-//            'first_name' => $request['first_name'],
-//            'last_name' => $request['last_name'],
+            'name' => $request->name,
             'email' => $request['email'],
             'image' => $image,
             'google_id' => User::query()->count(),
@@ -89,8 +87,7 @@ class UserService
         $CV = $this->fileUploader->storeFile($request, 'CV');
         $image = $this->fileUploader->storeFile($request, 'image');
         $user = PendingUsers::query()->create([
-            'first_name' => $request['firstname'],
-            'last_name' => $request['last_name'],
+            'name' => $request['name'],
             'email' => $request['email'],
             'role' => $request['role'],
             'CV' => $CV,

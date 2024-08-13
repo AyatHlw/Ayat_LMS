@@ -52,16 +52,25 @@ class AuthController extends Controller
         }
     }
 
-    public function users()
+    public function getStudents()
     {
         try {
-            $users = User::query()->where('id', '>', 4)->get();
-            if (!$users) throw new \Exception('No users yet', 200);
-            return Response::success('users : ', $users);
+            $data = $this->userService->users('students');
+            return Response::success($data['message'], $data['users']);
+        } catch (Throwable $e) {
+            return Response::error($e->getMessage());
+        }
+    }
+
+    public function getTeachers(){
+        try {
+            $data = $this->userService->users('teachers');
+            return Response::success($data['message'], $data['users']);
         } catch (Throwable $e) {
             return Response::error($e->getMessage(), $e->getCode());
         }
     }
+
 
     public function signUp(SignUpRequest $signUpRequest): JsonResponse
     {

@@ -57,6 +57,15 @@ class CourseController extends Controller
         }
     }
 
+    public function getTeacherCourses($teacher_id){
+        try {
+            $data = $this->courseService->getTeacherCourses($teacher_id);
+            return Response::success($data['message'], CourseResource::collection($data['courses']));
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -271,16 +280,6 @@ class CourseController extends Controller
             return response()->json($result, 200);
         } catch (\Exception $e) {
             return Response::error($e->getMessage());
-        }
-    }
-
-    public function courseEnroll($course_id)
-    {
-        try {
-            $res = $this->courseService->courseEnroll($course_id);
-            return Response::success($res['message']);
-        }catch (Throwable $exception){
-            return Response::error($exception->getMessage(), $exception->getCode());
         }
     }
 }

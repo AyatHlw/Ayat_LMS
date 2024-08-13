@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseWithStudentController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\PremiumController;
@@ -33,7 +34,9 @@ Route::group(['middleware' => ['role:superAdmin']], function () {
         Route::post('premium/extendUser', 'extendUser')->name('premium.extend');
         Route::delete('premium/removeUser/{user_id}', 'removeUser')->name('premium.remove');
     });
-    Route::get('user/all', [AuthController::class, 'users'])->name('user.all');
+    Route::get('user/teacher', [AuthController::class, 'getTeachers'])->name('user.teachers');
+    Route::get('user/student', [AuthController::class, 'getStudents'])->name('user.students');
+
     Route::delete('user/{id}/delete', [AuthController::class, 'deleteUser'])->name('user.delete');
 });
 
@@ -111,6 +114,14 @@ Route::group(['middleware' => ['role:student']], function () {
         Route::get('/quizzes/showQuizForStudents/{id}', [CourseController::class, 'showQuizForStudents']);
         Route::post('workshop/enroll/{workshop_id}', [WorkshopController::class, 'enroll_in_workshop'])->name('workshop.enroll');
         Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
+
+        Route::post('course/favorite', [CourseWithStudentController::class, 'addToFavorites']);
+        Route::get('course/favorites', [CourseWithStudentController::class, 'favoritesList']);;
+        Route::delete('course/unFavorite/{course_id}', [CourseWithStudentController::class, 'removeFromFavorites']);;
+
+        Route::post('video/watchLater', [CourseWithStudentController::class, 'addToWatchLater']);
+        Route::get('video/watchLaterList', [CourseWithStudentController::class, 'watchLaterList']);;
+        Route::delete('video/watchLater/remove/{video_id}', [CourseWithStudentController::class, 'removeFromWatchLater']);;
     });
 });
 
@@ -126,10 +137,18 @@ Route::controller(AuthController::class)->group(function () {
         Route::post('profile/update', 'updateProfile');
         Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
     });
-});
 
-Route::get('followers/{teacher_id}', [FollowingController::class, 'followers']);
-Route::get('following/{student_id}', [FollowingController::class, 'following']);
+    Route::get('users/teacher', 'getTeachers')->name('user.teachers');
+    Route::get('users/student', 'getStudents')->name('user.students');
+
+});
+Route::controller(FollowingController::class)->group(function (){
+    Route::get('followers/{teacher_id}', 'followers');
+    Route::get('followers/count/{teacher_id}','followersNum');
+
+    Route::get('following/{student_id}', 'following');
+    Route::get('following/count/{student_id}', 'followingNum');
+});
 
 Route::get('comments/{course_id}', [CommentController::class, 'showComments']);
 
@@ -149,6 +168,7 @@ Route::controller(CourseController::class)->group(function () {
         Route::get('list', 'list');
         Route::get('showCourseDetails/{course_id}', 'showCourseDetails');
         Route::get('getTopCourses', 'getTopCourses');
+        Route::get('teacher/{teacher_id}', 'getTeacherCourses');
     });
 });
 
@@ -178,7 +198,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('savePreferences', [\App\Http\Controllers\RecommendationController::class, 'savePreferences']);
     Route::get('getUserRecommendedCourses', [\App\Http\Controllers\RecommendationController::class, 'getUserRecommendedCourses']);
 });
-Route::get('user/all', [AuthController::class, 'users'])->name('user.all');
 
 Route::post('rooms', [VideoCallController::class, 'createRoom']);
 Route::get('rooms/{roomSid}', [VideoCallController::class, 'getRoom']);
