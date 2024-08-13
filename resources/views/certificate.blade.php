@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,11 +22,11 @@
             padding: 40px;
             background-color: #ffffff;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            margin: 20px;
+            margin: auto; /* محاذاة الحاوية أفقياً */
             box-sizing: border-box;
             border-radius: 12px;
             overflow: hidden;
+            text-align: center; /* محاذاة النصوص داخل الحاوية */
         }
         .certificate-header {
             text-align: center;
@@ -72,30 +72,19 @@
             justify-content: space-between;
             margin-top: 40px;
         }
-        .certificate-footer .signature {
-            width: 45%;
-            text-align: center;
-            color: #003366;
-        }
-        .certificate-footer .signature img {
-            width: 130px;
-            height: auto;
-            margin-bottom: 10px;
-        }
-        .certificate-footer .signature p {
-            font-size: 1em;
-            margin: 0;
-        }
+        .certificate-footer .signature,
         .certificate-footer .seal {
             width: 45%;
             text-align: center;
             color: #003366;
         }
+        .certificate-footer .signature img,
         .certificate-footer .seal img {
             width: 120px;
             height: auto;
             margin-bottom: 10px;
         }
+        .certificate-footer .signature p,
         .certificate-footer .seal p {
             font-size: 1em;
             margin: 0;
@@ -105,7 +94,7 @@
 <body>
 <div class="certificate-container">
     <div class="certificate-header">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
+        {{-- <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo"> --}}
         <h1>Certificate of Completion</h1>
     </div>
     <div class="certificate-body">
@@ -117,8 +106,8 @@
     </div>
     <div class="certificate-footer">
         <div class="signature">
-            {{--<img src="{{ asset('public/uploads/signature.png') }}" alt="Signature">--}}
-            <p>{{\App\Models\User::find($course->creator_id)->name}}</p>
+            {{-- <img src="{{ asset('public/uploads/signature.png') }}" alt="Signature"> --}}
+            <p>{{ \App\Models\User::find($course->creator_id)->name }}</p>
         </div>
         <!-- seal -->
     </div>

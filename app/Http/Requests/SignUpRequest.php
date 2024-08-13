@@ -22,7 +22,7 @@ class SignUpRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:4',
+            'name' => 'required|string|min:3',
             'email' => 'required|string|email|unique:users',
             'role' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
