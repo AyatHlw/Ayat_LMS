@@ -6,6 +6,7 @@ use App\Mail\CertificateMail;
 use App\Mail\CourseRejectedMail;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\User;
 use App\Models\Video;
 use App\Services\FileUploader;
 use App\Services\NotificationService;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
 
 class CourseService
 {
@@ -144,9 +146,19 @@ class CourseService
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function getTeacherCourses($teacher_id){
+        try {
+            $teacher = User::find($teacher_id);
+            if(!$teacher) throw new \Exception('Teacher not found!', 404);
+            $data = $teacher->courses;
+            if (is_null($data))
+                throw new \Exception('No courses for this teacher.');
+            return ['message' => $teacher->first_name . ' courses : ', 'courses' => $data];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
     public function showCourseDetails($course_id)
     {
         try {
@@ -226,7 +238,7 @@ class CourseService
             $category['image'] = $this->fileUploader->storeFile($request, 'image');
         }
         $category->save();
-        return ['message' => 'Category updated successfully'];
+        return ['message' => 'Category updated successfully', 'category' => $category];
     }
 
     public function destroyCategory($category_id)
@@ -275,6 +287,50 @@ class CourseService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function addToFavorites($request)
+    {
+        $request->validate(['course_id' => 'required|exists:courses,id']);
+        if (!auth()->user()->hasFavorite($request['course_id'])) {
+            auth()->user()->favoritesList()->attach($request['course_id']);
+            return ['message' => 'Course added to favorites.'];
+        }
+        throw new \Exception('Course has already been In favorites', 200);
+    }
+
+    public function favorites()
+    {
+        $courses = auth()->user()->favoritesList()->latest()->get();
+        return ['message' => 'Favorite courses : ', 'courses' => $courses];
+    }
+
+    public function removeFromFavorites($course_id)
+    {
+        auth()->user()->favoritesList()->detach($course_id);
+        return ['message' => 'Course removed from favorites'];
+    }
+
+    public function addToWatchLater($request)
+    {
+        $request->validate(['video_id' => 'required|exists:videos,id']);
+        if (!auth()->user()->hasInWatchLater($request['video_id'])) {
+            auth()->user()->watchLaterList()->attach($request['video_id']);
+            return ['message' => 'Video added to watch later.'];
+        }
+        throw new \Exception('Video has already been in watch later', 200);
+    }
+
+    public function watchLaterList()
+    {
+        $videos = auth()->user()->watchLaterList()->latest()->get();
+        return ['message' => 'Watch later videos : ', 'videos' => $videos];
+    }
+
+    public function removeFromWatchLater($video_id)
+    {
+        auth()->user()->watchLaterList()->detach($video_id);
+        return ['message' => 'Video removed from watch later'];
     }
 
     public function courseEnroll($request, $course_id){

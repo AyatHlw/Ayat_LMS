@@ -40,11 +40,31 @@ class FollowingController extends Controller
         }
     }
 
+    public function followersNum($following_id)
+    {
+        try {
+            $data = $this->followingService->followers($following_id);
+            return Response::success('followers : ', count($data['followers']));
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
+        }
+    }
+
     public function following($follower_id)
     {
         try {
             $data = $this->followingService->following($follower_id);
             return Response::success($data['message'], $data['following']);
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
+        }
+    }
+
+    public function followingNum($follower_id)
+    {
+        try {
+            $data = $this->followingService->following($follower_id);
+            return Response::success('following : ', count($data['following']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }

@@ -22,10 +22,10 @@ class CourseResource extends JsonResource
             'category' => $this->category->name,
             'title' => $this->title ?? 'No title',
             'description' => $this->description ?? 'No description',
-            'creator' => $this->creator->first_name . $this->creator->name,
+            'creator' => $this->creator->first_name . $this->creator->last_name,
             'cost' => $this->cost ?? 0,
             'image' => $this->image ?? 'No image',
-            // 'rating' => count($this->comments->rating) > 0 ? array_sum($this->comments->rating) / count($this->comments->rating) : 0,
+            'rating' => $this->average_rating,
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : 'No date'
         ];
     }

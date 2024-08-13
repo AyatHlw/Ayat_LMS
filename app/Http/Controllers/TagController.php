@@ -8,7 +8,7 @@ use App\Models\CourseTag;
 use App\Models\Tag;
 use App\Services\Course\CourseService;
 use App\Services\TagService;
-use http\Env\Response;
+use App\Http\Responses\Response;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 
@@ -71,7 +71,7 @@ class TagController extends Controller
         try {
             $tag = $this->tagService->updateTag($tagId,$request);
             return response()->json(['message' => 'Tag updated successfully', 'tag' => $tag], 200);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                'message' => $e->getMessage()
             ],500);
@@ -82,7 +82,7 @@ class TagController extends Controller
     {
         try {
             $tags = $this->tagService->getCourseTags($course_id);
-            return TagResource::collection($tags);
+            return Response::success('tags : ', TagResource::collection($tags));
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
@@ -93,7 +93,7 @@ class TagController extends Controller
     {
         try {
             $tags = $this->tagService->getTagsByCategory($category_id);
-            return TagResource::collection($tags);
+            return Response::success('tags : ', TagResource::collection($tags));
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }

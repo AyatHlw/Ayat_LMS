@@ -13,6 +13,7 @@ class Workshop extends Model
         'description',
         'teacher_id',
         'category_id',
+        'image',
         'start_date',
         'end_date',
     ];

@@ -25,6 +25,7 @@ class UserService
 {
     private FileUploader $fileUploader;
     private NotificationService $noticer;
+
     public function __construct(FileUploader $fileUploader, NotificationService $noticer)
     {
         $this->fileUploader = $fileUploader;
@@ -42,6 +43,14 @@ class UserService
         return ['message' => 'Profile : ', 'user' => $user, 'code' => 200];
     }
 
+    public function users($type)
+    {
+        if ($type == 'teachers') $users = User::role('teacher')->get();
+        else if ($type == 'students') $users = User::role('student')->get();
+        else throw new \Exception('invalid role type');
+        if (!$users) throw new \Exception('No ' . $type . ' yet', 200);
+        return ['message' => $type . ' : ', 'users' => $users];
+    }
     public function updateProfile($request)
     {
         $user = Auth::user();
@@ -72,9 +81,7 @@ class UserService
         $request->validated();
         $image = $this->fileUploader->storeFile($request, 'image');
         $user = User::query()->create([
-            'name' => $request['name'],
-//            'first_name' => $request['first_name'],
-//            'last_name' => $request['last_name'],
+            'name' => $request->name,
             'email' => $request['email'],
             'image' => $image,
             'google_id' => User::query()->count(),
@@ -89,8 +96,7 @@ class UserService
         $CV = $this->fileUploader->storeFile($request, 'CV');
         $image = $this->fileUploader->storeFile($request, 'image');
         $user = PendingUsers::query()->create([
-            'first_name' => $request['firstname'],
-            'last_name' => $request['last_name'],
+            'name' => $request['name'],
             'email' => $request['email'],
             'role' => $request['role'],
             'CV' => $CV,
