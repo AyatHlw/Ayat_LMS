@@ -238,7 +238,7 @@ class CourseService
             $category['image'] = $this->fileUploader->storeFile($request, 'image');
         }
         $category->save();
-        return ['message' => 'Category updated successfully'];
+        return ['message' => 'Category updated successfully', 'category' => $category];
     }
 
     public function destroyCategory($category_id)
