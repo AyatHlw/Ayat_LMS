@@ -18,6 +18,7 @@ use App\Services\QuizService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
@@ -206,13 +207,18 @@ class CourseController extends Controller
     public function checkAnswers(Request $request)
     {
         $validated = $request->validate([
-            'student_id' => 'required|exists:users,id',
             'quiz_id' => 'required|exists:quizzes,id',
             'answers' => 'required|array',
             'answers.*' => 'required|exists:answers,id',
         ]);
 
-        $student = User::find($request->input('student_id'));
+        $student = User::find(Auth::id());
+
+        if (!$student) {
+            return response()->json([
+                'message' => 'Student not found.'
+            ], 404);
+        }
 
         if ($student->hasPassedQuiz($request->input('quiz_id'))) {
             return response()->json([

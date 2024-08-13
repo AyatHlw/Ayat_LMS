@@ -9,6 +9,7 @@ use App\Models\QuizResult;
 use App\Models\StudentAnswer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class QuizService
@@ -82,7 +83,6 @@ class QuizService
         DB::beginTransaction();
 
         try {
-            $studentId = $request->input('student_id');
             $quizId = $request->input('quiz_id');
             $answers = $request->input('answers'); // array of question_id => answer_id
 
@@ -96,7 +96,7 @@ class QuizService
                 }
 
                 StudentAnswer::create([
-                    'student_id' => $studentId,
+                    'student_id' => Auth::id(),
                     'quiz_id' => $quizId,
                     'question_id' => $questionId,
                     'answer_id' => $answerId,
@@ -106,7 +106,7 @@ class QuizService
             $passed = $correctAnswersCount >= ($totalQuestions / 2);
 
             QuizResult::create([
-                'student_id' => $studentId,
+                'student_id' => Auth::id(),
                 'quiz_id' => $quizId,
                 'passed' => $passed
             ]);

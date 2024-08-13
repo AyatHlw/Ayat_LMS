@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-<h1>Twilio Video Call</h1>
+<h1>Video Call</h1>
 <div>
     <div id="local-video"></div>
     <div id="remote-video"></div>

@@ -151,7 +151,7 @@ class CourseService
     {
         try {
             $data = Course::firstWhere('id', $course_id);
-            if (isEmpty($data))
+            if (is_null($data))
                 throw new \Exception('this course not found');
             return $data;
         } catch (\Exception $e) {

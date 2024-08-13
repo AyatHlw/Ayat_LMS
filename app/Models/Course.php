@@ -24,7 +24,7 @@ class Course extends Model
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
-    
+
     public function comments()
     {
         return $this->hasMany(CourseComment::class);
