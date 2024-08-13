@@ -51,7 +51,6 @@ class UserService
         if (!$users) throw new \Exception('No ' . $type . ' yet', 200);
         return ['message' => $type . ' : ', 'users' => $users];
     }
-
     public function updateProfile($request)
     {
         $user = Auth::user();
