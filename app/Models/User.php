@@ -76,14 +76,38 @@ class User extends Authenticatable
         return $this->hasOne(PremiumUsers::class, 'user_id')->exists();
     }
 
-    public function following() {
+    public function following()
+    {
         return $this->belongsToMany(User::class, 'followers', 'follower_id', 'following_id');
     }
 
-    public function followers() {
+    public function followers()
+    {
         return $this->belongsToMany(User::class, 'followers', 'following_id', 'follower_id');
     }
-    public function workshops(){
+
+    public function workshops()
+    {
         return $this->hasMany(Workshop::class, 'teacher_id');
+    }
+
+    public function favoritesList()
+    {
+        return $this->belongsToMany(Course::class, 'favorites')->withTimestamps();
+    }
+
+    public function hasFavorite($course_id)
+    {
+        return self::favoritesList()->where('course_id', $course_id)->exists();
+    }
+
+    public function watchLaterList()
+    {
+        return $this->belongsToMany(Video::class, 'watch_later_lists')->withTimestamps();
+    }
+
+    public function hasInWatchLater($video_id)
+    {
+        return self::watchLaterList()->where('video_id', $video_id)->exists();
     }
 }

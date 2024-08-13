@@ -18,6 +18,7 @@ use App\Services\QuizService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
@@ -53,6 +54,15 @@ class CourseController extends Controller
             return Response::success($data['message'], CourseResource::collection($data['courses']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
+        }
+    }
+
+    public function getTeacherCourses($teacher_id){
+        try {
+            $data = $this->courseService->getTeacherCourses($teacher_id);
+            return Response::success($data['message'], CourseResource::collection($data['courses']));
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -265,16 +275,6 @@ class CourseController extends Controller
             return response()->json($result, 200);
         } catch (\Exception $e) {
             return Response::error($e->getMessage());
-        }
-    }
-
-    public function courseEnroll($course_id)
-    {
-        try {
-            $res = $this->courseService->courseEnroll($course_id);
-            return Response::success($res['message']);
-        }catch (Throwable $exception){
-            return Response::error($exception->getMessage(), $exception->getCode());
         }
     }
 }

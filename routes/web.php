@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\FollowingController;
 use Illuminate\Support\Facades\Route;
 use Twilio\Jwt\AccessToken;
 use Twilio\Jwt\Grants\VideoGrant;
@@ -29,9 +31,12 @@ Route::get('approve', [\App\Http\Controllers\AuthController::class, 'approveForP
 Route::get('show/{course_id}', [\App\Http\Controllers\CourseController::class, 'show']);
 Route::get('list', [\App\Http\Controllers\CourseController::class, 'list']);
 Route::get('comments/{course_id}', [\App\Http\Controllers\CommentController::class, 'showComments']);
-Route::get('users', [AuthController::class, 'users']);
 Route::get('course/get', [\App\Http\Controllers\ReportController::class, 'courseReports']);
 Route::get('user/{id}', [\App\Http\Controllers\AuthController::class, 'profile']);
+
+Route::get('users/teacher', [AuthController::class, 'getTeachers'])->name('user.teachers');
+Route::get('users/student', [AuthController::class, 'getStudents'])->name('user.students');
+
 Route::get('/video-call', function () {
     return view('video-call');
 });
@@ -52,3 +57,11 @@ Route::get('/api/token', function () {
     return response()->json(['token' => $token->toJWT()]);
 });
 
+Route::controller(CourseController::class)->group(function () {
+    Route::prefix('course')->group(function () { // comment/route..
+        Route::get('list', 'list');
+        Route::get('showCourseDetails/{course_id}', 'showCourseDetails');
+        Route::get('getTopCourses', 'getTopCourses');
+        Route::get('teacher/{teacher_id}', 'getTeacherCourses');
+    });
+});

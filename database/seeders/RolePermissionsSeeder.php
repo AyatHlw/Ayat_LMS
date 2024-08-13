@@ -80,8 +80,7 @@ class RolePermissionsSeeder extends Seeder
 
         //super Admin
         $superAdmin = User::factory()->create([
-            'first_name' => 'Super_Admin',
-        'last_name' => 'St',
+            'name' => 'Super_Admin',
             'email' => 'superAdmin@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -92,8 +91,7 @@ class RolePermissionsSeeder extends Seeder
 
         //admin1
         $admin1 = User::factory()->create([
-            'first_name' => 'Admin1',
-            'last_name' => 'St',
+            'name' => 'Admin1',
             'email' => 'admin1@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -103,8 +101,7 @@ class RolePermissionsSeeder extends Seeder
 
         //admin2
         $admin2 = User::factory()->create([
-            'first_name' => 'Admin2',
-            'last_name' => 'St',
+            'name' => 'Admin2',
             'email' => 'admin2@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -114,8 +111,7 @@ class RolePermissionsSeeder extends Seeder
 
         //admin amr
         $admin3 = User::factory()->create([
-            'first_name' => 'Admin3',
-            'last_name' => 'St',
+            'name' => 'Admin3',
             'email' => 'aaamr.2012@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -125,15 +121,14 @@ class RolePermissionsSeeder extends Seeder
 
         //teacher ayat
         $teacher1 = User::factory()->create([
-            'first_name' => 'ayat',
+            'name' => 'ayat',
             'email' => 'ayat.hlw123@gmail.com',
             'password' => Hash::make('123456789')
         ]);
 
         //teacher1
         $teacher1 = User::factory()->create([
-            'first_name' => 'teacher1',
-            'last_name' => 'St',
+            'name' => 'teacher1',
             'email' => 'teacher1@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -143,8 +138,7 @@ class RolePermissionsSeeder extends Seeder
 
         //teacher2
         $teacher2 = User::factory()->create([
-            'first_name' => 'teacher2',
-            'last_name' => 'St',
+            'name' => 'teacher2',
             'email' => 'teacher2@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -154,8 +148,7 @@ class RolePermissionsSeeder extends Seeder
 
         //teacher3
         $teacher3 = User::factory()->create([
-            'first_name' => 'teacher3',
-            'last_name' => 'St',
+            'name' => 'teacher3',
             'email' => 'teacher3@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -165,8 +158,7 @@ class RolePermissionsSeeder extends Seeder
 
         //teacher4
         $teacher4 = User::factory()->create([
-            'first_name' => 'teacher4',
-            'last_name' => 'St',
+            'name' => 'teacher4',
             'email' => 'teacher4@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -176,8 +168,7 @@ class RolePermissionsSeeder extends Seeder
 
         //teacher5
         $teacher5 = User::factory()->create([
-            'first_name' => 'teacher5',
-            'last_name' => 'St',
+            'name' => 'teacher5',
             'email' => 'teacher5@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -188,8 +179,7 @@ class RolePermissionsSeeder extends Seeder
 
         //student1
         $student1 = User::factory()->create([
-            'first_name' => 'student1',
-            'last_name' => 'St',
+            'name' => 'student1',
             'email' => 'student1@gmail.com',
             'password' => Hash::make('123456789')
         ]);
@@ -199,8 +189,7 @@ class RolePermissionsSeeder extends Seeder
 
         //student2
         $student2 = User::factory()->create([
-            'first_name' => 'student2',
-            'last_name' => 'St',
+            'name' => 'student2',
             'email' => 'student2@gmail.com',
             'password' => Hash::make('123456789')
         ]);

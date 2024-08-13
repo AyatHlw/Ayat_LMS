@@ -47,7 +47,7 @@ class TagService
             ]);
 
             return $tag;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
@@ -72,7 +72,7 @@ class TagService
             DB::commit();
 
             return ['message' => 'tag deleted successfully'];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
@@ -93,7 +93,7 @@ class TagService
             }
             return $tag;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }

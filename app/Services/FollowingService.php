@@ -25,13 +25,17 @@ class FollowingService
 
     public function followers($following_id)
     {
-        $followers = User::find($following_id)->followers;
+        $user = User::find($following_id);
+        if($user) throw new \Exception('User not found!', 404);
+        $followers = $user->followers;
         return ['message' => 'followers : ', 'followers' => $followers];
     }
 
     public function following($follower_id)
     {
-        $following = User::find($follower_id)->following;
+        $user = User::find($follower_id);
+        if($user) throw new \Exception('User not found!', 404);
+        $following = $user->following;
         return ['message' => 'following : ', 'following' => $following];
     }
 
