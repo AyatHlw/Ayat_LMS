@@ -34,7 +34,7 @@ class CommentService
         $comments = $course->comments;
         $course['average_rating'] = $comments->sum('rating') / count($comments);
         $course->save();
-        return ['message' => $course['average_rating'], 'comment' => $comment];
+        return ['message' => 'Comment added successfully', 'comment' => $comment];
     }
 
     /**
