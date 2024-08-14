@@ -6,6 +6,7 @@ use App\Http\Requests\ApproveRequest;
 use App\Http\Requests\SignInRequest;
 use App\Http\Requests\SignUpInstructorRequest;
 use App\Http\Requests\SignUpRequest;
+use App\Http\Resources\TeacherResource;
 use App\Http\Resources\UserResource;
 use App\Http\Responses\Response;
 use App\Mail\deleteUserMail;
@@ -65,7 +66,8 @@ class AuthController extends Controller
     public function getTeachers(){
         try {
             $data = $this->userService->users('teachers');
-            return Response::success($data['message'], $data['users']);
+
+            return Response::success($data['message'], TeacherResource::collection($data['users']));
         } catch (Throwable $e) {
             return Response::error($e->getMessage(), $e->getCode());
         }

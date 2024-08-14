@@ -8,6 +8,7 @@ use App\Http\Requests\CreateCourseYoutubeRequest;
 use App\Http\Requests\CreateQuizRequest;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\QuizResource;
+use App\Http\Resources\TeacherResource;
 use App\Http\Responses\Response;
 use App\Mail\CourseRejectedMail;
 use App\Models\Course;
@@ -58,14 +59,22 @@ class CourseController extends Controller
         }
     }
 
-    public function getTeacherCourses($teacher_id){
+    public function getTeacherCourses($teacher_id)
+    {
         try {
             $data = $this->courseService->getTeacherCourses($teacher_id);
-            return Response::success($data['message'], CourseResource::collection($data['courses']));
+
+            return response()->json([
+                'message' => $data['message'],
+                'teacher' => new TeacherResource($data['teacher']),
+                'courses' => CourseResource::collection($data['courses'])
+            ], 200);
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 404);
         }
     }
+
+
 
     /**
      * Store a newly created resource in storage.

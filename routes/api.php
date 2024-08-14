@@ -75,7 +75,7 @@ Route::group(['middleware' => ['role:teacher']], function () {
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::controller(CourseController::class)->group(function () {
             Route::post('course/createCourse', 'createCourse')->name('course.add');
-            Route::post('course/createCourseWithYouTubeLinks', 'createCourseWithYouTubeLinks')->name('course.add');
+            Route::post('createCourseWithYouTubeLinks', 'createCourseWithYouTubeLinks')->name('course.add');
             Route::delete('course/destroy/{course_id}', 'destroy');
             Route::post('course/update/{course_id}', 'update');
             Route::post('/quizzes/createQuiz', 'createQuiz');

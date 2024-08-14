@@ -146,19 +146,33 @@ class CourseService
         }
     }
 
-    public function getTeacherCourses($teacher_id){
+    public function getTeacherCourses($teacher_id)
+    {
         try {
-            $teacher = User::find($teacher_id);
-            if(!$teacher) throw new \Exception('Teacher not found!', 404);
-            $data = $teacher->courses;
-            if (is_null($data))
-                throw new \Exception('No courses for this teacher.');
-            return ['message' => $teacher->first_name . ' courses : ', 'courses' => $data];
+            $teacher = User::with('courses')->find($teacher_id);
+
+            if (!$teacher) {
+                throw new \Exception('Teacher not found!', 404);
+            }
+
+            $courses = $teacher->courses;
+
+            if ($courses->isEmpty()) {
+                throw new \Exception('No courses found for this teacher.');
+            }
+
+            return [
+                'message' => $teacher->name . ' courses:',
+                'teacher' => $teacher,
+                'courses' => $courses
+            ];
+
         } catch (\Exception $e) {
-            DB::rollBack();
             throw $e;
         }
     }
+
+
     public function showCourseDetails($course_id)
     {
         try {
