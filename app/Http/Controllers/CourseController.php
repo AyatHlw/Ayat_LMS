@@ -66,7 +66,6 @@ class CourseController extends Controller
 
             return response()->json([
                 'message' => $data['message'],
-                'teacher' => new TeacherResource($data['teacher']),
                 'courses' => CourseResource::collection($data['courses'])
             ], 200);
         } catch (\Throwable $exception) {
