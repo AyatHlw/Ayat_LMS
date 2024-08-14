@@ -96,7 +96,7 @@ return [
     'no_students'                       => 'لا يوجد طلاب بعد.',
     'teachers_list'                     => 'المعلمين :',
     'students_list'                     => 'الطلاب : ',
-    'users_searched'                        => 'المستخدمين الذين تم البحث عنهم : ',
+    'users_searched'                    => 'المستخدمين الذين تم البحث عنهم : ',
 
     'old_password_mismatch'             => 'كلمة المرور القديمة لا تتطابق مع كلمة المرور الحالية.',
     'profile_updated_successfully'      => 'تم تحديث الملف الشخصي بنجاح.',
