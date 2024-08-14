@@ -62,8 +62,8 @@ return [
 
     'followers_retrieved'               => 'Followers : ',
     'following_retrieved'               => 'Following : ',
-    'followers_count'                   => 'Followers: :count',
-    'following_count'                   => 'Following: :count',
+    'followers_count'                   => 'Number of followers',
+    'following_count'                   => 'Number of Following',
 
     'save_preferences_success'          => 'Nice! Enjoy a truly exceptional experience.',
     'save_preferences_error'            => 'Please select at least one category.',

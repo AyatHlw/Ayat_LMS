@@ -44,7 +44,7 @@ class FollowingController extends Controller
     {
         try {
             $data = $this->followingService->followers($following_id);
-            return Response::success(__('messages.followers_count', ['count' => count($data['followers'])]));
+            return \response()->json([__('messages.followers_count') => count($data['followers'])]);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
@@ -64,7 +64,7 @@ class FollowingController extends Controller
     {
         try {
             $data = $this->followingService->following($follower_id);
-            return Response::success(__('messages.following_count', ['count' => count($data['following'])]));
+            return \response()->json([__('messages.following_count') => count($data['following'])]);
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }

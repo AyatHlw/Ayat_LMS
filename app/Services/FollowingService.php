@@ -26,7 +26,7 @@ class FollowingService
     public function followers($following_id)
     {
         $user = User::find($following_id);
-        if($user) throw new \Exception(__('messages.user_not_found'), 404);
+        if(!$user) throw new \Exception(__('messages.user_not_found'), 404);
         $followers = $user->followers;
         return ['message' => __('messages.followers_retrieved'), 'followers' => $followers];
     }
@@ -34,7 +34,7 @@ class FollowingService
     public function following($follower_id)
     {
         $user = User::find($follower_id);
-        if($user) throw new \Exception(__('messages.user_not_found'), 404);
+        if(!$user) throw new \Exception(__('messages.user_not_found'), 404);
         $following = $user->following;
         return ['message' => __('messages.following_retrieved'), 'following' => $following];
     }

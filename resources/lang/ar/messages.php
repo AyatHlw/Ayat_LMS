@@ -60,8 +60,8 @@ return [
 
     'followers_retrieved'               => 'المتابعين : ',
     'following_retrieved'               => 'الذين تتم متابعتم : ',
-    'followers_count'                   => 'المتابعين: :count',
-    'following_count'                   => 'المتابعة: :count',
+    'followers_count'                   => 'عدد المتابعين : ',
+    'following_count'                   => 'عدد الذين يتم متابعتهم : ',
 
     'save_preferences_success'          => 'رائع! استمتع بتجربة استثنائية حقًا.',
     'save_preferences_error'            => 'يرجى اختيار فئة واحدة على الأقل.',

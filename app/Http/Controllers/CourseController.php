@@ -43,7 +43,7 @@ class CourseController extends Controller
     {
         try {
             $courses = Course::query()->where('is_reviewed', 1)->get();
-            return Response::success('All courses : ', CourseResource::collection($courses));
+            return Response::success(__('messages.courses_retrieved'), CourseResource::collection($courses));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }
@@ -69,7 +69,7 @@ class CourseController extends Controller
                 'courses' => CourseResource::collection($data['courses'])
             ], 200);
         } catch (\Throwable $exception) {
-            return response()->json(['error' => $exception->getMessage()], 404);
+            return Response::error($exception->getMessage(), 404);
         }
     }
 
