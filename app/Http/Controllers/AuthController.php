@@ -67,7 +67,7 @@ class AuthController extends Controller
         try {
             $data = $this->userService->users('teachers');
 
-            return Response::success($data['message'], TeacherResource::collection($data['users']));
+            return Response::success($data['message'], $data['users']);
         } catch (Throwable $e) {
             return Response::error($e->getMessage(), $e->getCode());
         }
