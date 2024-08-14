@@ -104,7 +104,7 @@ class UserService
     public function signupInstructor($request): array
     {
         $request->validated();
-        $CV = $this->fileUploader->storeFile($request, 'file');
+        $CV = $this->fileUploader->storeFile($request, 'CV');
         $image = $this->fileUploader->storeFile($request, 'image');
         $user = PendingUsers::query()->create([
             'name' => $request['name'],

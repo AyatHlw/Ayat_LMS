@@ -35,8 +35,9 @@ class WorkShopService
     /**
      * Store a newly created resource in storage.
      */
-    public function createWorkshop(Request $request)
+    public function createWorkshop($request)
     {
+
         $workshop = Workshop::create([
             'title' => $request->title,
             'teacher_id' => Auth::id(),
