@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\CommentReport;
 use App\Models\CourseReport;
 use Illuminate\Support\Facades\Auth;
+use function PHPUnit\Framework\isNull;
 
 class ReportService
 {
@@ -30,12 +31,12 @@ class ReportService
 
     public function courseReportDetails($report_id){
         $report = CourseReport::find($report_id);
-        return ['report details : ', 'report' => $report];
+        return ['message' => 'report details : ', 'report' => $report];
     }
 
     public function commentReportDetails($report_id){
         $report = CommentReport::find($report_id);
-        return ['report details : ', 'report' => $report];
+        return ['message' => 'report details : ', 'report' => $report];
     }
 
     // for students
@@ -75,11 +76,23 @@ class ReportService
 
     // for Admins
     public function destroyCourseReport($report_id){
-        CourseReport::find($report_id)->delete();
+
+        $course = CourseReport::find($report_id);
+        if(is_null($course))
+        {
+            return ['message' => 'no report with this id'];
+        }
+        $course->delete();
         return ['message' => 'Report deleted.'];
     }
+
     public function destroyCommentReport($report_id){
-        CommentReport::find($report_id)->delete();
-        return ['message' => 'Report deleted.'];
+        $comment = CommentReport::find($report_id);
+        if(is_null($comment))
+        {
+            return ['message' => 'no report with this id'];
+        }
+        $comment->delete();
+        return ['message' => 'comment deleted.'];
     }
 }
