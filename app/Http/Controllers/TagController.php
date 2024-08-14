@@ -87,6 +87,7 @@ class TagController extends Controller
         }
     }
 
+
     public function getTagsByCategory($category_id)
     {
         try {
@@ -96,4 +97,5 @@ class TagController extends Controller
             return Response::error($e->getMessage());
         }
     }
+
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\CourseWithStudentController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\FollowingController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResetPasswordController;
@@ -17,8 +18,8 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\VideoCallController;
 use App\Http\Controllers\WorkshopController;
-use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\SetLocale;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Routes accessible by superAdmin only
-
 Route::group(['middleware' => ['role:superAdmin']], function () {
     Route::controller(PremiumController::class)->group(function () {
         Route::post('premium/addUser', 'addUser')->name('premium.add');
@@ -75,7 +75,7 @@ Route::group(['middleware' => ['role:teacher']], function () {
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::controller(CourseController::class)->group(function () {
             Route::post('course/createCourse', 'createCourse')->name('course.add');
-            Route::post('course/createCourseWithYouTubeLinks', 'createCourseWithYouTubeLinks')->name('course.add');
+            Route::post('createCourseWithYouTubeLinks', 'createCourseWithYouTubeLinks')->name('course.add');
             Route::delete('course/destroy/{course_id}', 'destroy');
             Route::post('course/update/{course_id}', 'update');
             Route::post('/quizzes/createQuiz', 'createQuiz');
@@ -90,7 +90,6 @@ Route::group(['middleware' => ['role:teacher']], function () {
             Route::post('workshop/update', 'update')->name('workshop.update');
             Route::delete('workshop/delete', 'destroy')->name('workshop.delete');
         });
-
         Route::post('workshop/group/create', [ChatController::class, 'createGroup']);
         Route::post('workshop/group/message', [ChatController::class, 'storeMessage']);
         Route::get('workshop/group/{group_id}/messages', [ChatController::class, 'groupMessages']);
@@ -218,3 +217,25 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::post('rooms', [VideoCallController::class, 'createRoom']);
 Route::get('rooms/{roomSid}', [VideoCallController::class, 'getRoom']);
 Route::post('rooms/end-room/{roomSid}', [VideoCallController::class, 'endRoom']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/create-checkout-session/{course_id}', [PaymentController::class, 'createCheckoutSession']);
+    Route::get('/payment-success/{course_id}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+});
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['enrolled']], function () {
+        Route::get('/course/showAllVideos/{course_id}', [CourseController::class, 'showAllVideos']);
+        Route::get('/course/showOneVideo/{course_id}/{video_id}', [CourseController::class, 'showOneVideo']);
+    });
+});
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/premium/checkout', [PremiumController::class, 'createCheckoutSession']);
+    Route::get('/premium/success', [PremiumController::class, 'paymentSuccess'])->name('premium.success');
+    Route::get('/premium/cancel', function () {
+        return response()->json(['message' => 'Payment canceled.'], 400);
+    })->name('premium.cancel');
+    Route::get('/premium/status', [PremiumController::class, 'checkPremiumStatus']);
+});

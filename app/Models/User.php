@@ -110,4 +110,11 @@ class User extends Authenticatable
     {
         return self::watchLaterList()->where('video_id', $video_id)->exists();
     }
+
+    public function enrolledCourses()
+    {
+        return $this->belongsToMany(Course::class, 'course_enrolls')
+            ->withPivot('student_mark', 'is_passed')
+            ->withTimestamps();
+    }
 }

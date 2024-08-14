@@ -4,13 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\Response;
 use App\Models\PremiumUsers;
+use App\Models\User;
+use App\Services\PremiumService;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\isNan;
 use function PHPUnit\Framework\isNull;
 
 class PremiumController extends Controller
 {
+    protected $premiumService;
+
+    public function __construct(PremiumService $premiumService)
+    {
+        $this->premiumService = $premiumService;
+    }
+
     public function addUser(Request $request)
     {
         try {
@@ -60,4 +70,36 @@ class PremiumController extends Controller
             return Response::error($exception->getMessage());
         }
     }
+
+    public function createCheckoutSession(Request $request)
+    {
+        $user = Auth::user();
+
+        $session = $this->premiumService->createCheckoutSession($user);
+
+        return response()->json(['id' => $session->id]);
+    }
+
+    public function paymentSuccess(Request $request)
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+        $this->premiumService->handlePaymentSuccess($user);
+
+        return response()->json(['message' => 'Payment successful, you are now a premium user.']);
+    }
+
+    public function checkPremiumStatus()
+    {
+        $user = Auth::user();
+        $isPremium = $this->premiumService->checkPremiumStatus($user);
+
+        return response()->json(['is_premium' => $isPremium]);
+    }
+
+
 }

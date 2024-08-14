@@ -146,21 +146,25 @@ class CourseService
         }
     }
 
-    public function getTeacherCourses($teacher_id)
-    {
+    public function getTeacherCourses($teacher_id){
         try {
-            $teacher = User::find($teacher_id);
-            if (!$teacher) throw new \Exception(__('messages.user_not_found'), 404);
-            $data = $teacher->courses;
-            if (is_null($data))
-                throw new \Exception('No courses for this teacher.');
-            return ['message' => __('messages.course_retrieved'), 'courses' => $data];
+            $teacher = User::with('courses')->find($teacher_id);
+
+            if (!$teacher) {
+                throw new \Exception('Teacher not found!', 404);
+            }
+
+            $courses = $teacher->courses;
+
+            if ($courses->isEmpty()) {
+                throw new \Exception('No courses found for this teacher.');
+            }
+            return ['message' => __('messages.course_retrieved'), 'courses' => $courses];
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
     }
-
     public function showCourseDetails($course_id)
     {
         try {
@@ -335,8 +339,7 @@ class CourseService
         return ['message' => __('messages.video_removed_from_watch_later')];
     }
 
-    public function courseEnroll($request, $course_id)
-    {
+    public function courseEnroll($request, $course_id){
         $request->validate([
             'courses' => 'required|array',
             'courses.*.course_id' => 'required|exists:courses,id'

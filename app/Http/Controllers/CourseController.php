@@ -8,11 +8,13 @@ use App\Http\Requests\CreateCourseYoutubeRequest;
 use App\Http\Requests\CreateQuizRequest;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\QuizResource;
+use App\Http\Resources\TeacherResource;
 use App\Http\Responses\Response;
 use App\Mail\CourseRejectedMail;
 use App\Models\Course;
 use App\Models\Quiz;
 use App\Models\User;
+use App\Models\Video;
 use App\Services\Course\CourseService;
 use App\Services\QuizService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -57,14 +59,22 @@ class CourseController extends Controller
         }
     }
 
-    public function getTeacherCourses($teacher_id){
+    public function getTeacherCourses($teacher_id)
+    {
         try {
             $data = $this->courseService->getTeacherCourses($teacher_id);
-            return Response::success($data['message'], CourseResource::collection($data['courses']));
+
+            return response()->json([
+                'message' => $data['message'],
+                'teacher' => new TeacherResource($data['teacher']),
+                'courses' => CourseResource::collection($data['courses'])
+            ], 200);
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage());
+            return response()->json(['error' => $exception->getMessage()], 404);
         }
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -222,11 +232,13 @@ class CourseController extends Controller
         ]);
 
         $student = User::find(Auth::id());
+
         if (!$student) {
             return response()->json([
                 'message' => __('messages.user_not_found')
             ], 404);
         }
+
         if ($student->hasPassedQuiz($request->input('quiz_id'))) {
             return response()->json([
                 'message' => __('messages.already_passed')
@@ -279,5 +291,32 @@ class CourseController extends Controller
         } catch (\Exception $e) {
             return Response::error($e->getMessage());
         }
+    }
+
+
+    public function showAllVideos($course_id)
+    {
+        $user = Auth::user();
+
+        if (!$user->enrolledCourses()->where('course_id', $course_id)->exists()) {
+            return response()->json(['message' => 'You are not enrolled in this course.'], 403);
+        }
+
+        $videos = Video::where('course_id', $course_id)->get();
+
+        return response()->json(['videos' => $videos]);
+    }
+
+    public function showOneVideo($course_id, $video_id)
+    {
+        $user = Auth::user();
+
+        if (!$user->enrolledCourses()->where('course_id', $course_id)->exists()) {
+            return response()->json(['message' => 'You are not enrolled in this course.'], 403);
+        }
+
+        $video = Video::where('course_id', $course_id)->where('id', $video_id)->firstOrFail();
+
+        return response()->json(['video' => $video]);
     }
 }
