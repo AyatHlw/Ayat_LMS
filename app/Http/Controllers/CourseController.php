@@ -13,6 +13,7 @@ use App\Mail\CourseRejectedMail;
 use App\Models\Course;
 use App\Models\Quiz;
 use App\Models\User;
+use App\Models\Video;
 use App\Services\Course\CourseService;
 use App\Services\QuizService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -281,5 +282,32 @@ class CourseController extends Controller
         } catch (\Exception $e) {
             return Response::error($e->getMessage());
         }
+    }
+
+
+    public function showAllVideos($course_id)
+    {
+        $user = Auth::user();
+
+        if (!$user->enrolledCourses()->where('course_id', $course_id)->exists()) {
+            return response()->json(['message' => 'You are not enrolled in this course.'], 403);
+        }
+
+        $videos = Video::where('course_id', $course_id)->get();
+
+        return response()->json(['videos' => $videos]);
+    }
+
+    public function showOneVideo($course_id, $video_id)
+    {
+        $user = Auth::user();
+
+        if (!$user->enrolledCourses()->where('course_id', $course_id)->exists()) {
+            return response()->json(['message' => 'You are not enrolled in this course.'], 403);
+        }
+
+        $video = Video::where('course_id', $course_id)->where('id', $video_id)->firstOrFail();
+
+        return response()->json(['video' => $video]);
     }
 }

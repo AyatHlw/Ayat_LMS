@@ -8,6 +8,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseWithStudentController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\FollowingController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResetPasswordController;
@@ -202,3 +203,25 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::post('rooms', [VideoCallController::class, 'createRoom']);
 Route::get('rooms/{roomSid}', [VideoCallController::class, 'getRoom']);
 Route::post('rooms/end-room/{roomSid}', [VideoCallController::class, 'endRoom']);
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/create-checkout-session/{course_id}', [PaymentController::class, 'createCheckoutSession']);
+    Route::get('/payment-success/{course_id}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+});
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['enrolled']], function () {
+        Route::get('/course/showAllVideos/{course_id}', [CourseController::class, 'showAllVideos']);
+        Route::get('/course/showOneVideo/{course_id}/{video_id}', [CourseController::class, 'showOneVideo']);
+    });
+});
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/premium/checkout', [PremiumController::class, 'createCheckoutSession']);
+    Route::get('/premium/success', [PremiumController::class, 'paymentSuccess'])->name('premium.success');
+    Route::get('/premium/cancel', function () {
+        return response()->json(['message' => 'Payment canceled.'], 400);
+    })->name('premium.cancel');
+    Route::get('/premium/status', [PremiumController::class, 'checkPremiumStatus']);
+});
