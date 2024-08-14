@@ -21,7 +21,7 @@ class SearchController extends Controller
             $query->where('category_id', request('category_id'));
         }
         $searchResult = $query->get();
-        return response()->json(['courses' => CourseResource::collection($searchResult)]);
+        return Response::success(__('messages.courses_retrieved') ,CourseResource::collection($searchResult));
     }
 
     public function searchUser()
@@ -33,6 +33,6 @@ class SearchController extends Controller
                 ->orWhere('email', 'like', '%' . request('search') . '%');
         }
         $searchResult = $query->get();
-        return response()->json(['users' => $searchResult]);
+        return Response::success(__('messages.users_searched'), $searchResult);
     }
 }

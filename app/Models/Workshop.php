@@ -20,4 +20,8 @@ class Workshop extends Model
     public function teacher(){
         return $this->belongsTo(User::class, 'teacher_id');
     }
+
+    public function group(){
+        return $this->hasOne(Group::class);
+    }
 }

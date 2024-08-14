@@ -21,13 +21,13 @@ class EmailVerificationService
         // check if it does not expired: the time is one hour
         if ($verification->created_at > now()->addHour()) {
             $verification->delete();
-            throw new Exception('This code is expired');
+            throw new Exception(__('messages.verification_code_expired'));
         }
         $user = User::query()->where('email', $verification['email'])->first();
         $user['email_verified_at'] = now();
         $user->save();
         VerificationCode::firstWhere('email', $verification['email'])->delete();
-        return ['message' => trans('Your email has been confirmed')];
+        return ['message' => __('messages.email_verified')];
     }
 
     public function resendVerificationCode($request)
@@ -37,7 +37,7 @@ class EmailVerificationService
         ]);
         $user = User::query()->where('email', $request['email'])->first();
         if (is_null($user)) {
-            throw new Exception('Email not found', 404);
+            throw new Exception(__('messages.email_not_found'), 404);
         }
         VerificationCode::query()->where('email', $user['email'])->delete();
         $verification_code = mt_rand(100000, 999999);
@@ -47,6 +47,6 @@ class EmailVerificationService
         ];
         VerificationCode::create($data);
         Mail::to($user['email'])->send(new VerificationCodeMail($verification_code));
-        return ['message' => 'Verification code has been resent successfully.'];
+        return ['message' => __('messages.verification_code_resent')];
     }
 }

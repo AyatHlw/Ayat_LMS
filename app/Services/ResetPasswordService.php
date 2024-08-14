@@ -12,11 +12,11 @@ use mysql_xdevapi\Exception;
 
 class ResetPasswordService
 {
-    public function forgotPassword($request): array
+    public function forgotPassword(Request $request)
     {
         $data = $request->validated();
 
-        // Delete all old code that user send before.
+        // Delete all old codes that the user has sent before.
         ResetCodePassword::where('email', $request['email'])->delete();
 
         // Generate random code
@@ -28,49 +28,56 @@ class ResetPasswordService
         // Send email to user
         Mail::to($request->email)->send(new SendCodeResetPassword($codeData->code));
 
-        return ['message' => trans('passwords.sent')];
+        return ['message' => __('messages.password_reset_email_sent')];
     }
 
-    public function checkCode($request)
+    public function checkCode(Request $request)
     {
         $request->validated();
 
-        // find the code
+        // Find the code
         $passwordReset = ResetCodePassword::firstWhere('code', $request->code);
 
-        // check if it does not expired: the time is one hour
-        if ($passwordReset->created_at > now()->addHour()) {
-            $passwordReset->delete();
-            throw new Exception('This code is expired');
+        // Check if it has expired: the time is one hour
+        if (!$passwordReset || $passwordReset->created_at < now()->subHour()) {
+            if ($passwordReset) {
+                $passwordReset->delete();
+            }
+            throw new Exception(__('messages.code_expired'));
         }
 
-        return ['message' => trans('passwords.code_is_valid')];
+        return ['message' => __('messages.code_valid')];
     }
 
-    public function resetPassword($request)
+    public function resetPassword(Request $request): array
     {
         $request->validated();
 
-        // find the code
+        // Find the code
         $passwordReset = ResetCodePassword::firstWhere('code', $request->code);
 
-        // check if it does not expired: the time is one hour
-        if ($passwordReset->created_at > now()->addHour()) {
-            $passwordReset->delete();
-            throw new \Exception('This code is expired!', 422);
-            // return response(['message' => trans('passwords.code_is_expire')], 422);
+        // Check if it has expired: the time is one hour
+        if (!$passwordReset || $passwordReset->created_at < now()->subHour()) {
+            if ($passwordReset) {
+                $passwordReset->delete();
+            }
+            throw new Exception(__('messages.code_expired'), 422);
         }
 
-        // find user's email
-        $user = User::query()->where('email', $passwordReset->email);
-        // update user password
-        $request['password'] = Hash::make($request['password']);
-        $user->update($request->only('password'));
+        // Find user's email and update user password
+        $user = User::where('email', $passwordReset->email)->first();
 
-        // delete current code
+        if (!$user) {
+            throw new Exception(__('messages.user_not_found'), 404);
+        }
+
+        // Update user password
+        $user->update(['password' => Hash::make($request['password'])]);
+
+        // Delete current code
         $passwordReset->delete();
 
-        return ['message' => 'password has been reset successfully'];
+        return ['message' => __('messages.password_reset_success')];
     }
 
 }

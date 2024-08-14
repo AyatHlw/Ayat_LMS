@@ -67,7 +67,7 @@ class AuthController extends Controller
             $data = $this->userService->users('teachers');
             return Response::success($data['message'], $data['users']);
         } catch (Throwable $e) {
-            return Response::error($e->getMessage(), $e->getCode());
+            return Response::error($e->getMessage());
         }
     }
 
@@ -137,7 +137,7 @@ class AuthController extends Controller
             $data = $this->userService->deleteUser($user_id);
             return Response::success($data['message']);
         } catch (Throwable $th) {
-            return Response::error($th->getMessage(), $th->getCode());
+            return Response::error($th->getMessage());
         }
     }
 
@@ -147,7 +147,7 @@ class AuthController extends Controller
             $data = $this->userService->deleteAccount();
             return Response::success($data['message']);
         } catch (Throwable $th) {
-            return Response::error($th->getMessage(), $th->getCode());
+            return Response::error($th->getMessage());
         }
     }
 

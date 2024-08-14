@@ -15,10 +15,12 @@ use function PHPUnit\Framework\isEmpty;
 class CommentService
 {
     private NotificationService $noticer;
+
     public function __construct(NotificationService $noticer)
     {
         $this->noticer = $noticer;
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -34,7 +36,7 @@ class CommentService
         $comments = $course->comments;
         $course['average_rating'] = $comments->sum('rating') / count($comments);
         $course->save();
-        return ['message' => 'Comment added successfully', 'comment' => $comment];
+        return ['message' => __('messages.comment_created'), 'comment' => $comment];
     }
 
     /**
@@ -43,9 +45,10 @@ class CommentService
     public function showComments($course_id)
     {
         $course = Course::find($course_id);
+        if (!$course) throw new \Exception(__('messages.course_not_found'));
         $comments = $course->comments;
-        if (count($comments) == 0) throw new \Exception('No comments yet');
-        return ['message' => 'Comments : ', 'comments' => $comments];
+        if ($comments->isEmpty()) throw new \Exception(__('messages.no_comments'));
+        return ['message' => __('messages.comment_retrieved'), 'comments' => $comments];
     }
 
     /**
@@ -54,10 +57,13 @@ class CommentService
     public function update(Request $request, $comment_id)
     {
         $comment = CourseComment::find($comment_id);
+        if (!$comment) throw new \Exception(__('messages.comment_not_found'));
+
         if (isset($request['content'])) {
             $comment->content = $request['content'];
             $comment->save();
         }
+
         if (isset($request['rating'])) {
             $comment->rating = $request['rating'];
             $course = $comment->course;
@@ -66,7 +72,7 @@ class CommentService
             $course->save();
             $comment->save();
         }
-        return ['message' => 'Comment updated successfully', 'comment' => $comment];
+        return ['message' => __('messages.comment_updated'), 'comment' => $comment];
     }
 
     /**
@@ -75,8 +81,7 @@ class CommentService
     public function destroy($comment_id)
     {
         $comment = CourseComment::find($comment_id);
-        if($comment->user_id != Auth::id()) Throw new \Exception('You can\'t delete this comment!');
-        CourseComment::find($comment_id)->delete();
-        return ['message' => 'Comment deleted successfully'];
+        if (!$comment) throw new \Exception(__('messages.comment_not_found'));
+        return ['message' => __('messages.comment_deleted')];
     }
 }

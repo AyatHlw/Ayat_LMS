@@ -68,7 +68,7 @@ class CourseService
             DB::commit();
 
             return [
-                'message' => 'Course created successfully',
+                'message' => __('messages.course_created'),
                 'course' => $course
             ];
         } catch (\Exception $e) {
@@ -114,7 +114,7 @@ class CourseService
             DB::commit();
 
             return [
-                'message' => 'Course created successfully with YouTube videos',
+                'message' => __('messages.course_created'),
                 'course' => $course
             ];
         } catch (\Exception $e) {
@@ -136,35 +136,37 @@ class CourseService
             $output = shell_exec($command);
 
             if (empty($output)) {
-                throw new \Exception('Empty response from yt-dlp');
+                throw new \Exception(__('messages.empty_response'));
             }
 
             return trim($output);
         } catch (\Exception $e) {
-            Log::error('Failed to fetch YouTube video title: ' . $e->getMessage());
+            Log::error(__('messages.video_failed_to_fetch') . $e->getMessage());
             return null;
         }
     }
 
-    public function getTeacherCourses($teacher_id){
+    public function getTeacherCourses($teacher_id)
+    {
         try {
             $teacher = User::find($teacher_id);
-            if(!$teacher) throw new \Exception('Teacher not found!', 404);
+            if (!$teacher) throw new \Exception(__('messages.user_not_found'), 404);
             $data = $teacher->courses;
             if (is_null($data))
                 throw new \Exception('No courses for this teacher.');
-            return ['message' => $teacher->first_name . ' courses : ', 'courses' => $data];
+            return ['message' => __('messages.course_retrieved'), 'courses' => $data];
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
     }
+
     public function showCourseDetails($course_id)
     {
         try {
             $data = Course::firstWhere('id', $course_id);
             if (is_null($data))
-                throw new \Exception('this course not found');
+                throw new \Exception(__('messages.course_not_found'));
             return $data;
         } catch (\Exception $e) {
             DB::rollBack();
@@ -188,7 +190,7 @@ class CourseService
             $course->save();
         }
         $course->save();
-        return ['message' => 'Course updated successfully.', 'course' => $course];
+        return ['message' => __('messages.course_updated'), 'course' => $course];
     }
 
     /**
@@ -197,13 +199,13 @@ class CourseService
     public function destroy($course_id)
     {
         Course::firstWhere('id', $course_id)->delete();
-        return ['message' => 'The course deleted successfully'];
+        return ['message' => __('messages.course_deleted')];
     }
 
     public function getTopCourses()
     {
         $topRatedCourses = Course::orderBy('average_rating', 'DESC')->take(min(count(Course::all()), 10))->get();
-        return ['message' => 'Top courses : ', 'courses' => $topRatedCourses];
+        return ['message' => __('messages.top_courses'), 'courses' => $topRatedCourses];
     }
 
     public function createCategory($request)
@@ -219,7 +221,7 @@ class CourseService
             DB::commit();
 
             return [
-                'message' => 'Category created successfully',
+                'message' => __('messages.category_created'),
                 'category' => $category
             ];
         } catch (\Exception $e) {
@@ -238,13 +240,13 @@ class CourseService
             $category['image'] = $this->fileUploader->storeFile($request, 'image');
         }
         $category->save();
-        return ['message' => 'Category updated successfully', 'category' => $category];
+        return ['message' => __('messages.category_updated'), 'category' => $category];
     }
 
     public function destroyCategory($category_id)
     {
         Category::find($category_id)->delete();
-        return ['message' => 'Category deleted successfully'];
+        return ['message' => __('messages.category_deleted')];
     }
 
     public function getAllCoursesForAdmin()
@@ -261,7 +263,7 @@ class CourseService
             return $course;
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
-            throw new \Exception('Course not found.');
+            throw new \Exception(__('messages.course_not_found'));
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
@@ -282,7 +284,7 @@ class CourseService
             return true;
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
-            throw new \Exception('Course not found.');
+            throw new \Exception(__('messages.course_not_found'));
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
@@ -294,21 +296,21 @@ class CourseService
         $request->validate(['course_id' => 'required|exists:courses,id']);
         if (!auth()->user()->hasFavorite($request['course_id'])) {
             auth()->user()->favoritesList()->attach($request['course_id']);
-            return ['message' => 'Course added to favorites.'];
+            return ['message' => __('messages.course_added_to_favorites')];
         }
-        throw new \Exception('Course has already been In favorites', 200);
+        throw new \Exception(__('messages.course_already_in_favorites'), 200);
     }
 
     public function favorites()
     {
         $courses = auth()->user()->favoritesList()->latest()->get();
-        return ['message' => 'Favorite courses : ', 'courses' => $courses];
+        return ['message' => __('messages.favorite_courses_retrieved'), 'courses' => $courses];
     }
 
     public function removeFromFavorites($course_id)
     {
         auth()->user()->favoritesList()->detach($course_id);
-        return ['message' => 'Course removed from favorites'];
+        return ['message' => __('messages.course_removed_from_favorites')];
     }
 
     public function addToWatchLater($request)
@@ -316,24 +318,25 @@ class CourseService
         $request->validate(['video_id' => 'required|exists:videos,id']);
         if (!auth()->user()->hasInWatchLater($request['video_id'])) {
             auth()->user()->watchLaterList()->attach($request['video_id']);
-            return ['message' => 'Video added to watch later.'];
+            return ['message' => __('messages.video_added_to_watch_later')];
         }
-        throw new \Exception('Video has already been in watch later', 200);
+        throw new \Exception(__('messages.video_already_in_watch_later'), 200);
     }
 
     public function watchLaterList()
     {
         $videos = auth()->user()->watchLaterList()->latest()->get();
-        return ['message' => 'Watch later videos : ', 'videos' => $videos];
+        return ['message' => __('messages.watch_later_videos_retrieved'), 'videos' => $videos];
     }
 
     public function removeFromWatchLater($video_id)
     {
         auth()->user()->watchLaterList()->detach($video_id);
-        return ['message' => 'Video removed from watch later'];
+        return ['message' => __('messages.video_removed_from_watch_later')];
     }
 
-    public function courseEnroll($request, $course_id){
+    public function courseEnroll($request, $course_id)
+    {
         $request->validate([
             'courses' => 'required|array',
             'courses.*.course_id' => 'required|exists:courses,id'

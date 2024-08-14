@@ -36,7 +36,7 @@ class CourseWithStudentController extends Controller
             $data = $this->courseService->favorites();
             return Response::success($data['message'], CourseResource::collection($data['courses']));
         } catch (Throwable $exception){
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -56,7 +56,7 @@ class CourseWithStudentController extends Controller
             $data = $this->courseService->addToWatchLater($request);
             return Response::success($data['message']);
         } catch (Throwable $exception){
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -66,7 +66,7 @@ class CourseWithStudentController extends Controller
             $data = $this->courseService->watchLaterList();
             return Response::success($data['message'], $data['videos']);
         } catch (Throwable $exception){
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -86,7 +86,7 @@ class CourseWithStudentController extends Controller
             $res = $this->courseService->courseEnroll($course_id);
             return Response::success($res['message']);
         }catch (Throwable $exception){
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 }

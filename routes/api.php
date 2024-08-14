@@ -3,11 +3,13 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseWithStudentController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\FollowingController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResetPasswordController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\VideoCallController;
 use App\Http\Controllers\WorkshopController;
+use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,15 +31,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Routes accessible by superAdmin only
+
 Route::group(['middleware' => ['role:superAdmin']], function () {
     Route::controller(PremiumController::class)->group(function () {
         Route::post('premium/addUser', 'addUser')->name('premium.add');
         Route::post('premium/extendUser', 'extendUser')->name('premium.extend');
         Route::delete('premium/removeUser/{user_id}', 'removeUser')->name('premium.remove');
     });
-    Route::get('user/teacher', [AuthController::class, 'getTeachers'])->name('user.teachers');
-    Route::get('user/student', [AuthController::class, 'getStudents'])->name('user.students');
-
     Route::delete('user/{id}/delete', [AuthController::class, 'deleteUser'])->name('user.delete');
 });
 
@@ -51,7 +52,7 @@ Route::group(['middleware' => ['role:admin']], function () {
         Route::post('/courses/{id}/approve', [CourseController::class, 'approveCourse']);
         Route::post('/courses/{id}/reject', [CourseController::class, 'rejectCourse']);
         Route::post('/tags/createTag', [TagController::class, 'createTag']);
-        Route::get('/tags/deleteTag/{tagId}', [TagController::class, 'deleteTag']);
+        Route::delete('/tags/deleteTag/{tagId}', [TagController::class, 'deleteTag']);
         Route::post('/tags/updateTag/{tagId}', [TagController::class, 'updateTag']);
 
         Route::get('user/all', [AuthController::class, 'users'])->name('user.all');
@@ -89,6 +90,11 @@ Route::group(['middleware' => ['role:teacher']], function () {
             Route::post('workshop/update', 'update')->name('workshop.update');
             Route::delete('workshop/delete', 'destroy')->name('workshop.delete');
         });
+
+        Route::post('workshop/group/create', [ChatController::class, 'createGroup']);
+        Route::post('workshop/group/message', [ChatController::class, 'storeMessage']);
+        Route::get('workshop/group/{group_id}/messages', [ChatController::class, 'groupMessages']);
+        // message delete tomorrow pi Ezn Allah
         Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
     });
 });
@@ -122,6 +128,11 @@ Route::group(['middleware' => ['role:student']], function () {
         Route::post('video/watchLater', [CourseWithStudentController::class, 'addToWatchLater']);
         Route::get('video/watchLaterList', [CourseWithStudentController::class, 'watchLaterList']);;
         Route::delete('video/watchLater/remove/{video_id}', [CourseWithStudentController::class, 'removeFromWatchLater']);;
+
+        Route::post('workshop/group/message', [ChatController::class, 'storeMessage']);
+        Route::get('workshop/group/messages', [ChatController::class, 'groupMessages']);
+
+
     });
 });
 
@@ -142,9 +153,9 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('users/student', 'getStudents')->name('user.students');
 
 });
-Route::controller(FollowingController::class)->group(function (){
+Route::controller(FollowingController::class)->group(function () {
     Route::get('followers/{teacher_id}', 'followers');
-    Route::get('followers/count/{teacher_id}','followersNum');
+    Route::get('followers/count/{teacher_id}', 'followersNum');
 
     Route::get('following/{student_id}', 'following');
     Route::get('following/count/{student_id}', 'followingNum');
@@ -197,6 +208,11 @@ Route::controller(WorkshopController::class)->group(function () {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('savePreferences', [\App\Http\Controllers\RecommendationController::class, 'savePreferences']);
     Route::get('getUserRecommendedCourses', [\App\Http\Controllers\RecommendationController::class, 'getUserRecommendedCourses']);
+
+    Route::get('Notification/markAsRead/all', [NotificationController::class, 'markAllAsRead']);
+    Route::get('Notification/markAsRead/{notificationId}', [NotificationController::class, 'markAsRead']);
+    Route::get('Notification/delete/{notificationId}', [NotificationController::class, 'destroy']);
+
 });
 
 Route::post('rooms', [VideoCallController::class, 'createRoom']);

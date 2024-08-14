@@ -22,7 +22,7 @@ class PremiumController extends Controller
                 'user_id' => $request->user_id,
                 'end_date' => $request->end_date
             ]);
-            return Response::success('user added.');
+            return Response::success(__('messages.user_added'));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
@@ -36,10 +36,12 @@ class PremiumController extends Controller
                 'end_date' => 'required|date'
             ]);
             $subscription = PremiumUsers::firstWhere('user_id', $request->user_id);
-            if(is_null($subscription)) return Response::error('This user does not have a subscription.');
+            if(is_null($subscription)) {
+                return Response::error(__('messages.no_subscription'));
+            }
             $subscription['end_date'] = $request->end_date;
             $subscription->save();
-            return Response::success('subscription extended.');
+            return Response::success(__('messages.subscription_extended'));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
@@ -48,8 +50,12 @@ class PremiumController extends Controller
     public function removeUser($user_id)
     {
         try {
-            PremiumUsers::firstWhere('user_id', $user_id)->delete();
-            return Response::success('user removed.');
+            $subscription = PremiumUsers::firstWhere('user_id', $user_id);
+            if (is_null($subscription)) {
+                return Response::error(__('messages.no_subscription'));
+            }
+            $subscription->delete();
+            return Response::success(__('messages.user_removed'));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
