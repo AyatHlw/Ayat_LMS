@@ -135,7 +135,7 @@ Route::group(['middleware' => ['role:student']], function () {
 // Common routes
 
 Route::controller(AuthController::class)->group(function () {
-    Route::get('user/{id}', 'profile');
+    Route::get('profile/{id}', 'profile');
     Route::post('signup', 'signUp')->name('user.sign_up');
     Route::post('signupInstructor', 'signUpInstructor')->name('instructor.sign_up');
     Route::post('signin', 'signIn')->name('user.sign_in');

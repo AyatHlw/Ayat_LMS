@@ -82,7 +82,6 @@ class AuthController extends Controller
         }
     }
 
-
     public function signUp(SignUpRequest $signUpRequest): JsonResponse
     {
         try {
