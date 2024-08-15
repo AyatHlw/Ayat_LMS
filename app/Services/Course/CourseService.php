@@ -151,7 +151,7 @@ class CourseService
             $teacher = User::with('courses')->find($teacher_id);
 
             if (!$teacher) {
-                throw new \Exception('Teacher not found!', 404);
+                throw new \Exception(__('messages.teacher_not_found'), 404);
             }
 
             $courses = $teacher->courses;

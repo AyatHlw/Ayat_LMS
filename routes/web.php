@@ -66,3 +66,4 @@ Route::controller(CourseController::class)->group(function () {
     });
 });
 Route::get('certificate/{course_id}', [CertificateController::class, 'getCertificate'])->name('certificate.get');
+Route::post('/register-token', [ \App\Http\Controllers\Controller::class, 'registerToken'])->name('register-token');

@@ -16,7 +16,7 @@ class ChatController extends Controller
         $this->chatService = $chatService;
     }
 
-    public function createGroup($request)
+    public function createGroup(Request $request)
     {
         try {
             $res = $this->chatService->createGroup($request);
@@ -26,7 +26,7 @@ class ChatController extends Controller
         }
     }
 
-    public function storeMessage($request)
+    public function storeMessage(Request $request)
     {
         try {
             $res = $this->chatService->storeMessage($request);

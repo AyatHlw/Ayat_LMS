@@ -40,7 +40,7 @@ class WorkshopController extends Controller
     {
         try {
             $data = $this->workshopService->createWorkshop($request);
-            return Response::success($data['message'], $data['workshop']);
+            return Response::success($data['message'], WorkshopResource::make($data['workshop']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
@@ -53,7 +53,7 @@ class WorkshopController extends Controller
     {
         try {
             $data = $this->workshopService->showWorkshopDetails($workshop_id);
-            return Response::success($data['message'], $data['workshop']);
+            return Response::success($data['message'], WorkshopResource::make($data['workshop']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }

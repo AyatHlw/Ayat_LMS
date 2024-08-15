@@ -82,6 +82,17 @@ class CommentService
     {
         $comment = CourseComment::find($comment_id);
         if (!$comment) throw new \Exception(__('messages.comment_not_found'));
+
+        // update rating
+        $course = $comment->course;
+        $comment->delete();
+        $comments = $course->comments;
+        if ($comments) {
+            $course['average_rating'] = $comments->sum('rating') / count($comments);
+        } else {
+            $course['average_rating'] = 0.0;
+        }
+        $course->save();
         return ['message' => __('messages.comment_deleted')];
     }
 }

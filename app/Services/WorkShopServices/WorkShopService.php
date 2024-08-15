@@ -44,8 +44,8 @@ class WorkShopService
             'category_id' => $request->category_id,
             'description' => $request->description,
             'image' => $this->fileUploader->storeFile($request, 'image'),
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
+            'start_date' => date($request->start_date),
+            'end_date' => date($request->end_date)
         ]);
 
         // notification for students

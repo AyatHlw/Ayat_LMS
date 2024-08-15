@@ -3,6 +3,7 @@ return [
     'message'                           => 'Welcome to our API!',
     'error'                             => 'An error occurred.',
     'user_not_found'                    => 'User not found.',
+    'teacher_not_found'                 => 'Teacher not found.',
     'course_not_found'                  => 'Course not found.',
     'category_not_found'                => 'Category not found.',
     'quiz_not_found'                    => 'Quiz not found.',

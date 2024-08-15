@@ -128,10 +128,6 @@ Route::group(['middleware' => ['role:student']], function () {
         Route::get('video/watchLaterList', [CourseWithStudentController::class, 'watchLaterList']);;
         Route::delete('video/watchLater/remove/{video_id}', [CourseWithStudentController::class, 'removeFromWatchLater']);;
 
-        Route::post('workshop/group/message', [ChatController::class, 'storeMessage']);
-        Route::get('workshop/group/messages', [ChatController::class, 'groupMessages']);
-
-
     });
 });
 
@@ -146,6 +142,10 @@ Route::controller(AuthController::class)->group(function () {
         Route::get('signout', 'signOut')->name('user.sign_out');
         Route::post('profile/update', 'updateProfile');
         Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
+
+        Route::post('workshop/group/message', [ChatController::class, 'storeMessage']);
+        Route::get('workshop/group/{group_id}/messages', [ChatController::class, 'groupMessages']);
+
     });
 
     Route::get('users/teacher', 'getTeachers')->name('user.teachers');

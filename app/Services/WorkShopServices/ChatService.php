@@ -15,7 +15,7 @@ class ChatService
             'workshop_id' => 'required|exists:workshops,id',
         ]);
 
-        $group = Group::find($request->workshop_id);
+        $group = Group::query()->firstWhere('workshop_id', $request->workshop_id);
         if ($group) throw new \Exception(__('messages.workshop_already_has_group'), 422);
 
         $group = Group::create([
@@ -29,11 +29,11 @@ class ChatService
     {
         $request->validate([
             'group_id' => 'required|exists:groups,id',
-            'message' => 'requred|string|min:1'
+            'message' => 'required|string|min:1'
         ]);
         $message = Message::create([
-            'group_id' => $request->group_id,
             'user_id' => Auth::id(),
+            'group_id' => $request['group_id'],
             'message' => $request->message
         ]);
         return ['message' => __('messages.message_sent'), 'data' => $message];
