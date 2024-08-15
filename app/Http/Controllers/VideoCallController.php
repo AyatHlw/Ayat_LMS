@@ -19,11 +19,11 @@ class VideoCallController extends Controller
     {
         $request->validate([
             'roomName' => 'required|string',
-            // 'workshop_id' => 'required|exists:workshops,id',
+            'workshop_id' => 'required|exists:workshops,id',
         ]);
 
         try {
-            $room = $this->twilioService->createRoom($request->roomName);
+            $room = $this->twilioService->createRoom($request->roomName, $request->workshop_id);
             return response()->json($room->toArray(), 200);
         } catch (\Exception $e) {
             // Log::error('Error creating room: ' . $e->getMessage());

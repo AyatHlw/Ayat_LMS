@@ -18,13 +18,14 @@ class TwilioService
         );
     }
 
-    public function createRoom($roomName)
+    public function createRoom($roomName, $workshop_id)
     {
         try {
-            Log::info(__('messages.attempting_to_create_room', ['roomName' => $roomName]));
+            Log::info(__('messages.attempting_to_create_room', ['roomName' => $roomName, 'workshop_id' => $workshop_id]));
             $room = $this->twilio->video->v1->rooms->create([
                 'uniqueName' => $roomName,
                 'type' => 'group',
+                'workshop_id' => $workshop_id
             ]);
             Log::info(__('messages.room_creation_response', ['response' => json_encode($room->toArray())]));
             return $room;
