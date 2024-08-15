@@ -95,8 +95,10 @@ return [
     'invalid_role_type'                 => 'نوع الدور غير صالح.',
     'no_teachers'                       => 'لا يوجد معلمين بعد.',
     'no_students'                       => 'لا يوجد طلاب بعد.',
+    'no_admins'                         => 'لا يوجد مشرفين.',
     'teachers_list'                     => 'المعلمين :',
     'students_list'                     => 'الطلاب : ',
+    'admins_list'                       => 'المشرفين : ',
     'users_searched'                    => 'المستخدمين الذين تم البحث عنهم : ',
 
     'old_password_mismatch'             => 'كلمة المرور القديمة لا تتطابق مع كلمة المرور الحالية.',

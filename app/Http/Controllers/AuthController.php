@@ -63,6 +63,16 @@ class AuthController extends Controller
         }
     }
 
+    public function getAdmins()
+    {
+        try {
+            $data = $this->userService->users('admins');
+            return Response::success($data['message'], $data['users']);
+        } catch (Throwable $e) {
+            return Response::error($e->getMessage());
+        }
+    }
+
     public function getTeachers(){
         try {
             $data = $this->userService->users('teachers');

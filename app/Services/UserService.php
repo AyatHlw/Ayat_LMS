@@ -49,15 +49,17 @@ class UserService
             $users = User::role('teacher')->get();
         } else if ($type == 'students') {
             $users = User::role('student')->get();
+        } else if ($type == 'admins') {
+            $users = User::role('admin')->get();
         } else {
             throw new \Exception(__('messages.invalid_role_type'));
         }
-
         if ($users->isEmpty()) {
-            throw new \Exception($type == 'teachers' ? __('messages.no_teachers') : __('messages.no_students'), 200);
+            if ($type == 'admins') throw new \Exception(__('messages.no_teachers'), 200);
+            else throw new \Exception($type == 'teachers' ? __('messages.no_teachers') : __('messages.no_students'), 200);
         }
-
-        return ['message' => $type == 'teachers' ? __('messages.teachers_list') : __('messages.students_list'), 'users' => $users];
+        $message = ($type == 'teachers' ? __('messages.teachers_list') : ($type == 'students' ? __('messages.students_list') : __('messages.admins')));
+        return ['message' => $message, 'users' => $users];
     }
 
     public function updateProfile($request)
@@ -143,7 +145,7 @@ class UserService
 
         $user = $this->appendRolesAndPermissions($user);
 
-        return ['user' => $user,  'message' => __('messages.registration_successful')];
+        return ['user' => $user, 'message' => __('messages.registration_successful')];
     }
 
     public function approveUser($request): array
@@ -258,7 +260,7 @@ class UserService
     public function deleteUser($user_id)
     {
         $user = User::find($user_id);
-        if ($user->hasRole('admin') || $user->hasRole('superAdmin'))
+        if (($user->hasRole('admin') && !Auth::user()->hasRole('superAdmin')) || $user->hasRole('superAdmin'))
             throw new \Exception(__('messages.prohibited_delete_admin'), 422);
         Mail::to($user['email'])->send(new DeleteUserMail($user['name']));
         $user->delete();

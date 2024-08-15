@@ -33,12 +33,15 @@ use App\Http\Middleware\SetLocale;
 */
 // Routes accessible by superAdmin only
 Route::group(['middleware' => ['role:superAdmin']], function () {
+    Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::controller(PremiumController::class)->group(function () {
         Route::post('premium/addUser', 'addUser')->name('premium.add');
         Route::post('premium/extendUser', 'extendUser')->name('premium.extend');
         Route::delete('premium/removeUser/{user_id}', 'removeUser')->name('premium.remove');
     });
-    Route::delete('user/{id}/delete', [AuthController::class, 'deleteUser'])->name('user.delete');
+    Route::get('users/admin', [AuthController::class, 'getAdmins']);
+    Route::delete('admin/{id}/delete', [AuthController::class, 'deleteUser']);
+    });
 });
 
 // Routes accessible by admin only
