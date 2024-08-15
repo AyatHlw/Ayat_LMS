@@ -40,12 +40,11 @@ Route::group(['middleware' => ['role:superAdmin']], function () {
         Route::delete('premium/removeUser/{user_id}', 'removeUser')->name('premium.remove');
     });
     Route::get('users/admin', [AuthController::class, 'getAdmins']);
-    Route::delete('admin/{id}/delete', [AuthController::class, 'deleteUser']);
     });
 });
 
 // Routes accessible by admin only
-Route::group(['middleware' => ['role:admin']], function () {
+Route::group(['middleware' => ['role:admin|superAdmin']], function () {
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('approve', [AuthController::class, 'approveForPendingUsers'])->name('user.approve');
         Route::post('category/create', [CategoryController::class, 'createCategory'])->name('category.create');
@@ -58,7 +57,6 @@ Route::group(['middleware' => ['role:admin']], function () {
         Route::delete('/tags/deleteTag/{tagId}', [TagController::class, 'deleteTag']);
         Route::post('/tags/updateTag/{tagId}', [TagController::class, 'updateTag']);
 
-        Route::get('user/all', [AuthController::class, 'users'])->name('user.all');
         Route::delete('user/{id}/delete', [AuthController::class, 'deleteUser'])->name('user.delete');
 
         Route::controller(ReportController::class)->prefix('report')->group(function () {

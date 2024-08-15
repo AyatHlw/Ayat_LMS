@@ -19,6 +19,7 @@ class VideoCallController extends Controller
     {
         $request->validate([
             'roomName' => 'required|string',
+            // 'workshop_id' => 'required|exists:workshops,id',
         ]);
 
         try {

@@ -55,10 +55,10 @@ class UserService
             throw new \Exception(__('messages.invalid_role_type'));
         }
         if ($users->isEmpty()) {
-            if ($type == 'admins') throw new \Exception(__('messages.no_teachers'), 200);
+            if ($type == 'admins') throw new \Exception(__('messages.no_admins'), 200);
             else throw new \Exception($type == 'teachers' ? __('messages.no_teachers') : __('messages.no_students'), 200);
         }
-        $message = ($type == 'teachers' ? __('messages.teachers_list') : ($type == 'students' ? __('messages.students_list') : __('messages.admins')));
+        $message = ($type == 'teachers' ? __('messages.teachers_list') : ($type == 'students' ? __('messages.students_list') : __('messages.admins_list')));
         return ['message' => $message, 'users' => $users];
     }
 
@@ -260,6 +260,7 @@ class UserService
     public function deleteUser($user_id)
     {
         $user = User::find($user_id);
+        if(!$user) throw new \Exception(__('messages.user_not_found'), 404);
         if (($user->hasRole('admin') && !Auth::user()->hasRole('superAdmin')) || $user->hasRole('superAdmin'))
             throw new \Exception(__('messages.prohibited_delete_admin'), 422);
         Mail::to($user['email'])->send(new DeleteUserMail($user['name']));
