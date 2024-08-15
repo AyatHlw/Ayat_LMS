@@ -17,20 +17,33 @@ class PaymentController extends Controller
         $this->stripeService = $stripeService;
     }
 
-    // إنشاء جلسة دفع
+
     public function createCheckoutSession($course_id)
     {
         $course = Course::findOrFail($course_id);
 
-        if ($course->cost == 0) {
-            return response()->json(['message' => 'Course is free, no payment required'], 400);
-        }
+        $checkoutSession = \Stripe\Checkout\Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => [
+                        'name' => $course->title,
+                    ],
+                    'unit_amount' => $course->cost * 100,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => url('/payment/success'),
+            'cancel_url' => url('/payment/cancel'),
+        ]);
 
-        $sessionId = $this->stripeService->createCheckoutSession($course, Auth::user());
-
-//        return response()->json(['id' => $sessionId], 200);
-        return Response::success('Checkout Session Created Successfully',['id' => $sessionId],200);
+        return response()->json([
+            'url' => $checkoutSession->url
+        ]);
     }
+
 
     public function paymentSuccess($course_id)
     {
