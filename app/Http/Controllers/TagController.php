@@ -11,6 +11,7 @@ use App\Services\TagService;
 use App\Http\Responses\Response;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
+use Twilio\Rest\Taskrouter\V1\Workspace\Task\ReservationOptions;
 
 class TagController extends Controller
 {
@@ -35,11 +36,12 @@ class TagController extends Controller
                 $request->input('categoryId'),
             );
 
-            return response()->json(['message' => 'Tag created successfully', 'tag' => $tag], 201);
+            return Response::success(__('messages.tag_created'), TagResource::make($tag));
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return Response::error($e->getMessage());
         }
     }
+
     public function addTagsToCourse(Request $request, $course_id)
     {
         $request->validate([
@@ -49,9 +51,9 @@ class TagController extends Controller
 
         try {
             $tags = $this->tagService->addTagsToCourse($course_id, $request->input('tag_ids'));
-            return TagResource::collection($tags);
+            return Response::success(__('messages.tags_retrieved'), TagResource::collection($tags));
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return Response::error($e->getMessage());
         }
     }
 
@@ -59,22 +61,19 @@ class TagController extends Controller
     {
         try {
             $result = $this->tagService->deleteTag($tagId);
-            return response()->json($result, 200);
+            return Response::success($result['message']);
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 500);
+            return Response::error($e->getMessage());
         }
     }
-    public function updateTag($tagId,Request $request)
+
+    public function updateTag($tagId, Request $request)
     {
         try {
-            $tag = $this->tagService->updateTag($tagId,$request);
-            return response()->json(['message' => 'Tag updated successfully', 'tag' => $tag], 200);
+            $tag = $this->tagService->updateTag($tagId, $request);
+            return Response::success(__('messages.tag_updated'), TagResource::make($tag));
         } catch (\Exception $e) {
-            return response()->json([
-               'message' => $e->getMessage()
-            ],500);
+            return Response::error($e->getMessage());
         }
     }
 
@@ -82,9 +81,9 @@ class TagController extends Controller
     {
         try {
             $tags = $this->tagService->getCourseTags($course_id);
-            return Response::success('tags : ', TagResource::collection($tags));
+            return Response::success(__('messages.tags_retrieved'), TagResource::collection($tags));
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return Response::error($e->getMessage());
         }
     }
 
@@ -93,9 +92,9 @@ class TagController extends Controller
     {
         try {
             $tags = $this->tagService->getTagsByCategory($category_id);
-            return Response::success('tags : ', TagResource::collection($tags));
+            return Response::success(__('messages.tags_retrieved'), TagResource::collection($tags));
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return Response::error($e->getMessage());
         }
     }
 

@@ -32,9 +32,6 @@ class EmailVerificationController extends Controller
     {
         try {
             $data = $this->evs->resendVerificationCode($request);
-            if (isset($data['error'])) {
-                return Response::error([], $data['error']);
-            }
             return Response::success($data['message']);
         } catch (Throwable $th) {
             $message = $th->getMessage();

@@ -41,7 +41,7 @@ class QuizService
             DB::commit();
 
             return [
-                'message' => 'Quiz created successfully',
+                'message' => __('messages.quiz_created'),
                 'quiz' => $quiz
             ];
         } catch (\Exception $e) {
@@ -56,7 +56,7 @@ class QuizService
             $quiz = Quiz::with(['questions.answers'])->findOrFail($quizId);
             return $quiz;
         } catch (ModelNotFoundException $e) {
-            throw new \Exception('Quiz not found.');
+            throw new \Exception(__('messages.quiz_not_found'));
         }
     }
 
@@ -67,7 +67,7 @@ class QuizService
             ->first();
 
         if (!$quiz) {
-            throw new \Exception('Quiz not found.');
+            throw new \Exception(__('messages.quiz_not_found'));
         }
         $quiz->questions->each(function ($question) {
             $question->answers->each(function ($answer) {
@@ -114,7 +114,7 @@ class QuizService
             DB::commit();
 
             return [
-                'message' => $passed ? 'Student passed the quiz' : 'Student failed the quiz',
+                'message' => $passed ? __('messages.quiz_passed') : __('messages.quiz_failed_to_pass') ,
                 'correct_answers' => $correctAnswersCount,
                 'total_questions' => $totalQuestions,
                 'passed' => $passed
@@ -169,14 +169,14 @@ class QuizService
         DB::beginTransaction();
 
         try {
-            $question = Question::findOrFail($questionId);
+            $question = Question::find($questionId);
 
             $question->answers()->delete(); //delete all answers for this question
             $question->delete();            //delete the question
 
             DB::commit();
 
-            return ['message' => 'Question and its answers deleted successfully'];
+            return ['message' => __('messages.question_deleted')];
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

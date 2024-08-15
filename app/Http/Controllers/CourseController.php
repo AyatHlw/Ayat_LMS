@@ -43,7 +43,7 @@ class CourseController extends Controller
     {
         try {
             $courses = Course::query()->where('is_reviewed', 1)->get();
-            return Response::success('All courses : ', CourseResource::collection($courses));
+            return Response::success(__('messages.courses_retrieved'), CourseResource::collection($courses));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }
@@ -66,11 +66,10 @@ class CourseController extends Controller
 
             return response()->json([
                 'message' => $data['message'],
-                'teacher' => new TeacherResource($data['teacher']),
                 'courses' => CourseResource::collection($data['courses'])
             ], 200);
         } catch (\Throwable $exception) {
-            return response()->json(['error' => $exception->getMessage()], 404);
+            return Response::error($exception->getMessage(), 404);
         }
     }
 
@@ -112,7 +111,7 @@ class CourseController extends Controller
     {
         try {
             $course = $this->courseService->showCourseDetails($course_id);
-            return Response::success('Course details : ', CourseResource::make($course));
+            return Response::success(__('messages.course_details'), CourseResource::make($course));
         } catch (Throwable $throwable) {
             return Response::error($throwable->getMessage(),404);
         }
@@ -149,7 +148,7 @@ class CourseController extends Controller
         try {
             $courses = $this->courseService->getAllCoursesForAdmin();
             return response()->json([
-                'message' => 'Courses retrieved successfully',
+                'message' => __('messages.courses_retrieved'),
                 'courses' => CourseResource::collection($courses)
             ], 200);
         } catch (\Exception $e) {
@@ -162,7 +161,7 @@ class CourseController extends Controller
         try {
             $course = $this->courseService->approveCourse($courseId);
             return response()->json([
-                'message' => 'Course approved successfully',
+                'message' => __('messages.course_approved'),
                 'course' => $course
             ], 200);
         } catch (\Exception $e) {
@@ -175,7 +174,7 @@ class CourseController extends Controller
         try {
             $this->courseService->rejectCourse($courseId);
             return response()->json([
-                'message' => 'Course rejected successfully'
+                'message' => __('messages.course_approved'),
             ], 200);
         } catch (\Exception $e) {
             return Response::error($e->getMessage());
@@ -200,7 +199,7 @@ class CourseController extends Controller
         try {
             $quiz = $this->quizService->showQuizForTeachers($quizId);
             return response()->json([
-                'message' => 'Quiz retrieved successfully',
+                'message' => __('messages.quiz_retrieved'),
                 'quiz' => new QuizResource($quiz)
             ], 200);
         } catch (\Exception $e) {
@@ -215,7 +214,7 @@ class CourseController extends Controller
         try {
             $quiz = $this->quizService->showQuizForStudents($quizId);
             return response()->json([
-                'message' => 'Here your quiz, good luck',
+                'message' => __('messages.quiz_retrieved_for_student'),
                 'quiz' => new QuizResource($quiz)
             ], 200);
         } catch (\Exception $e) {
@@ -235,13 +234,13 @@ class CourseController extends Controller
 
         if (!$student) {
             return response()->json([
-                'message' => 'Student not found.'
+                'message' => __('messages.user_not_found')
             ], 404);
         }
 
         if ($student->hasPassedQuiz($request->input('quiz_id'))) {
             return response()->json([
-                'message' => 'Student has already passed this quiz.'
+                'message' => __('messages.already_passed')
             ], 400);
         }
 
@@ -275,7 +274,7 @@ class CourseController extends Controller
         try {
             $quiz = $this->quizService->updateQuiz($quizId, $validated);
             return response()->json([
-                'message' => 'Quiz updated successfully',
+                'message' => __('messages.quiz_updated'),
                 'quiz' => $quiz
             ], 200);
         } catch (\Exception $e) {

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnUpdate()->cascadeOnDelete();
             $table->text('description')->nullable();
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
+            $table->text('image')->default('storage/uploads/1723489257_BrainLern.jpg' ?? '');
+            $table->timestamp('start_date')->default(now());
+            $table->timestamp('end_date')->default(now());
             $table->double('average_rating')->default(0.0);
             $table->timestamps();
         });

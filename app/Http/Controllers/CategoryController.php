@@ -29,7 +29,7 @@ class CategoryController extends Controller
     {
         try {
             $categories = Category::all();
-            return Response::success('All categories : ', CategoryResource::collection($categories));
+            return Response::success(__('messages.all_categories'), CategoryResource::collection($categories));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }
@@ -52,8 +52,10 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::with('courses')->find($category_id);
-            if (!$category || $category->courses->isEmpty()) throw new \Exception('No courses in this category yet.');
-            return Response::success('Courses : ', CourseResource::collection($category->courses));
+            if (!$category || $category->courses->isEmpty()) {
+                throw new \Exception(__('messages.no_courses_in_category'));
+            }
+            return Response::success(__('messages.courses_retrieved'), CourseResource::collection($category->courses));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage(), 500);
         }
@@ -63,7 +65,7 @@ class CategoryController extends Controller
             $data = $this->courseService->updateCategory($request, $category_id);
             return Response::success($data['message'], $data['category']);
         } catch (Throwable $e){
-            return Response::error($e->getMessage(), $e->getCode());
+            return Response::error($e->getMessage());
         }
     }
     public function destroy($category_id){
@@ -71,7 +73,7 @@ class CategoryController extends Controller
             $data = $this->courseService->destroyCategory($category_id);
             return Response::success($data['message']);
         } catch (Throwable $e){
-            return Response::error($e->getMessage(), $e->getCode());
+            return Response::error($e->getMessage());
         }
     }
 }

@@ -19,14 +19,16 @@ class VideoCallController extends Controller
     {
         $request->validate([
             'roomName' => 'required|string',
+            // 'workshop_id' => 'required|exists:workshops,id',
         ]);
 
         try {
             $room = $this->twilioService->createRoom($request->roomName);
             return response()->json($room->toArray(), 200);
         } catch (\Exception $e) {
-            Log::error('Error creating room: ' . $e->getMessage());
-            return response()->json(['message' => 'Error creating room'], 500);
+            // Log::error('Error creating room: ' . $e->getMessage());
+            // already in the service
+            return response()->json(['message' => __('messages.error_creating_room')], 500);
         }
     }
 
@@ -36,8 +38,8 @@ class VideoCallController extends Controller
             $room = $this->twilioService->getRoom($roomSid);
             return response()->json($room->toArray(), 200);
         } catch (\Exception $e) {
-            Log::error('Room not found: ' . $e->getMessage());
-            return response()->json(['message' => 'Room not found.'], 404);
+            Log::error(__('messages.room_not_found', ['error' => $e->getMessage()]));
+            return response()->json(['message' => __('messages.room_not_found')], 404);
         }
     }
 
@@ -47,8 +49,8 @@ class VideoCallController extends Controller
             $room = $this->twilioService->endRoom($roomSid);
             return response()->json($room->toArray(), 200);
         } catch (\Exception $e) {
-            Log::error('Error ending room: ' . $e->getMessage());
-            return response()->json(['message' => 'Error ending room'], 500);
+            // Log::error('Error ending room: ' . $e->getMessage()); same as createRoom
+            return response()->json(['message' => __('messages.error_ending_room')], 500);
         }
     }
 }

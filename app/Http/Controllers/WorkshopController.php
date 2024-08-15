@@ -29,7 +29,7 @@ class WorkshopController extends Controller
             $data = $this->workshopService->index();
             return Response::success($data['message'], WorkshopResource::collection($data['workshops']));
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -40,9 +40,9 @@ class WorkshopController extends Controller
     {
         try {
             $data = $this->workshopService->createWorkshop($request);
-            return Response::success($data['message'], $data['workshop']);
+            return Response::success($data['message'], WorkshopResource::make($data['workshop']));
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -53,9 +53,9 @@ class WorkshopController extends Controller
     {
         try {
             $data = $this->workshopService->showWorkshopDetails($workshop_id);
-            return Response::success($data['message'], $data['workshop']);
+            return Response::success($data['message'], WorkshopResource::make($data['workshop']));
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ class WorkshopController extends Controller
             $data = $this->workshopService->update($request, $workshop_id);
             return Response::success($data['message'], $data['workshop']);
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -81,7 +81,7 @@ class WorkshopController extends Controller
             $data = $this->workshopService->createWorkshop($workshop_id);
             return Response::success($data['message']);
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -90,16 +90,18 @@ class WorkshopController extends Controller
         try {
             $data = $this->workshopService->workshopEnroll($workshop_id);
             return Response::success($data['message']);
-        } catch (\Throwable $exception){
-            return Response::error($exception->getMessage(), $exception->getCode());
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
         }
     }
-    public function getStudentsByPoints($workshop_id){
+
+    public function getStudentsByPoints($workshop_id)
+    {
         try {
             $data = $this->workshopService->getStudentsByPoints($workshop_id);
             return Response::success($data['message'], $data['order']);
-        } catch (\Throwable $exception){
-            return Response::error($exception->getMessage(), $exception->getCode());
+        } catch (\Throwable $exception) {
+            return Response::error($exception->getMessage());
         }
     }
 }

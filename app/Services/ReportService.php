@@ -5,47 +5,62 @@ namespace App\Services;
 use App\Models\CommentReport;
 use App\Models\CourseReport;
 use Illuminate\Support\Facades\Auth;
-use function PHPUnit\Framework\isNull;
+use Illuminate\Support\Facades\Validator;
 
 class ReportService
 {
     private NotificationService $noticer;
+
     public function __construct(NotificationService $noticer)
     {
         $this->noticer = $noticer;
     }
+
     // for admins
     public function courseReports()
     {
         $reports = CourseReport::query()->get();
-        if (count($reports) == 0) return ['message' => 'No Reports.', 'reports' => []];
-        return ['message' => 'Reports : ', 'reports' => $reports];
+        if ($reports->isEmpty()) {
+            return ['message' => __('messages.no_reports'), 'reports' => []];
+        }
+        return ['message' => __('messages.reports_found'), 'reports' => $reports];
     }
 
     public function commentReports()
     {
         $reports = CommentReport::query()->get();
-        if (count($reports) == 0) return ['message' => 'No Reports.', 'reports' => []];
-        return ['message' => 'Reports : ', 'reports' => $reports];
+        if ($reports->isEmpty()) {
+            return ['message' => __('messages.no_reports'), 'reports' => []];
+        }
+        return ['message' => __('messages.reports_found'), 'reports' => $reports];
     }
 
-    public function courseReportDetails($report_id){
+    public function courseReportDetails($report_id)
+    {
         $report = CourseReport::find($report_id);
-        return ['message' => 'report details : ', 'report' => $report];
+        if (!$report) throw new \Exception(__('messages.report_not_found'));
+        return ['message' => __('messages.report_details'), 'report' => $report];
     }
 
-    public function commentReportDetails($report_id){
+    public function commentReportDetails($report_id)
+    {
         $report = CommentReport::find($report_id);
-        return ['message' => 'report details : ', 'report' => $report];
+        if (!$report) throw new \Exception(__('messages.report_not_found'));
+        return ['message' => __('messages.report_details'), 'report' => $report];
     }
 
     // for students
     public function courseReport($request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'course_id' => 'required|exists:courses,id',
             'content' => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            throw new \Exception(__('messages.course_report_error'));
+        }
+
         CourseReport::create([
             'user_id' => Auth::id(),
             'course_id' => $request->course_id,
@@ -54,15 +69,20 @@ class ReportService
 
         // notify admins to see the report
 
-        return ['message' => 'Report sent.'];
+        return ['message' => __('messages.report_sent')];
     }
 
     public function commentReport($request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'comment_id' => 'required|exists:course_comments,id',
             'content' => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            throw new \Exception(__('messages.comment_report_error'));
+        }
+
         CommentReport::create([
             'user_id' => Auth::id(),
             'comment_id' => $request->comment_id,
@@ -71,28 +91,21 @@ class ReportService
 
         // notify admins to see the report
 
-        return ['message' => 'Report sent.'];
+        return ['message' => __('messages.report_sent')];
     }
 
     // for Admins
-    public function destroyCourseReport($report_id){
-
-        $course = CourseReport::find($report_id);
-        if(is_null($course))
-        {
-            return ['message' => 'no report with this id'];
-        }
-        $course->delete();
-        return ['message' => 'Report deleted.'];
+    public function destroyCourseReport($report_id)
+    {
+        $report = CourseReport::find($report_id);
+        if (!$report) throw new \Exception(__('messages.report_not_found'));
+        return ['message' => __('messages.report_deleted')];
     }
 
-    public function destroyCommentReport($report_id){
-        $comment = CommentReport::find($report_id);
-        if(is_null($comment))
-        {
-            return ['message' => 'no report with this id'];
-        }
-        $comment->delete();
-        return ['message' => 'comment deleted.'];
+    public function destroyCommentReport($report_id)
+    {
+        $report = CommentReport::find($report_id);
+        if (!$report) throw new \Exception(__('messages.report_not_found'));
+        return ['message' => __('messages.report_deleted')];
     }
 }

@@ -20,28 +20,28 @@ class FollowingService
             'following_id' => 'required|exists:users,id'
         ]);
         Auth::user()->following()->attach(User::find($request->following_id));
-        return ['message' => 'Done'];
+        return ['message' => __('messages.success')];
     }
 
     public function followers($following_id)
     {
         $user = User::find($following_id);
-        if($user) throw new \Exception('User not found!', 404);
+        if(!$user) throw new \Exception(__('messages.user_not_found'), 404);
         $followers = $user->followers;
-        return ['message' => 'followers : ', 'followers' => $followers];
+        return ['message' => __('messages.followers_retrieved'), 'followers' => $followers];
     }
 
     public function following($follower_id)
     {
         $user = User::find($follower_id);
-        if($user) throw new \Exception('User not found!', 404);
+        if(!$user) throw new \Exception(__('messages.user_not_found'), 404);
         $following = $user->following;
-        return ['message' => 'following : ', 'following' => $following];
+        return ['message' => __('messages.following_retrieved'), 'following' => $following];
     }
 
     public function unFollow($following_id)
     {
         Auth::user()->following()->detach(User::find($following_id));
-        return ['message' => 'done'];
+        return ['message' => __('messages.success')];
     }
 }

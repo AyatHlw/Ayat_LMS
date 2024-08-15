@@ -16,36 +16,41 @@ class WorkShopService
 {
     private NotificationService $noticer;
     private FileUploader $fileUploader;
+
     public function __construct(NotificationService $noticer, FileUploader $fileUploader)
     {
         $this->noticer = $noticer;
         $this->fileUploader = $fileUploader;
     }
+
     public function index()
     {
         $workshops = Workshop::all();
-        if (count($workshops) == 0) return ['message' => 'There are no workshops yet!', 'workshops' => []];
-        return ['message' => 'Workshops : ', 'workshops' => $workshops];
+        if (count($workshops) == 0) {
+            return ['message' => __('messages.no_workshops'), 'workshops' => []];
+        }
+        return ['message' => __('messages.workshops_list'), 'workshops' => $workshops];
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function createWorkshop(Request $request)
+    public function createWorkshop($request)
     {
+
         $workshop = Workshop::create([
             'title' => $request->title,
             'teacher_id' => Auth::id(),
             'category_id' => $request->category_id,
             'description' => $request->description,
             'image' => $this->fileUploader->storeFile($request, 'image'),
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
+            'start_date' => date($request->start_date),
+            'end_date' => date($request->end_date)
         ]);
 
         // notification for students
 
-        return ['message' => 'Workshop created successfully.', 'workshop' => $workshop];
+        return ['message' => __('messages.workshop_created_successfully'), 'workshop' => $workshop];
     }
 
     /**
@@ -54,7 +59,7 @@ class WorkShopService
     public function showWorkshopDetails($workshop_id)
     {
         $workshop = Workshop::find($workshop_id);
-        return ['message' => 'workshop : ', 'workshop' => $workshop];
+        return ['message' => __('messages.workshop_details'), 'workshop' => $workshop];
     }
 
     /**
@@ -68,7 +73,7 @@ class WorkShopService
             if (isset($request[$a])) $workshop[$a] = $request[$a];
         }
         $workshop->save();
-        return ['message' => 'Workshop updated successfully.', 'workshop' => $workshop];
+        return ['message' => __('messages.workshop_updated_successfully'), 'workshop' => $workshop];
     }
 
     /**
@@ -77,25 +82,26 @@ class WorkShopService
     public function destroy($workshop_id)
     {
         Workshop::find($workshop_id)->delete();
-        return ['message' => 'Workshop deleted successfully.'];
+        return ['message' => __('messages.workshop_deleted_successfully')];
     }
 
     public function workshopEnroll($workshop_id)
     {
-        if (!auth()->user()->isPremium()) throw new \Exception('You don\'t have a premium account to enroll, please subscribe to unlock the workshops features.', 422);
+        if (!auth()->user()->isPremium()) throw new \Exception(__('messages.premium_account_required'), 422);
         Workshop_enroll::create([
             'user_id' => Auth::id(),
             'workshop_id' => $workshop_id
         ]);
-        return ['message' => 'You\'ve enrolled successfully.'];
+        return ['message' => __('messages.enrollment_successful')];
     }
 
     public function getStudentsByPoints($workshop_id)
     {
         $workshop_enrolls = Workshop::find($workshop_id)->enrolls;
+        if(!$workshop_enrolls) throw new \Exception(__('messages.no_workshop_enrollments'));
         $order = $workshop_enrolls->orderBy('points', 'DESC')
             ->take(min(count($workshop_enrolls), 10))
             ->get();
-        return ['message' => 'Best students : ', 'order' => $order];
+        return ['message' => __('messages.best_students'), 'order' => $order];
     }
 }

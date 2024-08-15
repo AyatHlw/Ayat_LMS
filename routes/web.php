@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\FollowingController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ use Twilio\Jwt\Grants\VideoGrant;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/login', function (){
+Route::get('/login', function () {
     return response()->json(['message' => 'Unauthenticated']);
 })->name('login');
 
@@ -56,7 +57,6 @@ Route::get('/api/token', function () {
 
     return response()->json(['token' => $token->toJWT()]);
 });
-
 Route::controller(CourseController::class)->group(function () {
     Route::prefix('course')->group(function () { // comment/route..
         Route::get('list', 'list');
@@ -65,3 +65,5 @@ Route::controller(CourseController::class)->group(function () {
         Route::get('teacher/{teacher_id}', 'getTeacherCourses');
     });
 });
+Route::get('certificate/{course_id}', [CertificateController::class, 'getCertificate'])->name('certificate.get');
+Route::post('/register-token', [ \App\Http\Controllers\Controller::class, 'registerToken'])->name('register-token');
