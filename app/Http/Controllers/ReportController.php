@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CommentReportResource;
+use App\Http\Resources\CourseReportResource;
 use App\Http\Responses\Response;
 use App\Models\Report;
 use App\Services\ReportService;
@@ -21,7 +23,7 @@ class ReportController extends Controller
     {
         try {
             $data = $this->reportService->courseReports();
-            return Response::success($data['message'], $data['reports']);
+            return Response::success($data['message'], CourseReportResource::collection($data['reports']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
@@ -31,7 +33,7 @@ class ReportController extends Controller
     {
         try {
             $data = $this->reportService->commentReports();
-            return Response::success($data['message'], $data['reports']);
+            return Response::success($data['message'], CommentReportResource::collection($data['reports']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
@@ -61,7 +63,7 @@ class ReportController extends Controller
     {
         try {
             $data = $this->reportService->courseReportDetails($report_id);
-            return Response::success($data['message'], $data['report']);
+            return Response::success($data['message'], CourseReportResource::make($data['report']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }
@@ -71,7 +73,7 @@ class ReportController extends Controller
     {
         try {
             $data = $this->reportService->commentReportDetails($report_id);
-            return Response::success($data['message'], $data['report']);
+            return Response::success($data['message'], CommentReportResource::make($data['report']));
         } catch (\Throwable $exception) {
             return Response::error($exception->getMessage());
         }

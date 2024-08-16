@@ -13,4 +13,10 @@ class CommentReport extends Model
         'comment_id',
         'content'
     ];
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function comment(){
+        return $this->belongsTo(CourseComment::class);
+    }
 }

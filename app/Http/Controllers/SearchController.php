@@ -32,6 +32,7 @@ class SearchController extends Controller
                 ->where('name', 'like', '%' . request('search') . '%')
                 ->orWhere('email', 'like', '%' . request('search') . '%');
         }
+        $query->role('teacher');
         $searchResult = $query->get();
         return Response::success(__('messages.users_searched'), $searchResult);
     }

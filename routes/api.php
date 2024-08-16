@@ -32,20 +32,18 @@ use App\Http\Middleware\SetLocale;
 |
 */
 // Routes accessible by superAdmin only
-Route::group(['middleware' => ['role:superAdmin']], function () {
-    Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::controller(PremiumController::class)->group(function () {
-        Route::post('premium/addUser', 'addUser')->name('premium.add');
-        Route::post('premium/extendUser', 'extendUser')->name('premium.extend');
-        Route::delete('premium/removeUser/{user_id}', 'removeUser')->name('premium.remove');
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['role:superAdmin']], function () {
+        Route::controller(PremiumController::class)->group(function () {
+            Route::post('premium/addUser', 'addUser')->name('premium.add');
+            Route::post('premium/extendUser', 'extendUser')->name('premium.extend');
+            Route::delete('premium/removeUser/{user_id}', 'removeUser')->name('premium.remove');
+        });
+        Route::get('users/admin', [AuthController::class, 'getAdmins']);
     });
-    Route::get('users/admin', [AuthController::class, 'getAdmins']);
-    });
-});
 
 // Routes accessible by admin only
-Route::group(['middleware' => ['role:admin|superAdmin']], function () {
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['role:admin|superAdmin']], function () {
         Route::post('approve', [AuthController::class, 'approveForPendingUsers'])->name('user.approve');
         Route::post('category/create', [CategoryController::class, 'createCategory'])->name('category.create');
         Route::post('category/update/{category_id}', [CategoryController::class, 'update'])->name('category.update');
@@ -68,12 +66,10 @@ Route::group(['middleware' => ['role:admin|superAdmin']], function () {
             Route::delete('comment/delete/{report_id}', 'destroyCommentReport')->name('reports.delete');
         });
     });
-});
 
 
 // Routes accessible by teacher only
-Route::group(['middleware' => ['role:teacher']], function () {
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['role:teacher']], function () {
         Route::controller(CourseController::class)->group(function () {
             Route::post('course/createCourse', 'createCourse')->name('course.add');
             Route::post('createCourseWithYouTubeLinks', 'createCourseWithYouTubeLinks')->name('course.add');
@@ -97,11 +93,9 @@ Route::group(['middleware' => ['role:teacher']], function () {
         // message delete tomorrow pi Ezn Allah
         Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
     });
-});
 
 // Routes accessible by student only
-Route::group(['middleware' => ['role:student']], function () {
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['role:student']], function () {
         Route::controller(CommentController::class)->group(function () {
             Route::prefix('comment')->group(function () { // comment/route..
                 Route::post('add', 'store')->name('course.comment');
@@ -128,26 +122,48 @@ Route::group(['middleware' => ['role:student']], function () {
         Route::post('video/watchLater', [CourseWithStudentController::class, 'addToWatchLater']);
         Route::get('video/watchLaterList', [CourseWithStudentController::class, 'watchLaterList']);;
         Route::delete('video/watchLater/remove/{video_id}', [CourseWithStudentController::class, 'removeFromWatchLater']);;
-
     });
+    // Common authed routes
+    Route::get('signout', [AuthController::class, 'signOut'])->name('user.sign_out');
+    Route::post('profile/update', [AuthController::class, 'updateProfile']);
+    Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
+
+    Route::post('workshop/group/message', [ChatController::class, 'storeMessage']);
+    Route::get('workshop/group/{group_id}/messages', [ChatController::class, 'groupMessages']);
+
+    Route::post('savePreferences', [\App\Http\Controllers\RecommendationController::class, 'savePreferences']);
+    Route::get('getUserRecommendedCourses', [\App\Http\Controllers\RecommendationController::class, 'getUserRecommendedCourses']);
+
+    Route::get('Notification/markAsRead/all', [NotificationController::class, 'markAllAsRead']);
+    Route::get('Notification/markAsRead/{notificationId}', [NotificationController::class, 'markAsRead']);
+    Route::get('Notification/delete/{notificationId}', [NotificationController::class, 'destroy']);
+
+    Route::group(['middleware' => ['enrolled']], function () {
+        Route::get('/course/showAllVideos/{course_id}', [CourseController::class, 'showAllVideos']);
+        Route::get('/course/showOneVideo/{course_id}/{video_id}', [CourseController::class, 'showOneVideo']);
+    });
+
+
+    Route::post('/create-checkout-session/{course_id}', [PaymentController::class, 'createCheckoutSession']);
+    Route::get('/payment-success/{course_id}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+
+    Route::post('/premium/checkout', [PremiumController::class, 'createCheckoutSession']);
+    Route::get('/premium/success', [PremiumController::class, 'paymentSuccess'])->name('premium.success');
+    Route::get('/premium/cancel', function () {
+        return response()->json(['message' => 'Payment canceled.'], 400);
+    })->name('premium.cancel');
+    Route::get('/premium/status', [PremiumController::class, 'checkPremiumStatus']);
+
 });
 
 // Common routes
 
 Route::controller(AuthController::class)->group(function () {
-    Route::get('profile/{id}', 'profile');
+    Route::get('user/{id}', 'profile');
     Route::post('signup', 'signUp')->name('user.sign_up');
     Route::post('signupInstructor', 'signUpInstructor')->name('instructor.sign_up');
     Route::post('signin', 'signIn')->name('user.sign_in');
-    Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::get('signout', 'signOut')->name('user.sign_out');
-        Route::post('profile/update', 'updateProfile');
-        Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
-
-        Route::post('workshop/group/message', [ChatController::class, 'storeMessage']);
-        Route::get('workshop/group/{group_id}/messages', [ChatController::class, 'groupMessages']);
-
-    });
 
     Route::get('users/teacher', 'getTeachers')->name('user.teachers');
     Route::get('users/student', 'getStudents')->name('user.students');
@@ -205,38 +221,6 @@ Route::controller(WorkshopController::class)->group(function () {
     Route::get('workshop/details/{workshop_id}', 'showWorkshopDetails');
 });
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('savePreferences', [\App\Http\Controllers\RecommendationController::class, 'savePreferences']);
-    Route::get('getUserRecommendedCourses', [\App\Http\Controllers\RecommendationController::class, 'getUserRecommendedCourses']);
-
-    Route::get('Notification/markAsRead/all', [NotificationController::class, 'markAllAsRead']);
-    Route::get('Notification/markAsRead/{notificationId}', [NotificationController::class, 'markAsRead']);
-    Route::get('Notification/delete/{notificationId}', [NotificationController::class, 'destroy']);
-
-});
-
 Route::post('rooms', [VideoCallController::class, 'createRoom']);
 Route::get('rooms/{roomSid}', [VideoCallController::class, 'getRoom']);
 Route::post('rooms/end-room/{roomSid}', [VideoCallController::class, 'endRoom']);
-
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/create-checkout-session/{course_id}', [PaymentController::class, 'createCheckoutSession']);
-    Route::get('/payment-success/{course_id}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
-    Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
-});
-
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::group(['middleware' => ['enrolled']], function () {
-        Route::get('/course/showAllVideos/{course_id}', [CourseController::class, 'showAllVideos']);
-        Route::get('/course/showOneVideo/{course_id}/{video_id}', [CourseController::class, 'showOneVideo']);
-    });
-});
-
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::post('/premium/checkout', [PremiumController::class, 'createCheckoutSession']);
-    Route::get('/premium/success', [PremiumController::class, 'paymentSuccess'])->name('premium.success');
-    Route::get('/premium/cancel', function () {
-        return response()->json(['message' => 'Payment canceled.'], 400);
-    })->name('premium.cancel');
-    Route::get('/premium/status', [PremiumController::class, 'checkPremiumStatus']);
-});
