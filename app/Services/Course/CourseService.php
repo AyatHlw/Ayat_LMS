@@ -54,16 +54,28 @@ class CourseService
                 'average_rating' => 0,
                 'is_reviewed' => false
             ]);
-            foreach ($request->input('videos') as $videoData) {
-                var_dump($videoData);
-                $videoRequest = new Request($videoData);
-                $videoPath = $this->fileUploader->storeFile($videoRequest, 'path');
+            foreach ($request->file('videos') as $video) {
+                if (is_array($video)) {
+                    foreach ($video as $singleVideo) {
+                        $filename = time() . '_' . $singleVideo->getClientOriginalName();
+                        $videoPath = $singleVideo->storeAs('uploads', $filename, 'public');
 
-                Video::create([
-                    'course_id' => $course->id,
-                    'title' => $videoRequest->input('title'),
-                    'path' => $videoPath
-                ]);
+                        Video::create([
+                            'course_id' => $course->id,
+                            'title' => $singleVideo->getClientOriginalName(),
+                            'path' => 'storage/' . $videoPath
+                        ]);
+                    }
+                } else {
+                    $filename = time() . '_' . $video->getClientOriginalName();
+                    $videoPath = $video->storeAs('uploads/videos', $filename, 'public');
+
+                    Video::create([
+                        'course_id' => $course->id,
+                        'title' => $video->getClientOriginalName(),
+                        'path' => 'storage/' . $videoPath
+                    ]);
+                }
             }
 
             DB::commit();
@@ -113,7 +125,6 @@ class CourseService
             }
 
             DB::commit();
-            $course['videos'] = $course->videos;
 
             return [
                 'message' => __('messages.course_created'),
@@ -148,8 +159,7 @@ class CourseService
         }
     }
 
-    public function getTeacherCourses($teacher_id)
-    {
+    public function getTeacherCourses($teacher_id){
         try {
             $teacher = User::with('courses')->find($teacher_id);
 
@@ -168,7 +178,6 @@ class CourseService
             throw $e;
         }
     }
-
     public function showCourseDetails($course_id)
     {
         try {
