@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             VideoSeeder::class,
             TagSeeder::class,
+            CommentSeeder::class,
             ReportSeeder::class,
         ]);
     }
