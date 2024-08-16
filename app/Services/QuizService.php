@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Http\Responses\Response;
 use App\Models\Answer;
+use App\Models\Course;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\QuizResult;
@@ -48,6 +50,17 @@ class QuizService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function showCourseQuiz($course_id)
+    {
+        $course = Course::query()->find($course_id);
+        if (!$course) throw new \Exception(__('messages.course_not_found'));
+
+        $quiz = $course->quiz;
+        if (!$quiz) throw new \Exception(__('messages.quiz_not_found'));
+
+        return ['message' => __('messages.quiz_retrieved')];
     }
 
     public function showQuizForTeachers($quizId)
@@ -114,7 +127,7 @@ class QuizService
             DB::commit();
 
             return [
-                'message' => $passed ? __('messages.quiz_passed') : __('messages.quiz_failed_to_pass') ,
+                'message' => $passed ? __('messages.quiz_passed') : __('messages.quiz_failed_to_pass'),
                 'correct_answers' => $correctAnswersCount,
                 'total_questions' => $totalQuestions,
                 'passed' => $passed

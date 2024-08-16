@@ -35,6 +35,7 @@ use App\Http\Middleware\SetLocale;
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => ['role:superAdmin']], function () {
         Route::get('users/admin', [AuthController::class, 'getAdmins']);
+        Route::post('admin/add', [AuthController::class, 'addAdmin']);
     });
 
 // Routes accessible by admin only
@@ -49,6 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/tags/createTag', [TagController::class, 'createTag']);
         Route::delete('/tags/deleteTag/{tagId}', [TagController::class, 'deleteTag']);
         Route::post('/tags/updateTag/{tagId}', [TagController::class, 'updateTag']);
+        Route::delete('course/destroy/{course_id}', [CourseController::class, 'destroy']);
 
         Route::delete('user/{id}/delete', [AuthController::class, 'deleteUser'])->name('user.delete');
         Route::get('users/underReview', [AuthController::class, 'getUnderReviewUsers']);
@@ -75,6 +77,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::post('/quizzes/updateQuiz/{id}', 'updateQuiz');
             Route::delete('/questions/delete/{id}', 'deleteQuestion');
             Route::get('/quizzes/showQuizForTeachers/{id}', 'showQuizForTeachers');
+            Route::get('quizzes/showCourseQuiz/{course_id}', 'showCourseQuiz');
         });
         Route::post('/tags/addTagsToCourse/{courseId}', [TagController::class, 'addTagsToCourse']);
         Route::controller(WorkshopController::class)->group(function () {
@@ -210,6 +213,7 @@ Route::controller(TagController::class)->group(function () {
     Route::get('/tags/getCourseTags/{courseId}', 'getCourseTags');
     Route::get('/tags/getTagsByCategory/{categoryId}', 'getTagsByCategory');
     Route::get('/tags/all', 'getAllTags');
+    Route::get('tag/details', 'tagDetails');
 });
 
 Route::controller(WorkshopController::class)->group(function () {

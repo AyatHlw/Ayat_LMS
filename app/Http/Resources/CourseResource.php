@@ -27,7 +27,8 @@ class CourseResource extends JsonResource
             'cost' => $this->cost ?? 0,
             'image' => $this->image ?? 'No image',
             'rating' => $this->average_rating,
-            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : 'No date'
+            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : 'No date',
+            'videos' => $this->videos,
         ];
     }
 }

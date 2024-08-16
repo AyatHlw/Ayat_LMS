@@ -55,6 +55,7 @@ class CourseService
                 'is_reviewed' => false
             ]);
             foreach ($request->input('videos') as $videoData) {
+                var_dump($videoData);
                 $videoRequest = new Request($videoData);
                 $videoPath = $this->fileUploader->storeFile($videoRequest, 'path');
 
@@ -112,6 +113,7 @@ class CourseService
             }
 
             DB::commit();
+            $course['videos'] = $course->videos;
 
             return [
                 'message' => __('messages.course_created'),
@@ -146,7 +148,8 @@ class CourseService
         }
     }
 
-    public function getTeacherCourses($teacher_id){
+    public function getTeacherCourses($teacher_id)
+    {
         try {
             $teacher = User::with('courses')->find($teacher_id);
 
@@ -165,6 +168,7 @@ class CourseService
             throw $e;
         }
     }
+
     public function showCourseDetails($course_id)
     {
         try {
@@ -208,7 +212,7 @@ class CourseService
 
     public function getTopCourses()
     {
-        $topRatedCourses = Course::orderBy('average_rating', 'DESC')->take(min(count(Course::all()), 10))->get();
+        $topRatedCourses = Course::query()->where('is_reviewed', true)->orderBy('average_rating', 'DESC')->take(min(count(Course::all()), 10))->get();
         return ['message' => __('messages.top_courses'), 'courses' => $topRatedCourses];
     }
 
@@ -339,11 +343,11 @@ class CourseService
         return ['message' => __('messages.video_removed_from_watch_later')];
     }
 
-    public function courseEnroll($request, $course_id){
-        $request->validate([
-            'courses' => 'required|array',
-            'courses.*.course_id' => 'required|exists:courses,id'
-        ]);
+    public function getStudentCourses()
+    {
+        $courses = Auth::user()->enrolledCourses;
+        if (!$courses) throw new \Exception(__('messages.no_course_enrollments'));
+        return ['message' => __('messages.courses_retrieved'), 'courses' => $courses];
     }
 
 }

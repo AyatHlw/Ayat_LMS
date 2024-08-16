@@ -29,7 +29,7 @@ class CreateCourseRequest extends FormRequest
             'cost' => 'required|numeric',
             'videos' => 'required|array',
             'videos.*.title' => 'required|string|max:255',
-            'videos.*.path' => 'required|file|mimes:mp4,mov,ogg,qt|max:20000'
+            'videos.*.path' => 'required|file|mimes:mp4,mov,ogg,qt|max:8388608'
         ];
     }
 }

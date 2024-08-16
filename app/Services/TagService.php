@@ -115,6 +115,12 @@ class TagService
         return $tags;
     }
 
+    public function tagDetails($tag_id){
+        $tag = Tag::query()->find($tag_id);
+        if(!$tag) throw new \Exception(__('messages.tag_not_found'));
+        return $tag;
+    }
+
     public function getTagsByCategory($category_id)
     {
         $category = Category::with('tags')->find($category_id);

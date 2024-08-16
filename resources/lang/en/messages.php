@@ -135,6 +135,7 @@ return [
     'error_fetching_room'               => 'Error fetching room: :error',
     'room_not_found'                    => 'Room not found: :error',
 
+    'messages.no_course_enrollments'    => 'There is no any course you enrolled in.',
     'no_workshops'                      => 'There are no workshops yet!',
     'no_workshops_enrollments'          => 'There are no students enrolled in this workshop.',
     'workshops_list'                    => 'Workshops: ',

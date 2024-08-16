@@ -43,6 +43,7 @@ class RecommendationService
             $categoryIds = UserCategoryPreference::where('user_id', $userId)->pluck('category_id');
 
             $data = Course::whereIn('category_id', $categoryIds)
+                ->where('is_reviewed', 0)
                 ->orderBy('average_rating', 'DESC')
                 ->take(10)
                 ->get();

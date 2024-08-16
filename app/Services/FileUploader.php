@@ -16,7 +16,7 @@ class FileUploader
                 return 'storage/' . $data;
             }
         } catch (Exception $e) {
-            return '';
+            return 'fd';
         }
         return '';
     }

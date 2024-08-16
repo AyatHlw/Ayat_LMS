@@ -63,6 +63,19 @@ class AuthController extends Controller
         }
     }
 
+    public function addAdmin($request){
+        $request->validate([
+            'name' => 'required|string|min:3',
+            'email' => 'required|string|email|unique:users',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:5120',
+            'password' => 'required|min:8|confirmed'
+        ]);
+        // continuting tomorrow
+        User::query()->create([
+
+        ]);
+    }
+
     public function getAdmins()
     {
         try {

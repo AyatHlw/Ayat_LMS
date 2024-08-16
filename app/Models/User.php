@@ -53,12 +53,16 @@ class User extends Authenticatable
 
     public function courses()
     {
-        return $this->hasMany(Course::class, 'creator_id');
+        return $this->hasMany(Course::class, 'creator_id')->where('is_reviewed', true);
     }
 
     public function comments()
     {
         return $this->hasMany(CourseComment::class, 'comment_id');
+    }
+
+    public function quizzes(){
+
     }
 
     public function quizResults()

@@ -8,15 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class CourseReport extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'course_id',
         'content',
     ];
-    public function user(){
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-    public function course(){
+
+    public function course()
+    {
         return $this->belongsTo(Course::class);
     }
 }

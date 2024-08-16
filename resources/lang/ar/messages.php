@@ -28,6 +28,7 @@ return [
     'category_deleted'                  => 'تم حذف الفئة بنجاح.',
     'all_categories'                    => 'جميع الفئات:',
     'no_courses_in_category'            => 'لا توجد دورات في هذه الفئة بعد.',
+    'messages.no_course_enrollments'    => 'لا يوجد لديك اشتراكات بأي كورس .',
     'course_created'                    => 'تم إنشاء الكورس بنجاح.',
     'course_updated'                    => 'تم تحديث الكورس بنجاح.',
     'course_deleted'                    => 'تم حذف الكورس بنجاح.',

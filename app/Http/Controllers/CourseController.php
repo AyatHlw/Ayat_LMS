@@ -30,7 +30,7 @@ class CourseController extends Controller
     private CourseService $courseService;
     private QuizService $quizService;
 
-    public function __construct(CourseService $courseService,QuizService $quizService)
+    public function __construct(CourseService $courseService, QuizService $quizService)
     {
         $this->courseService = $courseService;
         $this->quizService = $quizService;
@@ -74,7 +74,6 @@ class CourseController extends Controller
     }
 
 
-
     /**
      * Store a newly created resource in storage.
      */
@@ -113,7 +112,7 @@ class CourseController extends Controller
             $course = $this->courseService->showCourseDetails($course_id);
             return Response::success(__('messages.course_details'), CourseResource::make($course));
         } catch (Throwable $throwable) {
-            return Response::error($throwable->getMessage(),404);
+            return Response::error($throwable->getMessage(), 404);
         }
     }
 
@@ -191,6 +190,15 @@ class CourseController extends Controller
             ], 201);
         } catch (\Throwable $throwable) {
             return Response::error($throwable->getMessage());
+        }
+    }
+
+    public function showCourseQuiz($course_id){
+        try {
+            $data = $this->quizService->showCourseQuiz($course_id);
+            return Response::success($data['message'], $data['quiz']);
+        } catch (Throwable $exception){
+            return Response::error($exception->getMessage());
         }
     }
 
@@ -292,6 +300,15 @@ class CourseController extends Controller
         }
     }
 
+    public function getStudentCourses()
+    {
+        try {
+            $data = $this->courseService->getStudentCourses();
+            return Response::success($data['message'], $data['courses']);
+        } catch (Throwable $exception) {
+            return Response::error($exception->getMessage());
+        }
+    }
 
     public function showAllVideos($course_id)
     {
