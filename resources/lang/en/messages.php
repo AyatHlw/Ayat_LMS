@@ -99,10 +99,13 @@ return [
     'no_teachers'                       => 'No teachers yet.',
     'no_students'                       => 'No students yet.',
     'no_admins'                         => 'No admins.',
+    'no_teachers_under_review'          => 'There is no any teacher under review .',
     'teachers_list'                     => 'Teachers : ',
     'students_list'                     => 'Students : ',
     'admins_list'                       => 'Admins : ',
     'users_searched'                    => 'Searched users : ',
+    'teachers_under_review'             => 'Teachers under review : ',
+
     'old_password_mismatch'             => 'The old password does not match with the current password.',
     'profile_updated_successfully'      => 'Profile updated successfully.',
     'application_submitted'             => 'Your application has been submitted successfully. It will be reviewed by HR. Once it is reviewed, you will receive a letter via Gmail telling the result.',

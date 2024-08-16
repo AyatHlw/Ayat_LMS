@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/tags/updateTag/{tagId}', [TagController::class, 'updateTag']);
 
         Route::delete('user/{id}/delete', [AuthController::class, 'deleteUser'])->name('user.delete');
-
+        Route::get('users/underReview', [AuthController::class, 'getUnderReviewUsers']);
         Route::controller(ReportController::class)->prefix('report')->group(function () {
             Route::get('course/get', 'courseReports')->name('reports.get');
             Route::get('course/get/{report_id}', 'courseReportDetails')->name('reports.show');

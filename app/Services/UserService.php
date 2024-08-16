@@ -62,6 +62,12 @@ class UserService
         return ['message' => $message, 'users' => $users];
     }
 
+    public function getUnderReviewUsers(){
+        $users = PendingUsers::query()->get();
+        if(!$users) throw new \Exception(__('messages.no_teachers_under_review'));
+        return ['message' => __('messages.teachers_under_review'), 'users' => $users];
+    }
+
     public function updateProfile($request)
     {
         $user = Auth::user();

@@ -82,6 +82,15 @@ class AuthController extends Controller
         }
     }
 
+    public function getUnderReviewUsers(){
+        try {
+            $data = $this->userService->getUnderReviewUsers();
+            return Response::success($data['message'], $data['users']);
+        } catch (Throwable $e) {
+            return Response::error($e->getMessage());
+        }
+    }
+
     public function signUp(SignUpRequest $signUpRequest): JsonResponse
     {
         try {
