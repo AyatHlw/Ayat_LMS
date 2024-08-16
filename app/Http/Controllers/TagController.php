@@ -77,6 +77,16 @@ class TagController extends Controller
         }
     }
 
+    public function getAllTags()
+    {
+        try {
+            $tags = $this->tagService->getAllTags();
+            return Response::success(__('messages.tags_retrieved'), TagResource::collection($tags));
+        } catch (\Exception $e) {
+            return Response::error($e->getMessage());
+        }
+    }
+
     public function getCourseTags($course_id)
     {
         try {

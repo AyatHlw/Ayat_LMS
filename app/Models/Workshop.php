@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Workshop extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'title',
         'description',
@@ -17,11 +18,19 @@ class Workshop extends Model
         'start_date',
         'end_date',
     ];
-    public function teacher(){
+
+    public function teacher()
+    {
         return $this->belongsTo(User::class, 'teacher_id');
     }
 
-    public function group(){
+    public function group()
+    {
         return $this->hasOne(Group::class);
+    }
+
+    public function videoCall()
+    {
+        return $this->hasOne(VideoCall::class);
     }
 }

@@ -108,6 +108,13 @@ class TagService
         }
     }
 
+    public function getAllTags()
+    {
+        $tags = Tag::query()->get();
+        if(!$tags) throw new \Exception(__('messages.no_tags'));
+        return $tags;
+    }
+
     public function getTagsByCategory($category_id)
     {
         $category = Category::with('tags')->find($category_id);

@@ -20,6 +20,7 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'user' => $this->user->name,
             'user_id' => $this->user->id,
+            'user_image' =>  $this->user->image ?? 'storage/uploads/1723489257_BrainLern.jpg.jpg',
             'course_id' => $this->course->id,
             'content' => $this->content,
             'rating' => $this->rating,

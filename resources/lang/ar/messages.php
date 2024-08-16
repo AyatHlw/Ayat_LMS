@@ -10,6 +10,7 @@ return [
     'tag_not_found'                     => 'لم يتم العثور على العلامة المطلوبة.',
     'report_not_found'                  => 'لم يتم العثور على التقرير المطلوب.',
     'comment_not_found'                 => 'لم يتم العثور على التعليق المطلوب.',
+    'workshop_not_found'                 => 'لم يتم العثور على الورشة المطلوبة.',
 
     'success'                           => 'تمت العملية بنجاح!',
 
@@ -121,6 +122,7 @@ return [
     'user_deleted_successfully'         => 'تم حذف المستخدم بنجاح.',
     'account_deleted_successfully'      => 'تم حذف الحساب بنجاح.',
 
+    'room_fetch'                        => 'تم جلب الغرفة بنجاح.',
     'attempting_to_create_room'         => 'جارٍ محاولة إنشاء غرفة بالاسم: :roomName',
     'room_creation_response'            => 'استجابة إنشاء الغرفة: :response',
     'error_creating_room'               => 'خطأ في إنشاء الغرفة: :error',

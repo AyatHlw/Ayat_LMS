@@ -28,11 +28,22 @@ class VideoCallController extends Controller
         } catch (\Exception $e) {
             // Log::error('Error creating room: ' . $e->getMessage());
             // already in the service
-            return response()->json(['message' => __('messages.error_creating_room')], 500);
+            return response()->json(['message' => __('messages.error_creating_room', ['error' => $e->getMessage()])], 500);
         }
     }
 
-    public function getRoom($roomSid)
+    public function getWorkshopRoom($workshop_id)
+    {
+        try {
+            $result = $this->twilioService->getWorkshopRoom($workshop_id);
+            return response()->json($result['message'], $result['room']->toArray(), 200);
+        } catch (\Exception $e) {
+            Log::error(__('messages.room_not_found', ['error' => $e->getMessage()]));
+            return response()->json(['message' => __('messages.room_not_found')], 404);
+        }
+    }
+
+    /*public function getRoom($roomSid)
     {
         try {
             $room = $this->twilioService->getRoom($roomSid);
@@ -41,7 +52,7 @@ class VideoCallController extends Controller
             Log::error(__('messages.room_not_found', ['error' => $e->getMessage()]));
             return response()->json(['message' => __('messages.room_not_found')], 404);
         }
-    }
+    }*/
 
     public function endRoom($roomSid)
     {

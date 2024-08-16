@@ -34,11 +34,6 @@ use App\Http\Middleware\SetLocale;
 // Routes accessible by superAdmin only
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => ['role:superAdmin']], function () {
-        Route::controller(PremiumController::class)->group(function () {
-            Route::post('premium/addUser', 'addUser')->name('premium.add');
-            Route::post('premium/extendUser', 'extendUser')->name('premium.extend');
-            Route::delete('premium/removeUser/{user_id}', 'removeUser')->name('premium.remove');
-        });
         Route::get('users/admin', [AuthController::class, 'getAdmins']);
     });
 
@@ -214,6 +209,7 @@ Route::controller(CategoryController::class)->group(function () {
 Route::controller(TagController::class)->group(function () {
     Route::get('/tags/getCourseTags/{courseId}', 'getCourseTags');
     Route::get('/tags/getTagsByCategory/{categoryId}', 'getTagsByCategory');
+    Route::get('/tags/all', 'getAllTags');
 });
 
 Route::controller(WorkshopController::class)->group(function () {

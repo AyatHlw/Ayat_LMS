@@ -10,6 +10,7 @@ return [
     'tag_not_found'                     => 'Tag not found.',
     'report_not_found'                  => 'Report not found.',
     'comment_not_found'                 => 'Comment not found.',
+    'workshop_not_found'                 => 'Workshop not found.',
 
     'success'                           => 'Operation done successfully!',
 
@@ -122,6 +123,7 @@ return [
     'user_deleted_successfully'         => 'User has been deleted successfully.',
     'account_deleted_successfully'      => 'Account has been deleted successfully.',
 
+    'room_fetch'                        => 'room is fetched successfully.',
     'attempting_to_create_room'         => 'Attempting to create room with name: :roomName',
     'room_creation_response'            => 'Room creation response: :response',
     'error_creating_room'               => 'Error creating room: :error',

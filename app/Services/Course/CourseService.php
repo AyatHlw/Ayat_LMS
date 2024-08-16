@@ -185,7 +185,7 @@ class CourseService
     public function update($request, $course_id)
     {
         $course = Course::firstWhere('id', $course_id);
-        $attibutes = ['title', 'description', 'cost', 'average_rating'];
+        $attibutes = ['title', 'description', 'cost'];
         foreach ($attibutes as $a) {
             if (isset($request[$a])) $course[$a] = $request[$a];
         }
