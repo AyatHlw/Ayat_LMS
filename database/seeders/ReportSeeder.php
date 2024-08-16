@@ -18,16 +18,16 @@ class ReportSeeder extends Seeder
 
         for ($i = 0; $i < 20; $i++) {
             CourseReport::create([
-                'user_id' => User::inRandomOrder()->first()->id,
-                'course_id' => Course::inRandomOrder()->first()->id,
+                'user_id' => User::query()->inRandomOrder()->first()->id,
+                'course_id' => Course::query()->inRandomOrder()->first()->id,
                 'content' => $faker->paragraph,
             ]);
         }
 
         for ($i = 0; $i < 20; $i++) {
             CommentReport::create([
-                'user_id' => User::inRandomOrder()->first()->id,
-                'comment_id' => CourseComment::inRandomOrder()->first()->id,
+                'user_id' => User::query()->inRandomOrder()->first()->id,
+                'comment_id' => CourseComment::query()->inRandomOrder()->first()->id,
                 'content' => $faker->paragraph,
             ]);
         }
