@@ -54,30 +54,35 @@ class CourseService
                 'average_rating' => 0,
                 'is_reviewed' => false
             ]);
-            foreach ($request->file('videos') as $video) {
-                if (is_array($video)) {
-                    foreach ($video as $singleVideo) {
-                        $filename = time() . '_' . $singleVideo->getClientOriginalName();
-                        $videoPath = $singleVideo->storeAs('uploads', $filename, 'public');
+            $paths = ['storage/uploads/videos/1723886042_Videoo.mp4', 'storage/uploads/videos/1723886042_Videoo.mp4'];
+            foreach ($paths as $path) {
+                Video::query()->create(['course_id' => $course->id, 'title' => 'Course title', 'path' => $path]);
+            }
+            if ($request->hasFile('videos')) {
+                foreach ($request->file('videos') as $video) {
+                    if (is_array($video)) {
+                        foreach ($video as $singleVideo) {
+                            $filename = time() . '_' . $singleVideo->getClientOriginalName();
+                            $videoPath = $singleVideo->storeAs('uploads', $filename, 'public');
+
+                            Video::create([
+                                'course_id' => $course->id,
+                                'title' => $singleVideo->getClientOriginalName(),
+                                'path' => 'storage/' . $videoPath
+                            ]);
+                        }
+                    } else {
+                        $filename = time() . '_' . $video->getClientOriginalName();
+                        $videoPath = $video->storeAs('uploads/videos', $filename, 'public');
 
                         Video::create([
                             'course_id' => $course->id,
-                            'title' => $singleVideo->getClientOriginalName(),
+                            'title' => $video->getClientOriginalName(),
                             'path' => 'storage/' . $videoPath
                         ]);
                     }
-                } else {
-                    $filename = time() . '_' . $video->getClientOriginalName();
-                    $videoPath = $video->storeAs('uploads/videos', $filename, 'public');
-
-                    Video::create([
-                        'course_id' => $course->id,
-                        'title' => $video->getClientOriginalName(),
-                        'path' => 'storage/' . $videoPath
-                    ]);
                 }
             }
-
             DB::commit();
 
             return [

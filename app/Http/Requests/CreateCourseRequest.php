@@ -27,9 +27,13 @@ class CreateCourseRequest extends FormRequest
             'image' => 'required|image|max:2048',
             'description' => 'required|string',
             'cost' => 'required|numeric',
-            'videos' => 'required|array',
-            'videos.*.title' => 'required|string|max:255',
-            'videos.*.path' => 'required|file|mimes:mp4,mov,ogg,qt|max:8388608'
+            /*'videos' => 'required|array',
+            'videos.*' => [
+                'required',
+                'file',
+                'mimes:mp4,mov,ogg,qt',
+                'max:8388608', // Adjust max size if needed
+            ],*/
         ];
     }
 }

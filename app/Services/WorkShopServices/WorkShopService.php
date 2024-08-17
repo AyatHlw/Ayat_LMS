@@ -90,7 +90,8 @@ class WorkShopService
         if (!auth()->user()->isPremium()) throw new \Exception(__('messages.premium_account_required'), 422);
         Workshop_enroll::create([
             'user_id' => Auth::id(),
-            'workshop_id' => $workshop_id
+            'workshop_id' => $workshop_id,
+            'points' => 0
         ]);
         return ['message' => __('messages.enrollment_successful')];
     }

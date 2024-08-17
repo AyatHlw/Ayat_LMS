@@ -17,6 +17,7 @@ class Workshop extends Model
         'image',
         'start_date',
         'end_date',
+        'meet_url'
     ];
 
     public function teacher()

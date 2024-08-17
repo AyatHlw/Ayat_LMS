@@ -48,6 +48,13 @@ class CategoryController extends Controller
         }
     }
 
+    public function categoryDetails($category_id)
+    {
+        $category = Category::query()->find($category_id);
+        if (!$category) return Response::error(__('messages.category_not_found'), 404);
+        return \response()->json(['message' => 'Category details : ', 'category' => $category]);
+    }
+
     public function categoryCourses($category_id)
     {
         try {
@@ -60,19 +67,23 @@ class CategoryController extends Controller
             return Response::error($exception->getMessage(), 500);
         }
     }
-    public function update(Request $request, $category_id){
+
+    public function update(Request $request, $category_id)
+    {
         try {
             $data = $this->courseService->updateCategory($request, $category_id);
             return Response::success($data['message'], $data['category']);
-        } catch (Throwable $e){
+        } catch (Throwable $e) {
             return Response::error($e->getMessage());
         }
     }
-    public function destroy($category_id){
+
+    public function destroy($category_id)
+    {
         try {
             $data = $this->courseService->destroyCategory($category_id);
             return Response::success($data['message']);
-        } catch (Throwable $e){
+        } catch (Throwable $e) {
             return Response::error($e->getMessage());
         }
     }

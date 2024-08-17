@@ -206,8 +206,11 @@ Route::controller(CategoryController::class)->group(function () {
     Route::prefix('category')->group(function () {
         Route::get('all', 'list');
         Route::get('{category_id}/courses', 'categoryCourses');
+        Route::get('{category_id}', 'categoryDetails');
     });
 });
+
+Route::get('categoryDetails/{category_id}', [CategoryController::class, 'categoryDetails']);
 
 Route::controller(TagController::class)->group(function () {
     Route::get('/tags/getCourseTags/{courseId}', 'getCourseTags');
@@ -215,6 +218,7 @@ Route::controller(TagController::class)->group(function () {
     Route::get('/tags/all', 'getAllTags');
     Route::get('tag/details/{tag_id}', 'tagDetails');
 });
+
 
 Route::controller(WorkshopController::class)->group(function () {
     Route::get('workshops', 'index');
