@@ -62,9 +62,10 @@ class UserService
         return ['message' => $message, 'users' => $users];
     }
 
-    public function getUnderReviewUsers(){
+    public function getUnderReviewUsers()
+    {
         $users = PendingUsers::query()->get();
-        if(!$users) throw new \Exception(__('messages.no_teachers_under_review'));
+        if (!$users) throw new \Exception(__('messages.no_teachers_under_review'));
         return ['message' => __('messages.teachers_under_review'), 'users' => $users];
     }
 
@@ -95,6 +96,19 @@ class UserService
         return ['message' => __('messages.profile_updated_successfully'), 'profile' => $user];
     }
 
+    public function addAdmin($request)
+    {
+        $image = $this->fileUploader->storeFile($request, 'image');
+        $user = User::query()->create([
+            'name' => $request->name,
+            'email' => $request['email'],
+            'image' => $image,
+            'google_id' => User::query()->count(),
+            'password' => Hash::make($request['password'])
+        ]);
+        return $this->userCreation('admin', $user);
+    }
+
     public function signup($request): array
     {
         $request->validated();
@@ -104,6 +118,7 @@ class UserService
             'email' => $request['email'],
             'image' => $image,
             'google_id' => User::query()->count(),
+            'email_verified_at' => now(),
             'password' => Hash::make($request['password'])
         ]);
         return $this->userCreation($request['role'], $user);
@@ -132,16 +147,16 @@ class UserService
      */
     public function userCreation($role1, \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Builder $user): array
     {
-        // create the verification code right here
-        VerificationCode::query()->where('email', $user['email'])->delete();
-        $verification_code = mt_rand(100000, 999999);
-        $data = [
-            'email' => $user['email'],
-            'verification_code' => $verification_code
-        ];
-        VerificationCode::create($data);
-        Mail::to($user['email'])->send(new VerificationCodeMail($verification_code));
-
+        if ($role1 != 'admin') {// create the verification code right here
+            VerificationCode::query()->where('email', $user['email'])->delete();
+            $verification_code = mt_rand(100000, 999999);
+            $data = [
+                'email' => $user['email'],
+                'verification_code' => $verification_code
+            ];
+            VerificationCode::create($data);
+            Mail::to($user['email'])->send(new VerificationCodeMail($verification_code));
+        }
         $role = Role::query()->where('name', $role1)->first();
         $user->assignRole($role);
         $permissions = $role->permissions()->pluck('name')->toArray();
@@ -151,7 +166,9 @@ class UserService
 
         $user = $this->appendRolesAndPermissions($user);
 
-        return ['user' => $user, 'message' => __('messages.registration_successful')];
+        if ($role1 != 'admin') $message = __('messages.registration_successful');
+        else $message = 'Admin created.';
+        return ['user' => $user, 'message' => $message];
     }
 
     public function approveUser($request): array
@@ -266,7 +283,7 @@ class UserService
     public function deleteUser($user_id)
     {
         $user = User::find($user_id);
-        if(!$user) throw new \Exception(__('messages.user_not_found'), 404);
+        if (!$user) throw new \Exception(__('messages.user_not_found'), 404);
         if (($user->hasRole('admin') && !Auth::user()->hasRole('superAdmin')) || $user->hasRole('superAdmin'))
             throw new \Exception(__('messages.prohibited_delete_admin'), 422);
         Mail::to($user['email'])->send(new DeleteUserMail($user['name']));

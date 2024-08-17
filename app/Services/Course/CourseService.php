@@ -151,7 +151,6 @@ class CourseService
             if (empty($output)) {
                 throw new \Exception(__('messages.empty_response'));
             }
-
             return trim($output);
         } catch (\Exception $e) {
             Log::error(__('messages.video_failed_to_fetch') . $e->getMessage());
