@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/tags/createTag', [TagController::class, 'createTag']);
         Route::delete('/tags/deleteTag/{tagId}', [TagController::class, 'deleteTag']);
         Route::post('/tags/updateTag/{tagId}', [TagController::class, 'updateTag']);
-        Route::delete('course/destroy/{course_id}', [CourseController::class, 'destroy']);
+        Route::delete('course/delete/{course_id}', [CourseController::class, 'destroy']);
 
         Route::delete('user/{id}/delete', [AuthController::class, 'deleteUser'])->name('user.delete');
         Route::get('users/underReview', [AuthController::class, 'getUnderReviewUsers']);
@@ -213,7 +213,7 @@ Route::controller(TagController::class)->group(function () {
     Route::get('/tags/getCourseTags/{courseId}', 'getCourseTags');
     Route::get('/tags/getTagsByCategory/{categoryId}', 'getTagsByCategory');
     Route::get('/tags/all', 'getAllTags');
-    Route::get('tag/details', 'tagDetails');
+    Route::get('tag/details/{tag_id}', 'tagDetails');
 });
 
 Route::controller(WorkshopController::class)->group(function () {
