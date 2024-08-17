@@ -15,23 +15,30 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     private NotificationService $noticer;
+
     public function __construct(NotificationService $noticer)
     {
         $this->noticer = $noticer;
     }
+
     public function Nothing()
     {
         return "ayat";
     }
 
-    public function registerToken(Request $request){
+
+
+    public function registerToken(Request $request)
+    {
         $user = User::query()->find(1);
         $user['fcm_token'] = $request->token;
         $user->save();
     }
-    public function notice(){
+
+    public function notice()
+    {
         $user = User::find(1);
         $user['fcm_token'] =
-        $this->noticer->send($user, 'finding', 'You are sweet', '\Notice');
+            $this->noticer->send($user, 'finding', 'You are sweet', '\Notice');
     }
 }

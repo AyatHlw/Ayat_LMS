@@ -21,23 +21,23 @@ class TwilioService
         );
     }
 
-    public function createRoom($roomName, $workshop_id)
+    public function createRoom($roomName)
     {
         try {
-            Log::info(__('messages.attempting_to_create_room', ['roomName' => $roomName, 'workshop_id' => $workshop_id]));
-            if (VideoCall::query()->where('workshop_id', $workshop_id)->exists()) {
+            Log::info(__('messages.attempting_to_create_room', ['roomName' => $roomName]));
+            /*if (VideoCall::query()->where('workshop_id', $workshop_id)->exists()) {
                 throw new \Exception('this workshop already has a video call right now.');
-            }
+            }*/
 
             $room = $this->twilio->video->v1->rooms->create([
                 'uniqueName' => $roomName,
                 'type' => 'group'
             ]);
 
-            VideoCall::create([
+            /*VideoCall::create([
                 'roomSid' => $room->sid,
                 'workshop_id' => $workshop_id
-            ]);
+            ]);*/
 
             Log::info(__('messages.room_creation_response', ['response' => json_encode($room->toArray())]));
             return $room;
