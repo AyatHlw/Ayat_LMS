@@ -63,13 +63,12 @@ class CourseController extends Controller
     {
         try {
             $data = $this->courseService->getTeacherCourses($teacher_id);
-
             return response()->json([
                 'message' => $data['message'],
                 'courses' => CourseResource::collection($data['courses'])
             ], 200);
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage());
+            return Response::error($exception->getMessage(), 200);
         }
     }
 

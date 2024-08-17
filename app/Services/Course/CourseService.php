@@ -158,25 +158,22 @@ class CourseService
         }
     }
 
-    public function getTeacherCourses($teacher_id){
-        try {
-            $teacher = User::with('courses')->find($teacher_id);
+    public function getTeacherCourses($teacher_id)
+    {
+        $teacher = User::with('courses')->find($teacher_id);
 
-            if (!$teacher) {
-                throw new \Exception(__('messages.teacher_not_found'), 404);
-            }
-
-            $courses = $teacher->courses;
-
-            if ($courses->isEmpty()) {
-                throw new \Exception('No courses found for this teacher.', 200);
-            }
-            return ['message' => __('messages.course_retrieved'), 'courses' => $courses];
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
+        if (!$teacher) {
+            throw new \Exception(__('messages.teacher_not_found'));
         }
+
+        $courses = $teacher->courses;
+
+        if ($courses->isEmpty()) {
+            throw new \Exception('No courses found for this teacher.');
+        }
+        return ['message' => __('messages.course_retrieved'), 'courses' => $courses];
     }
+
     public function showCourseDetails($course_id)
     {
         try {
