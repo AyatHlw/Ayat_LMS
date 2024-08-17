@@ -188,7 +188,8 @@ class UserService
                 'image' => $data['image'],
                 'google_id' => User::query()->count(),
                 'created_at' => $data['created_at'],
-                'password' => $data['password']
+                'password' => $data['password'],
+                'email_verified_at' => now(),
             ]);
             $data->delete();
             $this->userCreation($role, $user);
