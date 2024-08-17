@@ -169,7 +169,7 @@ class CourseService
             $courses = $teacher->courses;
 
             if ($courses->isEmpty()) {
-                throw new \Exception('No courses found for this teacher.');
+                throw new \Exception('No courses found for this teacher.', 200);
             }
             return ['message' => __('messages.course_retrieved'), 'courses' => $courses];
         } catch (\Exception $e) {
