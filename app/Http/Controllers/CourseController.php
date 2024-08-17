@@ -69,7 +69,7 @@ class CourseController extends Controller
                 'courses' => CourseResource::collection($data['courses'])
             ], 200);
         } catch (\Throwable $exception) {
-            return Response::error($exception->getMessage(), $exception->getCode());
+            return Response::error($exception->getMessage());
         }
     }
 
