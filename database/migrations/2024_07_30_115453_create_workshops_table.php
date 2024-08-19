@@ -20,7 +20,6 @@ return new class extends Migration
             $table->text('image')->default('storage/uploads/1723489257_BrainLern.jpg' ?? '');
             $table->timestamp('start_date')->default(now());
             $table->timestamp('end_date')->default(now());
-            $table->text('meet_url')->default('storage/uploads/1723791056_BrainLern.jpg');
             $table->double('average_rating')->default(0.0);
             $table->timestamps();
         });

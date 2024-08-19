@@ -82,13 +82,14 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/tags/addTagsToCourse/{courseId}', [TagController::class, 'addTagsToCourse']);
         Route::controller(WorkshopController::class)->group(function () {
             Route::post('workshop/createWorkshop', 'createWorkshop')->name('workshop.create');
-            Route::post('workshop/update', 'update')->name('workshop.update');
-            Route::delete('workshop/delete', 'destroy')->name('workshop.delete');
+            Route::post('workshop/update/{workshop_id}', 'update')->name('workshop.update');
+            Route::delete('workshop/delete/{workshop_id}', 'destroy')->name('workshop.delete');
         });
         Route::post('workshop/group/create', [ChatController::class, 'createGroup']);
         Route::post('workshop/group/message', [ChatController::class, 'storeMessage']);
         Route::get('workshop/group/{group_id}/messages', [ChatController::class, 'groupMessages']);
         // message delete tomorrow pi Ezn Allah
+        Route::delete('workshop/group/message/{message_id}/delete', [ChatController::class, 'deleteMessage']);
         Route::delete('account/delete', [AuthController::class, 'deleteAccount']);
     });
 
@@ -136,10 +137,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('Notification/markAsRead/{notificationId}', [NotificationController::class, 'markAsRead']);
     Route::get('Notification/delete/{notificationId}', [NotificationController::class, 'destroy']);
 
-    Route::group(['middleware' => ['enrolled']], function () {
+   // Route::group(['middleware' => ['enrolled']], function () {
         Route::get('/course/showAllVideos/{course_id}', [CourseController::class, 'showAllVideos']);
         Route::get('/course/showOneVideo/{course_id}/{video_id}', [CourseController::class, 'showOneVideo']);
-    });
+   // });
 
 
     Route::post('/create-checkout-session/{course_id}', [PaymentController::class, 'createCheckoutSession']);

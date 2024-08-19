@@ -277,7 +277,6 @@ class CourseController extends Controller
             'questions.*.answers.*.answer_text' => 'required_with:questions.*.answers|string',
             'questions.*.answers.*.is_correct' => 'sometimes|boolean'
         ]);
-        // could you move the validation to the service ?
         try {
             $quiz = $this->quizService->updateQuiz($quizId, $validated);
             return response()->json([
