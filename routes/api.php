@@ -4,11 +4,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ChatgptController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseWithStudentController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\FollowingController;
+use App\Http\Controllers\GeminiController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PremiumController;
@@ -229,3 +231,6 @@ Route::controller(WorkshopController::class)->group(function () {
 Route::post('rooms', [VideoCallController::class, 'createRoom']);
 Route::get('rooms/{roomSid}', [VideoCallController::class, 'getRoom']);
 Route::post('rooms/end-room/{roomSid}', [VideoCallController::class, 'endRoom']);
+
+Route::post('/chatgpt', [GeminiController::class, 'generateText']);
+
