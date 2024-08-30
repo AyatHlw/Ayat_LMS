@@ -228,17 +228,12 @@ Route::controller(WorkshopController::class)->group(function () {
     Route::get('workshop/details/{workshop_id}', 'showWorkshopDetails');
 });
 
-Route::post('rooms', [VideoCallController::class, 'createRoom']);
-Route::get('rooms/{roomSid}', [VideoCallController::class, 'getRoom']);
-Route::post('rooms/end-room/{roomSid}', [VideoCallController::class, 'endRoom']);
+Route::controller(VideoCallController::class)->group(function () {
+Route::post('rooms', 'createRoom');
+Route::get('rooms/{roomSid}', 'getRoom');
+Route::post('rooms/end-room/{roomSid}', 'endRoom');
+});
 
 Route::post('/chatgpt', [GeminiController::class, 'generateText']);
 
-Route::get('/check-firebase-credentials', function () {
-    if (file_exists(storage_path('spatie-9e955-firebase-adminsdk-5mzre-28c71b2f66.json'))) {
-        return 'File exists';
-    } else {
-        return 'File does not exist';
-    }
-});
 
