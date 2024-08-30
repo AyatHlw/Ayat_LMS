@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Responses\Response;
-use App\Services\NotificationService;
 use App\Services\WorkShopServices\ChatService;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
-    private ChatService $chatService;
+    protected $chatService;
 
     public function __construct(ChatService $chatService)
     {
@@ -18,41 +16,19 @@ class ChatController extends Controller
 
     public function createGroup(Request $request)
     {
-        try {
-            $res = $this->chatService->createGroup($request);
-            return Response::success($res['message'], $res['group']);
-        } catch (\Throwable $e) {
-            return Response::error($e->getMessage());
-        }
+        $group = $this->chatService->createGroup($request);
+        return response()->json(['group' => $group]);
     }
 
     public function storeMessage(Request $request)
     {
-        try {
-            $res = $this->chatService->storeMessage($request);
-            return Response::success($res['message'], $res['data']);
-        } catch (\Throwable $e) {
-            return Response::error($e->getMessage());
-        }
-    }
-
-    public function deleteMessage($message_id)
-    {
-        try {
-            $res = $this->chatService->deleteMessage($message_id);
-            return Response::success($res['message']);
-        } catch (\Throwable $e) {
-            return Response::error($e->getMessage());
-        }
+        $message = $this->chatService->storeMessage($request);
+        return response()->json(['message' => $message]);
     }
 
     public function groupMessages($group_id)
     {
-        try {
-            $res = $this->chatService->groupMessages($group_id);
-            return Response::success($res['message'], $res['data']);
-        } catch (\Throwable $e) {
-            return Response::error($e->getMessage());
-        }
+        $messages = $this->chatService->groupMessages($group_id);
+        return response()->json(['messages' => $messages]);
     }
 }

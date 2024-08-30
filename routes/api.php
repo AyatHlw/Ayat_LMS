@@ -234,3 +234,11 @@ Route::post('rooms/end-room/{roomSid}', [VideoCallController::class, 'endRoom'])
 
 Route::post('/chatgpt', [GeminiController::class, 'generateText']);
 
+Route::get('/check-firebase-credentials', function () {
+    if (file_exists(storage_path('spatie-9e955-firebase-adminsdk-5mzre-28c71b2f66.json'))) {
+        return 'File exists';
+    } else {
+        return 'File does not exist';
+    }
+});
+

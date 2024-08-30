@@ -41,5 +41,9 @@ return [
         'key' => env('TWILIO_API_KEY'),
         'secret' => env('TWILIO_API_SECRET'),
     ],
+    'firebase' => [
+        'credentials' => env('FIREBASE_CREDENTIALS'),
+    ],
+
 
 ];
